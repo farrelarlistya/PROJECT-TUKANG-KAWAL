@@ -1,0 +1,71 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px 0 50px;
+    position: sticky;
+}
+
+.header_brand-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header_brand{
+    text-decoration: none;
+    color: rgb(47, 47, 47);
+    font-size: 36px;
+    padding-bottom: 8px;
+    font-weight: 700;
+}
+
+.header_nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    transition: 0.5s ease;
+    padding: 20px 30px;
+}
+
+.header_nav :hover {
+    background-color: rgb(217, 217, 217);
+    border-radius: 5px;
+}
+
+.nav-link {
+    text-decoration: none;
+    
+    border-radius: 5px;
+    border-color: rgb(220, 220, 220);
+    color: rgb(86, 86, 86);
+    padding: 5px 5px;
+}
+
+.header_action {
+    padding-bottom: 7px;
+}
+
+.action-btn {
+    text-decoration: none;
+    background: #1a3fc7;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-style: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.ticker {
+    background-color: #1a3fc7;
+    padding: 8px;
+}
+
+.ticker marquee {
+    background-color: #1a3fc7;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Tukang Kawal</title>
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="index.html" class="header-logo">Tukang Kawal</a>
+    </header>
+
+    <main class="main">
+        <div class="register-card">
+            <h1 class="register-title">Daftar Sebagai Pengawal Baru</h1>
+            <p class="register-subtitle">Bergabunglah dengan komunitas pengawal berita</p>
+
+            <form action="#" method="POST" class="register-form">
+                <div class="form-group">
+                    <label for="nama" class="form-label">Nama Lengkap</label>
+                    <input type="text" id="nama" name="nama" class="form-input" placeholder="Masukkan nama lengkap"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="usn" class="form-label">Username</label>
+                    <input type="text" name="usn" id="usn" class="form-input" placeholder="Masukkan username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="nama@email.com"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Kata Sandi</label>
+                    <input type="password" id="password" name="password" class="form-input"
+                        placeholder="Minimal 8 karakter" required minlength="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password" class="form-label">Konfirmasi Kata Sandi</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="form-input"
+                        placeholder="Masukkan ulang kata sandi" required minlength="8">
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">Saya setuju dengan <a href="#" class="link">Syarat &amp; Ketentuan</a> dan <a
+                            href="#" class="link">Kebijakan Privasi</a></label>
+                </div>
+
+                <button type="submit" class="btn-submit">Daftar Sekarang</button>
+            </form>
+            <p class="logReg">Sudah mempunyai akun? 
+                <a href="login.html" class="link-logReg">Masuk</a>
+            </p>
+        </div>
+    </main>
+</body>
+</html>

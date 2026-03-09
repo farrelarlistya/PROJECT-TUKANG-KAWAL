@@ -1,0 +1,143 @@
+body {
+    color: black;
+}
+
+.header {
+    font-weight: bolder;
+    text-align: center;
+    background-color: #1a3fc7;
+    padding: 20px;
+}
+
+.header-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    padding-top: 21.5px;
+}
+
+.register-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 40px 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.register-title {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.register-subtitle {
+    font-size: 15px;
+    color: #666;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+.form-input {
+    font-size: 15px;
+    font-weight: 100;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    /* margin-bottom: 20px; */
+}
+
+.form-input::placeholder {
+    color: #aaa;
+}
+
+.reset-pass {
+    font-size: 14px;
+    text-decoration: none;
+    text-align: end;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: #1a3fc7;
+    flex-shrink: 0;
+}
+
+.form-checkbox label {
+    color: #555;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.link {
+    color: #1a3fc7;
+    text-decoration: underline;
+}
+
+.btn-submit {
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #1a3fc7;
+    padding: 13px 0;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.link-google {
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+}
+
+.alternatif-option {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.google-logo {
+    width: 50px;
+}
+
+.logReg {
+    margin-top: 35px;
+    text-align: center;
+    color: #555;
+}
+
+.link-logReg {
+    text-decoration: none;
+}
