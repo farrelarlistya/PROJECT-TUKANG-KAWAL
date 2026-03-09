@@ -29,7 +29,7 @@ header {
 }
 
 .header_nav :hover {
-    background-color: rgb(217, 217, 217);
+    background-color: red;
     border-radius: 5px;
 }
 
