@@ -16,7 +16,7 @@ header {
     color: rgb(47, 47, 47);
     font-size: 36px;
     padding-bottom: 8px;
-    font-weight: 700;
+    font-weight: 700    ;
 }
 
 .header_nav {
@@ -29,7 +29,7 @@ header {
 }
 
 .header_nav :hover {
-    background-color: red;
+    background-color: rgb(220, 220, 220);;
     border-radius: 5px;
 }
 
