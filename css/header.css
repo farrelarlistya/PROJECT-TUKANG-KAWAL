@@ -1,9 +1,7 @@
 header {
     display: flex;
-    top: 0;
-    z-index: 100;
     box-shadow: 0 2px 12px rgba(0,0,0,.25);
-    background: #0f2347;
+    background-color: #0f2347;
     justify-content: space-around;
     align-items: center;
     position: sticky;
@@ -20,8 +18,7 @@ header {
     font-family: 'Playfair Display', Georgia, serif;
     text-decoration: none;
     color: white;
-    font-size: 25px;
-    padding-bottom: 8px;
+    font-size: 25px;    
     font-weight: 700;
 }
 
@@ -49,10 +46,6 @@ header {
     border-color: rgb(220, 220, 220);
     color: rgb(86, 86, 86);
     padding: 5px 5px;
-}
-
-.header_action {
-    padding-bottom: 7px;
 }
 
 .action-btn {
