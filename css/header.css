@@ -1,4 +1,5 @@
 header {
+    top: 0;
     display: flex;
     box-shadow: 0 2px 12px rgba(0,0,0,.25);
     background-color: #0f2347;
@@ -20,6 +21,25 @@ header {
     color: white;
     font-size: 25px;    
     font-weight: 700;
+}
+
+.header_logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #1a3fc7, #4f6ef7);
+    color: white;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 800;
+    border-radius: 8px;
+    margin-right: 10px;
+    box-shadow: 0 2px 8px rgba(26, 63, 199, 0.5);
+    flex-shrink: 0;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .header_nav {

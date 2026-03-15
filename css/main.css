@@ -61,10 +61,14 @@
 }
 
 .news-card {
+    display: block;
     background: white;
     border-radius: 8px;
     overflow: hidden;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 }
 
 .news-card:hover {
