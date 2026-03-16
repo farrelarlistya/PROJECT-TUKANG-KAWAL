@@ -5,7 +5,7 @@ body {
 .header {
     font-weight: bolder;
     text-align: center;
-    background-color: #1a3fc7;
+    background-color: #0f2347;
     padding: 20px;
 }
 
@@ -108,7 +108,7 @@ body {
 .btn-submit {
     font-size: 15px;
     color: #ffffff;
-    background-color: #1a3fc7;
+    background-color: #0f2347;
     padding: 13px 0;
     border-radius: 10px;
     border: none;

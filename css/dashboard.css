@@ -258,7 +258,6 @@ body {
     color: #333333;
 }
 
-/* ── FORM STYLES ── */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -307,7 +306,6 @@ body {
     border-color: #1a3fc7;
 }
 
-/* ── PREVIEW CARD STYLE ── */
 .preview-card {
     border: 1px solid #dcdcdc;
     border-radius: 8px;
@@ -332,7 +330,6 @@ body {
     padding: 16px;
 }
 
-/* ── BUTTONS ── */
 .btn-primary {
     background: #1a3fc7;
     color: white;
