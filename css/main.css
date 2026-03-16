@@ -232,17 +232,6 @@
     margin-bottom: 10px;
 }
 
-.exclusive-card-body a {
-    color: #1a3fc7;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.exclusive-card-body a:hover {
-    text-decoration: underline;
-}
-
 .exclusive-cta {
     flex: 1;
     background: #0e2a8a;

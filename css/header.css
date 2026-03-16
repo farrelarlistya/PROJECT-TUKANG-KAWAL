@@ -6,6 +6,7 @@ header {
     justify-content: space-around;
     align-items: center;
     position: sticky;
+    z-index: 2;
 }
 
 .header_brand-nav {
@@ -29,7 +30,7 @@ header {
     justify-content: center;
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, #1a3fc7, #4f6ef7);
+    background: linear-gradient(135deg, #1a3fc7, #7e85a7);
     color: white;
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 20px;
