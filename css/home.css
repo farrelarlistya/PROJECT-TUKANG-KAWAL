@@ -258,6 +258,7 @@
 }
 
 .exclusive-cta-btn {
+    text-decoration: none;
     background: white;
     color: #1a3fc7;
     padding: 12px 30px;

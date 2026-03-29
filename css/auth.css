@@ -9,10 +9,29 @@ body {
     padding: 20px;
 }
 
-.header-logo {
+.header-brand {
     color: white;
     text-decoration: none;
-    font-size: 30px;
+    font-size: xx-large;
+}
+
+.header-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #1a3fc7, #7e85a7);
+    color: white;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: 800;
+    border-radius: 8px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .main {

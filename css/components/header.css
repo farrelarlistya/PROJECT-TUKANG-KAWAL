@@ -1,7 +1,7 @@
 header {
     top: 0;
     display: flex;
-    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .25);
     background-color: #0f2347;
     justify-content: space-around;
     align-items: center;
@@ -9,22 +9,22 @@ header {
     z-index: 2;
 }
 
-.header_brand-nav {
+.header-brand-nav {
     max-width: 1160px;
     padding: 0 24px;
     display: flex;
     align-items: center;
 }
 
-.header_brand{
+.header-brand {
     font-family: 'Playfair Display', Georgia, serif;
     text-decoration: none;
     color: white;
-    font-size: 25px;    
+    font-size: 25px;
     font-weight: 700;
 }
 
-.header_logo {
+.header-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -34,16 +34,16 @@ header {
     color: white;
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 20px;
+    margin-bottom: 5px;
     font-weight: 800;
     border-radius: 8px;
     margin-right: 10px;
-    box-shadow: 0 2px 8px rgba(26, 63, 199, 0.5);
     flex-shrink: 0;
     vertical-align: middle;
     line-height: 1;
 }
 
-.header_nav {
+.header-nav {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -52,13 +52,13 @@ header {
     padding: 20px 30px;
 }
 
-.header_nav a {
-    color: rgb(255,255,255,.78);
+.header-nav a {
+    color: rgb(255, 255, 255, .78);
 }
 
-.header_nav a:hover {
+.header-nav a:hover {
     color: white;
-    background: rgba(255,255,255,.1);
+    background: rgba(255, 255, 255, .1);
 }
 
 .nav-link {
