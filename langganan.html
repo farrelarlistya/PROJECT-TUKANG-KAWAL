@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pengawal Eksklusif — Tukang Kawal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0B1F3A;
+      --navy-mid: #122848;
+      --navy-light: #1A3660;
+      --gold: #D4A017;
+      --gold-light: #F2C94C;
+      --gold-pale: #FDF3D7;
+      --white: #FFFFFF;
+      --off-white: #F7F5F0;
+      --text-dark: #0B1F3A;
+      --text-mid: #4A5568;
+      --text-light: #718096;
+      --border: rgba(212,160,23,0.25);
+      --red: #C0392B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--gold);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-cta {
+      display: flex; gap: 10px; align-items: center;
+    }
+    .btn-masuk {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 7px 18px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-masuk:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #1E4A7A 100%);
+      padding: 80px 40px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 50%, rgba(212,160,23,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 300px at 80% 30%, rgba(30,74,122,0.6) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0; height: 60px;
+      background: var(--off-white);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212,160,23,0.15);
+      border: 1px solid rgba(212,160,23,0.4);
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 40px;
+      margin-bottom: 24px;
+    }
+    .hero-badge span { font-size: 14px; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+    .hero p {
+      font-family: 'Source Serif 4', serif;
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .hero-guarantee {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .hero-guarantee::before { content: '🔒'; }
+
+    /* ── TOGGLE BILLING ── */
+    .billing-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0 32px;
+    }
+    .billing-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+    .billing-label.active { color: var(--navy); font-weight: 600; }
+    .toggle-switch {
+      width: 52px; height: 28px;
+      background: var(--navy);
+      border-radius: 14px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s;
+      border: none;
+      outline: none;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      background: var(--white);
+      border-radius: 50%;
+      top: 3px; left: 3px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    .toggle-switch.yearly::after { transform: translateX(24px); }
+    .save-badge {
+      background: var(--red);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── PRICING CARDS ── */
+    .pricing-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.08fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 32px;
+      border: 1.5px solid #E8E4DC;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(11,31,58,0.12);
+    }
+    .card.featured {
+      background: var(--navy);
+      border-color: var(--gold);
+      box-shadow: 0 8px 40px rgba(11,31,58,0.3);
+    }
+    .card.featured:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(11,31,58,0.4);
+    }
+    .featured-label {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .card-tier {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .card.featured .card-tier { color: var(--gold-light); }
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .card.featured .card-name { color: var(--white); }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 28px;
+      min-height: 38px;
+    }
+    .card.featured .card-desc { color: rgba(255,255,255,0.6); }
+    .card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .price-currency {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-mid);
+    }
+    .card.featured .price-currency { color: var(--gold-light); }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 46px;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .card.featured .price-amount { color: var(--white); }
+    .price-period {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    .card.featured .price-period { color: rgba(255,255,255,0.5); }
+    .price-note {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      min-height: 18px;
+    }
+    .card.featured .price-note { color: var(--gold-light); font-weight: 500; }
+    .price-original {
+      text-decoration: line-through;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #E8E4DC;
+      margin-bottom: 24px;
+    }
+    .card.featured .divider { background: rgba(255,255,255,0.15); }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.4;
+    }
+    .card.featured .features-list li { color: rgba(255,255,255,0.85); }
+    .features-list li.disabled { opacity: 0.4; }
+    .check-icon {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #E8F5E9;
+      color: #27AE60;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .card.featured .check-icon {
+      background: rgba(212,160,23,0.2);
+      color: var(--gold-light);
+    }
+    .cross-icon {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #F5F5F5;
+      color: #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .btn-subscribe {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all 0.22s;
+      letter-spacing: 0.2px;
+    }
+    .btn-free {
+      background: var(--off-white);
+      color: var(--navy);
+      border: 1.5px solid #DDD;
+    }
+    .btn-free:hover { background: #EEE; }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold) 0%, #E8B820 100%);
+      color: var(--navy);
+      box-shadow: 0 4px 20px rgba(212,160,23,0.4);
+    }
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(212,160,23,0.5);
+    }
+    .btn-navy {
+      background: var(--navy);
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.15);
+    }
+    .btn-navy:hover { background: var(--navy-light); }
+
+    /* ── PAYMENT MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(11,31,58,0.75);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-header {
+      background: var(--navy);
+      padding: 28px 32px;
+      border-radius: 20px 20px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .modal-plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(212,160,23,0.2);
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .modal-close {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+    .modal-body { padding: 32px; }
+
+    .order-summary {
+      background: var(--off-white);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+      border: 1px solid #E8E4DC;
+    }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: var(--text-mid);
+    }
+    .order-row + .order-row { margin-top: 10px; }
+    .order-row.total {
+      border-top: 1px solid #DDD;
+      margin-top: 14px;
+      padding-top: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--navy);
+    }
+    .order-row span:last-child { font-weight: 600; color: var(--navy); }
+    .order-row.total span:last-child { color: var(--gold); font-size: 18px; }
+
+    .form-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .form-group label span { color: var(--red); }
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #DDD;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-control:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(11,31,58,0.08);
+    }
+    .form-control.error { border-color: var(--red); }
+    .error-msg {
+      font-size: 11px;
+      color: var(--red);
+      margin-top: 4px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .pay-method {
+      border: 1.5px solid #DDD;
+      border-radius: 10px;
+      padding: 14px 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .pay-method:hover { border-color: var(--navy); }
+    .pay-method.selected { border-color: var(--gold); background: var(--gold-pale); }
+    .pay-method-icon { font-size: 22px; }
+    .pay-method-name { font-size: 12px; font-weight: 600; color: var(--text-dark); }
+    .pay-method-sub { font-size: 10px; color: var(--text-light); }
+
+    .card-fields {
+      background: var(--off-white);
+      border-radius: 10px;
+      padding: 18px;
+      border: 1px solid #E8E4DC;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .card-fields.show { display: block; }
+
+    .bank-info {
+      background: #EBF5FB;
+      border: 1px solid #AED6F1;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .bank-info.show { display: block; }
+    .bank-info h4 { font-size: 13px; font-weight: 700; color: #1A5276; margin-bottom: 10px; }
+    .bank-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: #2C3E50; }
+    .bank-row strong { font-weight: 700; }
+    .copy-btn {
+      background: #1A5276; color: white;
+      border: none; border-radius: 5px;
+      padding: 3px 10px; font-size: 11px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .copy-btn:hover { background: #21618C; }
+
+    .ewallet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .ewallet-grid.show { display: grid; }
+    .ewallet-btn {
+      border: 1.5px solid #DDD;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      background: white;
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .ewallet-btn:hover { border-color: var(--navy); background: var(--off-white); }
+
+    .promo-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .promo-input {
+      flex: 1;
+      padding: 11px 14px;
+      border: 1.5px solid #DDD;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .promo-input:focus { border-color: var(--navy); }
+    .promo-apply {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .promo-apply:hover { background: var(--navy-light); }
+    .promo-success { font-size: 12px; color: #27AE60; margin-top: -14px; margin-bottom: 14px; display: none; }
+    .promo-success.show { display: block; }
+
+    .terms-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+    .terms-check input { margin-top: 2px; accent-color: var(--navy); }
+    .terms-check a { color: var(--navy); font-weight: 600; }
+
+    .btn-pay {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold) 0%, #E8B820 100%);
+      color: var(--navy);
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 6px 24px rgba(212,160,23,0.35);
+      transition: all 0.22s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(212,160,23,0.45); }
+    .btn-pay:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .secure-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 14px;
+    }
+
+    /* ── SUCCESS ── */
+    .modal-success {
+      display: none;
+      padding: 48px 32px;
+      text-align: center;
+    }
+    .modal-success.show { display: block; animation: fadeIn 0.4s ease; }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #27AE60, #2ECC71);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+    }
+    .modal-success h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 700;
+      color: var(--navy); margin-bottom: 10px;
+    }
+    .modal-success p {
+      font-size: 15px; color: var(--text-mid);
+      line-height: 1.6; margin-bottom: 28px;
+    }
+
+    /* ── FEATURES STRIP ── */
+    .features-strip {
+      background: var(--navy);
+      padding: 56px 40px;
+    }
+    .features-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .features-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .features-strip .sub {
+      text-align: center; font-size: 15px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 44px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 860px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+    .feature-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 24px 20px;
+      transition: background 0.2s;
+    }
+    .feature-item:hover { background: rgba(255,255,255,0.09); }
+    .feature-emoji { font-size: 28px; margin-bottom: 14px; }
+    .feature-item h3 {
+      font-size: 15px; font-weight: 700;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .feature-item p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 72px 40px; background: var(--off-white); }
+    .testimonials-inner { max-width: 960px; margin: 0 auto; }
+    .testimonials h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; text-align: center;
+      color: var(--navy); margin-bottom: 40px;
+    }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 720px) { .testi-grid { grid-template-columns: 1fr; } }
+    .testi-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid #E8E4DC;
+    }
+    .testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; }
+    .testi-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .testi-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .testi-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .testi-role { font-size: 12px; color: var(--text-light); }
+
+    /* ── FAQ ── */
+    .faq { padding: 72px 40px; background: var(--white); }
+    .faq-inner { max-width: 720px; margin: 0 auto; }
+    .faq h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; text-align: center;
+      color: var(--navy); margin-bottom: 40px;
+    }
+    .faq-item {
+      border-bottom: 1px solid #E8E4DC;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 18px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .faq-arrow { transition: transform 0.3s; font-size: 12px; color: var(--text-light); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 28px 40px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+    footer a { color: rgba(255,255,255,0.55); text-decoration: none; margin: 0 8px; }
+
+    /* Spinner */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(11,31,58,0.3);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🛡️</div>
+    <span class="nav-logo-text">Tukang Kawal</span>
+  </a>
+  <div class="nav-links">
+    <a href="#">Beranda</a>
+    <a href="#">Hukum</a>
+    <a href="#">Politik</a>
+    <a href="#">Bisnis</a>
+  </div>
+  <div class="nav-cta">
+    <button class="btn-masuk">Masuk</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span>👑</span> Pengawal Eksklusif</div>
+    <h1>Berita yang <em>Jujur</em><br>Tanpa Sensor</h1>
+    <p>Akses laporan investigasi mendalam, dokumen rahasia, dan analisis eksklusif yang tidak tersedia untuk publik umum. Kawal kebenaran bersama kami.</p>
+    <p class="hero-guarantee">Bisa dibatalkan kapan saja · Tanpa kontrak panjang</p>
+  </div>
+</section>
+
+<!-- BILLING TOGGLE -->
+<div class="billing-toggle-wrap">
+  <span class="billing-label active" id="lbl-monthly">Bulanan</span>
+  <button class="toggle-switch" id="billingToggle" onclick="toggleBilling()"></button>
+  <span class="billing-label" id="lbl-yearly">Tahunan <span class="save-badge">Hemat 30%</span></span>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="pricing-grid">
+
+    <!-- FREE -->
+    <div class="card">
+      <div class="card-tier">Gratis</div>
+      <div class="card-name">Pembaca</div>
+      <div class="card-desc">Untuk pembaca umum yang ingin mengikuti berita terkini.</div>
+      <div class="card-price">
+        <span class="price-amount">0</span>
+      </div>
+      <div class="price-note">Selamanya gratis</div>
+      <div class="divider"></div>
+      <ul class="features-list">
+        <li><span class="check-icon">✓</span> Akses berita umum harian</li>
+        <li><span class="check-icon">✓</span> Newsletter mingguan</li>
+        <li><span class="check-icon">✓</span> Komentar artikel terbatas</li>
+        <li class="disabled"><span class="cross-icon">✕</span> Laporan investigasi eksklusif</li>
+        <li class="disabled"><span class="cross-icon">✕</span> Dokumen & bocoran internal</li>
+        <li class="disabled"><span class="cross-icon">✕</span> Podcast & video eksklusif</li>
+        <li class="disabled"><span class="cross-icon">✕</span> Arsip berita lengkap</li>
+      </ul>
+      <button class="btn-subscribe btn-free">Mulai Gratis</button>
+    </div>
+
+    <!-- PRO (FEATURED) -->
+    <div class="card featured">
+      <div class="featured-label">👑 Paling Populer</div>
+      <div class="card-tier">Eksklusif</div>
+      <div class="card-name">Pengawal</div>
+      <div class="card-desc">Akses penuh seluruh konten investigasi dan laporan mendalam.</div>
+      <div class="card-price">
+        <span class="price-currency">Rp</span>
+        <span class="price-amount" id="pro-price">49K</span>
+        <span class="price-period">/bulan</span>
+      </div>
+      <div class="price-note" id="pro-note">Ditagih Rp49.000/bulan</div>
+      <div class="divider"></div>
+      <ul class="features-list">
+        <li><span class="check-icon">✓</span> Semua fitur Pembaca</li>
+        <li><span class="check-icon">✓</span> Laporan investigasi eksklusif</li>
+        <li><span class="check-icon">✓</span> Dokumen & bocoran internal</li>
+        <li><span class="check-icon">✓</span> Podcast & video eksklusif</li>
+        <li><span class="check-icon">✓</span> Arsip berita 5 tahun terakhir</li>
+        <li><span class="check-icon">✓</span> Newsletter eksklusif harian</li>
+        <li class="disabled"><span class="cross-icon">✕</span> Akses Discord komunitas VIP</li>
+      </ul>
+      <button class="btn-subscribe btn-gold" onclick="openModal('Pengawal', 'pro')">Mulai Berlangganan</button>
+    </div>
+
+    <!-- ELITE -->
+    <div class="card">
+      <div class="card-tier">Premium</div>
+      <div class="card-name">Elite</div>
+      <div class="card-desc">Untuk pengawal sejati yang ingin pengalaman terlengkap.</div>
+      <div class="card-price">
+        <span class="price-currency">Rp</span>
+        <span class="price-amount" id="elite-price">89K</span>
+        <span class="price-period">/bulan</span>
+      </div>
+      <div class="price-note" id="elite-note">Ditagih Rp89.000/bulan</div>
+      <div class="divider"></div>
+      <ul class="features-list">
+        <li><span class="check-icon">✓</span> Semua fitur Pengawal</li>
+        <li><span class="check-icon">✓</span> Akses Discord komunitas VIP</li>
+        <li><span class="check-icon">✓</span> Tanya jawab langsung dengan redaksi</li>
+        <li><span class="check-icon">✓</span> Early access sebelum publikasi</li>
+        <li><span class="check-icon">✓</span> Download laporan PDF eksklusif</li>
+        <li><span class="check-icon">✓</span> Arsip berita tak terbatas</li>
+        <li><span class="check-icon">✓</span> Undangan acara eksklusif</li>
+      </ul>
+      <button class="btn-subscribe btn-navy" onclick="openModal('Elite', 'elite')">Pilih Elite</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<section class="features-strip">
+  <div class="features-strip-inner">
+    <h2>Mengapa Berlangganan Tukang Kawal?</h2>
+    <p class="sub">Kami menjaga independensi kami dengan dukungan langsung dari pembaca</p>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-emoji">🔍</div>
+        <h3>Investigasi Mendalam</h3>
+        <p>Laporan yang membutuhkan berbulan-bulan riset dan tidak bisa ditemukan di tempat lain.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-emoji">📄</div>
+        <h3>Dokumen Asli</h3>
+        <p>Akses dokumen, surat, dan rekaman yang menjadi bukti primer dari setiap laporan.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-emoji">🚫</div>
+        <h3>Bebas Iklan</h3>
+        <p>Tidak ada iklan, tidak ada kepentingan sponsor. Hanya jurnalisme yang murni.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-emoji">🤝</div>
+        <h3>Dukung Jurnalis</h3>
+        <p>Langganan Anda langsung menghidupi jurnalis independen yang berjuang untuk kebenaran.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <h2>Kata Pengawal Kami</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Laporan korupsi infrastruktur yang mereka terbitkan benar-benar membuka mata saya. Tidak ada media lain yang berani sedetail ini."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#EBF5FB">👨</div>
+          <div>
+            <div class="testi-name">Budi Santoso</div>
+            <div class="testi-role">Aktivis Anti-Korupsi, Jakarta</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Sebagai akademisi, saya sangat menghargai laporan berbasis dokumen dengan sumber yang bisa diverifikasi. Tukang Kawal standarnya tinggi."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#FDF3D7">👩</div>
+          <div>
+            <div class="testi-name">Dr. Sari Dewi</div>
+            <div class="testi-role">Dosen Hukum, Universitas Gadjah Mada</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Rp49 ribu per bulan untuk informasi berkualitas tinggi? Ini investasi terbaik saya. Lebih berharga dari langganan streaming manapun."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#EAFAF1">🧑</div>
+          <div>
+            <div class="testi-name">Rizky Pratama</div>
+            <div class="testi-role">Pengusaha Muda, Surabaya</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <h2>Pertanyaan Umum</h2>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Apakah saya bisa membatalkan langganan kapan saja? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Ya, Anda bisa membatalkan langganan kapan saja tanpa penalti. Akses eksklusif Anda akan tetap aktif hingga akhir periode tagihan yang sudah dibayar.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Metode pembayaran apa saja yang diterima? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Kami menerima kartu kredit/debit (Visa, Mastercard), transfer bank (BCA, Mandiri, BNI, BRI), dan berbagai e-wallet populer (GoPay, OVO, DANA, ShopeePay).</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Apakah ada masa percobaan gratis? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Kami tidak menawarkan trial gratis, tetapi kami menjamin kepuasan pembaca. Jika Anda tidak puas dalam 7 hari pertama, kami akan mengembalikan pembayaran penuh Anda tanpa pertanyaan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Berapa banyak perangkat yang bisa saya gunakan? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Langganan Pengawal bisa digunakan di 2 perangkat secara bersamaan. Langganan Elite memungkinkan hingga 5 perangkat, cocok untuk keluarga atau tim kecil.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Apakah ada diskon untuk mahasiswa atau pelajar? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Ya! Kami menawarkan diskon 50% untuk mahasiswa aktif dengan email institusi atau kartu mahasiswa. Hubungi tim kami di redaksi@tukangkawal.com untuk verifikasi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 Tukang Kawal. Hak Cipta Dilindungi. Portal Berita Independen Indonesia.</p>
+  <p style="margin-top:8px">
+    <a href="#">Kebijakan Privasi</a>
+    <a href="#">Syarat & Ketentuan</a>
+    <a href="#">Hubungi Kami</a>
+    <a href="#">Pedoman Media Siber</a>
+  </p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header" id="modalHeader">
+      <div class="modal-header-info">
+        <h2>Berlangganan Sekarang</h2>
+        <div class="modal-plan-badge">👑 <span id="modalPlanName">Pengawal</span></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <!-- FORM -->
+    <div class="modal-body" id="modalFormBody">
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <div class="order-row"><span>Paket</span><span id="summaryPlan">Pengawal</span></div>
+        <div class="order-row"><span>Periode</span><span id="summaryPeriod">Bulanan</span></div>
+        <div class="order-row"><span>Harga</span><span id="summaryPrice">Rp49.000</span></div>
+        <div class="order-row" id="discountRow" style="display:none"><span>Diskon Promo</span><span id="summaryDiscount" style="color:#27AE60">-Rp0</span></div>
+        <div class="order-row total"><span>Total</span><span id="summaryTotal">Rp49.000</span></div>
+      </div>
+
+      <!-- Account Info -->
+      <div class="form-section-title">Informasi Akun</div>
+      <div class="form-group">
+        <label>Nama Lengkap <span>*</span></label>
+        <input class="form-control" id="inputName" type="text" placeholder="Contoh: Budi Santoso" oninput="clearError('inputName')">
+        <div class="error-msg" id="errName">Nama wajib diisi.</div>
+      </div>
+      <div class="form-group">
+        <label>Alamat Email <span>*</span></label>
+        <input class="form-control" id="inputEmail" type="email" placeholder="email@contoh.com" oninput="clearError('inputEmail')">
+        <div class="error-msg" id="errEmail">Masukkan email yang valid.</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Kata Sandi <span>*</span></label>
+          <input class="form-control" id="inputPass" type="password" placeholder="Min. 8 karakter" oninput="clearError('inputPass')">
+          <div class="error-msg" id="errPass">Sandi minimal 8 karakter.</div>
+        </div>
+        <div class="form-group">
+          <label>Konfirmasi Sandi <span>*</span></label>
+          <input class="form-control" id="inputPass2" type="password" placeholder="Ulangi sandi" oninput="clearError('inputPass2')">
+          <div class="error-msg" id="errPass2">Sandi tidak cocok.</div>
+        </div>
+      </div>
+
+      <!-- Promo -->
+      <div class="promo-row">
+        <input class="promo-input" id="promoInput" type="text" placeholder="Kode promo (opsional)">
+        <button class="promo-apply" onclick="applyPromo()">Terapkan</button>
+      </div>
+      <div class="promo-success" id="promoSuccess">✅ Kode promo berhasil! Diskon 20% diterapkan.</div>
+
+      <!-- Payment Method -->
+      <div class="form-section-title">Metode Pembayaran</div>
+      <div class="payment-methods">
+        <div class="pay-method selected" onclick="selectPayment(this,'card')">
+          <div class="pay-method-icon">💳</div>
+          <div class="pay-method-name">Kartu</div>
+          <div class="pay-method-sub">Visa / Mastercard</div>
+        </div>
+        <div class="pay-method" onclick="selectPayment(this,'bank')">
+          <div class="pay-method-icon">🏦</div>
+          <div class="pay-method-name">Transfer Bank</div>
+          <div class="pay-method-sub">BCA, Mandiri, BNI</div>
+        </div>
+        <div class="pay-method" onclick="selectPayment(this,'ewallet')">
+          <div class="pay-method-icon">📱</div>
+          <div class="pay-method-name">E-Wallet</div>
+          <div class="pay-method-sub">GoPay, OVO, DANA</div>
+        </div>
+      </div>
+
+      <!-- Card Fields -->
+      <div class="card-fields show" id="cardFields">
+        <div class="form-group">
+          <label>Nomor Kartu</label>
+          <input class="form-control" id="cardNumber" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Masa Berlaku</label>
+            <input class="form-control" type="text" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input class="form-control" type="password" placeholder="•••" maxlength="3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Nama pada Kartu</label>
+          <input class="form-control" type="text" placeholder="Sesuai nama di kartu">
+        </div>
+      </div>
+
+      <!-- Bank Transfer Info -->
+      <div class="bank-info" id="bankInfo">
+        <h4>Instruksi Transfer Bank</h4>
+        <div class="bank-row"><span>Bank</span><strong>BCA</strong></div>
+        <div class="bank-row"><span>No. Rekening</span><strong>1234-5678-90 <button class="copy-btn" onclick="copyText('1234567890')">Salin</button></strong></div>
+        <div class="bank-row"><span>Atas Nama</span><strong>PT Tukang Kawal Media</strong></div>
+        <div class="bank-row"><span>Jumlah</span><strong id="bankAmount">Rp49.000</strong></div>
+        <p style="font-size:12px;color:#666;margin-top:10px">Setelah transfer, kirim bukti ke <strong>pembayaran@tukangkawal.com</strong>. Akun akan diaktifkan dalam 1×24 jam.</p>
+      </div>
+
+      <!-- E-Wallet -->
+      <div class="ewallet-grid" id="ewalletGrid">
+        <button class="ewallet-btn">📱 GoPay</button>
+        <button class="ewallet-btn">💜 OVO</button>
+        <button class="ewallet-btn">💙 DANA</button>
+        <button class="ewallet-btn">🛒 ShopeePay</button>
+      </div>
+
+      <!-- Terms -->
+      <label class="terms-check">
+        <input type="checkbox" id="agreeTerms">
+        Saya menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> Tukang Kawal.
+      </label>
+
+      <!-- Pay Button -->
+      <button class="btn-pay" id="btnPay" onclick="processPayment()">
+        <span id="btnPayText">🔐 Bayar & Aktifkan Sekarang</span>
+        <div class="spinner" id="paySpinner"></div>
+      </button>
+      <div class="secure-note">🔒 Pembayaran dienkripsi SSL · Aman & Terpercaya</div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="modal-success" id="modalSuccess">
+      <div class="success-icon">✅</div>
+      <h2>Selamat Bergabung!</h2>
+      <p>Akun Pengawal Eksklusif Anda telah aktif. Cek email Anda untuk konfirmasi dan link login pertama.</p>
+      <button class="btn-subscribe btn-gold" style="max-width:260px;margin:0 auto;display:block" onclick="closeModal()">Mulai Membaca →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentPlan = 'pro';
+  let isYearly = false;
+  let promoApplied = false;
+  let currentPayment = 'card';
+
+  const prices = {
+    pro:   { monthly: 49000,  yearly: 412000  },
+    elite: { monthly: 89000,  yearly: 748000  }
+  };
+
+  function fmt(n) {
+    return 'Rp' + n.toLocaleString('id-ID');
+  }
+
+  function toggleBilling() {
+    isYearly = !isYearly;
+    const toggle = document.getElementById('billingToggle');
+    toggle.classList.toggle('yearly', isYearly);
+    document.getElementById('lbl-monthly').classList.toggle('active', !isYearly);
+    document.getElementById('lbl-yearly').classList.toggle('active', isYearly);
+
+    const proP  = isYearly ? Math.round(prices.pro.yearly/12) : prices.pro.monthly;
+    const eliteP = isYearly ? Math.round(prices.elite.yearly/12) : prices.elite.monthly;
+
+    document.getElementById('pro-price').textContent   = isYearly ? '34K' : '49K';
+    document.getElementById('elite-price').textContent = isYearly ? '62K' : '89K';
+    document.getElementById('pro-note').innerHTML   = isYearly ? `<span class="price-original">Rp49K/bln</span> Ditagih Rp412.000/tahun` : 'Ditagih Rp49.000/bulan';
+    document.getElementById('elite-note').innerHTML = isYearly ? `<span class="price-original">Rp89K/bln</span> Ditagih Rp748.000/tahun` : 'Ditagih Rp89.000/bulan';
+
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const p = prices[currentPlan];
+    const base = isYearly ? p.yearly : p.monthly;
+    const discount = promoApplied ? Math.round(base * 0.2) : 0;
+    const total = base - discount;
+
+    document.getElementById('summaryPeriod').textContent = isYearly ? 'Tahunan' : 'Bulanan';
+    document.getElementById('summaryPrice').textContent  = fmt(base);
+    document.getElementById('summaryTotal').textContent  = fmt(total);
+    document.getElementById('bankAmount').textContent    = fmt(total);
+
+    if (promoApplied) {
+      document.getElementById('discountRow').style.display = 'flex';
+      document.getElementById('summaryDiscount').textContent = '-' + fmt(discount);
+    }
+  }
+
+  function openModal(planName, plan) {
+    currentPlan = plan;
+    document.getElementById('modalPlanName').textContent = planName;
+    document.getElementById('summaryPlan').textContent   = planName;
+    updateSummary();
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('modalSuccess').classList.remove('show');
+    document.getElementById('modalFormBody').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function selectPayment(el, type) {
+    document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+    el.classList.add('selected');
+    currentPayment = type;
+    document.getElementById('cardFields').classList.toggle('show', type === 'card');
+    document.getElementById('bankInfo').classList.toggle('show', type === 'bank');
+    document.getElementById('ewalletGrid').classList.toggle('show', type === 'ewallet');
+  }
+
+  function applyPromo() {
+    const code = document.getElementById('promoInput').value.trim().toUpperCase();
+    if (code === 'KAWAL20' || code === 'PENGAWAL' || code === 'BERITA20') {
+      promoApplied = true;
+      document.getElementById('promoSuccess').classList.add('show');
+      updateSummary();
+    } else {
+      document.getElementById('promoInput').style.borderColor = '#C0392B';
+      setTimeout(() => document.getElementById('promoInput').style.borderColor = '', 1500);
+    }
+  }
+
+  function clearError(id) {
+    document.getElementById(id).classList.remove('error');
+    const errId = 'err' + id.charAt(0).toUpperCase() + id.slice(1).replace('input','');
+    const err = document.getElementById(errId);
+    if (err) err.classList.remove('show');
+  }
+
+  function processPayment() {
+    let valid = true;
+
+    const name  = document.getElementById('inputName').value.trim();
+    const email = document.getElementById('inputEmail').value.trim();
+    const pass  = document.getElementById('inputPass').value;
+    const pass2 = document.getElementById('inputPass2').value;
+    const agreed = document.getElementById('agreeTerms').checked;
+
+    if (!name) { document.getElementById('inputName').classList.add('error'); document.getElementById('errName').classList.add('show'); valid = false; }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { document.getElementById('inputEmail').classList.add('error'); document.getElementById('errEmail').classList.add('show'); valid = false; }
+    if (pass.length < 8) { document.getElementById('inputPass').classList.add('error'); document.getElementById('errPass').classList.add('show'); valid = false; }
+    if (pass !== pass2) { document.getElementById('inputPass2').classList.add('error'); document.getElementById('errPass2').classList.add('show'); valid = false; }
+    if (!agreed) { alert('Silakan setujui Syarat & Ketentuan terlebih dahulu.'); valid = false; }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('btnPay');
+    const txt = document.getElementById('btnPayText');
+    const spin = document.getElementById('paySpinner');
+    btn.disabled = true;
+    txt.textContent = 'Memproses...';
+    spin.style.display = 'block';
+
+    setTimeout(() => {
+      btn.disabled = false;
+      txt.textContent = '🔐 Bayar & Aktifkan Sekarang';
+      spin.style.display = 'none';
+      document.getElementById('modalFormBody').style.display = 'none';
+      document.getElementById('modalSuccess').classList.add('show');
+    }, 2200);
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  function formatCard(input) {
+    let v = input.value.replace(/\D/g,'').substring(0,16);
+    input.value = v.replace(/(.{4})/g,'$1 ').trim();
+  }
+
+  function formatExpiry(input) {
+    let v = input.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 3) v = v.substring(0,2) + '/' + v.substring(2);
+    input.value = v;
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = 'Disalin!';
+      setTimeout(() => btn.textContent = 'Salin', 1500);
+    });
+  }
+</script>
+</body>
+</html>
