@@ -1,6 +1,4 @@
 body {
-    background-color: whitesmoke;
-    color: #333333;
     display: flex;
     min-height: 100vh;
     font-size: 14px;
@@ -23,16 +21,6 @@ body {
 .sidebar-brand {
     padding: 20px 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-}
-
-.header-brand {
-    font-family: 'Playfair Display', Georgia, serif;
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
     display: flex;
     align-items: center;
 }
@@ -259,15 +247,15 @@ body {
 }
 
 .form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
 }
 
 .form-group {
@@ -277,22 +265,30 @@ body {
 }
 
 .form-label {
-    font-size: 13px;
-    color: #333333;
+    font-size: 14px;
     font-weight: 600;
+    color: #333333;
 }
 
 .form-input,
 .form-select,
 .form-textarea {
-    background: #ffffff;
+    width: 100%;
+    padding: 12px 14px;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
-    color: #333333;
     font-size: 14px;
+    color: #333333;
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
     outline: none;
-    padding: 10px 14px;
-    font-family: inherit;
+    border-color: #1a3fc7;
+    box-shadow: 0 0 0 3px rgba(26, 63, 199, 0.1);
 }
 
 .form-textarea {
@@ -300,10 +296,27 @@ body {
     min-height: 120px;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-    border-color: #1a3fc7;
+.form-input[type="file"] {
+    padding: 9px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.form-input[type="file"]::-webkit-file-upload-button {
+    background-color: #1a3fc7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+    margin-right: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #1432a3;
 }
 
 .preview-card {
@@ -414,7 +427,7 @@ body {
     color: white;
 }
 
-.action-btn {
+.table-action-btn {
     background: transparent;
     border: 1px solid #dcdcdc;
     color: #565656;
@@ -426,7 +439,7 @@ body {
     margin-right: 6px;
 }
 
-.action-btn:hover {
+.table-action-btn:hover {
     background: #ffffff;
     color: #333333;
     border-color: #888888;

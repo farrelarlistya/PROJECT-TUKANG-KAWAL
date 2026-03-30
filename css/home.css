@@ -4,6 +4,8 @@
     text-align: justify;
     background-color: white;
     margin: 20px 50px;
+    text-decoration: none;
+    color: black;
 }
 
 .hot-img {
@@ -84,41 +86,6 @@
 
 .news-card-body {
     padding: 15px;
-}
-
-.category-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.badge-politik {
-    background: #1a3fc7;
-}
-
-.badge-kriminal {
-    background: #c72a1a;
-}
-
-.badge-lingkungan {
-    background: #1a8a3f;
-}
-
-.badge-hukum {
-    background: #7b1ac7;
-}
-
-.badge-ekonomi {
-    background: #c77d1a;
-}
-
-.badge-internasional {
-    background: #1a8ac7;
 }
 
 .news-card-body h3 {

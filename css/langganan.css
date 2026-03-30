@@ -1,15 +1,8 @@
-body {
-    background-color: whitesmoke;
-    color: #333;
-}
-
-.header-brand,
 .langganan-banner-title {
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 700;
 }
 
-.header-logo,
 .step-number {
     display: inline-flex;
     align-items: center;
