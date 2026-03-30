@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (user.role === 'non-member') {
             headerAction.innerHTML = `
                 <a href="langganan.html" class="action-btn">Pengawal Eksklusif</a>
-                <a href="#" class="profile-avatar" title="Keluar (${user.username})" onclick="window.logout()">${user.initials || 'US'}</a>
+                <a href="informasi-akun.html" class="profile-avatar" title="${user.username}">${user.initials || 'US'}</a>
             `;
         } else if (user.role === 'member') {
             headerAction.innerHTML = `
                 <span class="header-member-badge">T+</span>
                 <a href="mulai-ngawal.html" class="action-btn action-btn-ngawal">Mulai Ngawal</a>
-                <a href="#" class="profile-avatar" title="Keluar (${user.username})" onclick="window.logout()">${user.initials || 'MB'}</a>
+                <a href="informasi-akun.html" class="profile-avatar" title="${user.username}">${user.initials || 'MB'}</a>
             `;
         }
     }

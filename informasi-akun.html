@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Akun | Tukang Kawal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/informasi-akun.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-brand-nav">
+            <a href="index.html" class="header-brand"><span class="header-logo">T</span>TukangKawal</a>
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="politik" class="nav-link">Politik</a></li>
+                    <li><a href="kriminal" class="nav-link">Kriminal</a></li>
+                    <li><a href="lingkungan" class="nav-link">Lingkungan</a></li>
+                    <li><a href="hukum" class="nav-link">Hukum</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-action">
+            <a href="langganan.html" class="action-btn">Pengawal Eksklusif</a>
+            <a href="login.html" class="action-btn">Masuk/Daftar</a>
+        </div>
+    </header>
+
+    <main class="akun-layout">
+        <!-- Sidebar -->
+        <aside class="akun-sidebar">
+            <div class="sidebar-profile">
+                <div class="sidebar-avatar" id="sidebarAvatar">US</div>
+                <div class="sidebar-user-info">
+                    <span class="sidebar-username" id="sidebarUsername">User</span>
+                    <span class="sidebar-email" id="sidebarEmail">user@gmail.com</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="informasi-akun.html" class="sidebar-link active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Informasi Akun
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Pengaturan Akun
+                </a>
+                <!-- <a href="#" class="sidebar-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    Artikel Tersimpan
+                </a> -->
+                <a href="langganan.html" class="sidebar-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    Langganan
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Bantuan Pelanggan
+                </a>
+
+                <div class="sidebar-divider"></div>
+
+                <a href="#" class="sidebar-link sidebar-link-logout" onclick="window.logout()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Keluar
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <section class="akun-content">
+            <h1 class="akun-page-title">Informasi Akun</h1>
+
+            <form class="akun-form" id="akunForm">
+                <div class="akun-form-group">
+                    <label class="akun-form-label">Nama Lengkap</label>
+                    <input type="text" class="akun-form-input" id="namaLengkap" placeholder="Masukkan nama lengkap">
+                </div>
+
+                <div class="akun-form-group">
+                    <label class="akun-form-label">Tanggal Lahir</label>
+                    <input type="date" class="akun-form-input" id="tanggalLahir">
+                </div>
+
+                <div class="akun-form-group">
+                    <label class="akun-form-label">Nomor WhatsApp</label>
+                    <input type="tel" class="akun-form-input" id="nomorWa" placeholder="Masukkan nomor whatsapp">
+                </div>
+
+                <div class="akun-form-group">
+                    <label class="akun-form-label">Kota</label>
+                    <select class="akun-form-input" id="kota">
+                        <option value="" disabled selected>Pilih Kota</option>
+                        <option value="jakarta">Jakarta</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="bandung">Bandung</option>
+                        <option value="medan">Medan</option>
+                        <option value="semarang">Semarang</option>
+                        <option value="makassar">Makassar</option>
+                        <option value="palembang">Palembang</option>
+                        <option value="yogyakarta">Yogyakarta</option>
+                        <option value="denpasar">Denpasar</option>
+                        <option value="malang">Malang</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="akun-btn-simpan">Simpan</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2><span class="header-logo">T</span> Tukang Kawal</h2>
+                <p>Portal berita yang mengawal fakta dan berita terkini untuk masyarakat Indonesia.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kategori</h4>
+                <ul>
+                    <li><a href="#">Politik</a></li>
+                    <li><a href="#">Kriminal</a></li>
+                    <li><a href="#">Lingkungan</a></li>
+                    <li><a href="#">Hukum</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Tentang Sertai</h4>
+                <ul>
+                    <li><a href="#">Tentang Kami</a></li>
+                    <li><a href="#">Redaksi</a></li>
+                    <li><a href="#">Karir</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter / X</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Tukang Kawal. Hak Cipta Dilindungi. Penyalahgunaan informasi tanpa izin adalah pelanggaran
+                hukum.</p>
+        </div>
+    </footer>
+
+    <script src="js/user.js"></script>
+    <script src="js/ui-handler.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.getCurrentUser ? window.getCurrentUser() : null;
+
+            // Jika belum login, redirect ke login
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Isi sidebar info dari data user
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            const sidebarUsername = document.getElementById('sidebarUsername');
+            const sidebarEmail = document.getElementById('sidebarEmail');
+
+            if (sidebarAvatar) sidebarAvatar.textContent = user.initials || 'US';
+            if (sidebarUsername) sidebarUsername.textContent = user.username;
+            if (sidebarEmail) sidebarEmail.textContent = user.email;
+
+            // Load saved profile data dari localStorage
+            const savedProfile = localStorage.getItem('userProfile');
+            if (savedProfile) {
+                const profile = JSON.parse(savedProfile);
+                document.getElementById('namaLengkap').value = profile.namaLengkap || '';
+                document.getElementById('tanggalLahir').value = profile.tanggalLahir || '';
+                document.getElementById('nomorWa').value = profile.nomorWa || '';
+                document.getElementById('kota').value = profile.kota || '';
+            }
+
+            // Handle form submit
+            const form = document.getElementById('akunForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const profileData = {
+                    namaLengkap: document.getElementById('namaLengkap').value,
+                    tanggalLahir: document.getElementById('tanggalLahir').value,
+                    nomorWa: document.getElementById('nomorWa').value,
+                    kota: document.getElementById('kota').value
+                };
+
+                localStorage.setItem('userProfile', JSON.stringify(profileData));
+                alert('Informasi akun berhasil disimpan!');
+            });
+        });
+    </script>
+</body>
+
+</html>
