@@ -1,0 +1,180 @@
+/* CSS Variables & Background Settings */
+:root {
+    --primary-blue: #1e3a8a;
+    --primary-hover: #1e40af;
+    --border-color: #e5e7eb;
+    --text-dark: #111827;
+}
+
+body {
+    background-color: #f9fafb; /* Menggunakan warna background abu-abu terang agar card menonjol */
+    display: block; /* Mengembalikan default display */
+}
+
+/* Avatar User di Header Top */
+.user-avatar-top {
+    background-color: var(--primary-blue);
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Container Layout */
+.main-container {
+    max-width: 900px; /* Lebar maksimal area form di tengah */
+    margin: 0 auto;
+    padding: 50px 20px 80px 20px;
+}
+
+/* Header Page (Mulai Ngawal) */
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    color: #6b7280;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* Card Styling */
+.card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.card-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.card-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Form Styling */
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: 'DM Sans', inherit;
+    font-size: 15px;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+    background-color: white;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 250px;
+    line-height: 1.6;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Custom Input File Styling */
+input[type="file"]::file-selector-button {
+    background-color: #e5e7eb;
+    color: #374151;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #d1d5db;
+}
+
+/* Responsivitas Layar Kecil */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    .main-container {
+        padding: 30px 15px;
+    }
+    .card {
+        padding: 24px;
+    }
+    .page-title {
+        font-size: 32px;
+    }
+}

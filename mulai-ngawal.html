@@ -1,20 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mulai Ngawal | Tukang Kawal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <title>Mulai Ngawal - Tulis Artikel Baru | Tukang Kawal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/mulai-ngawal.css">
 </head>
 
 <body>
     <header>
-        <a href="index.html" class="header-brand">Tukang Kawal</a>
-        <!-- <a href="account.html" "><img src="https://cdn.pixabay.com/photo/2022/10/22/17/00/gull-7539615_1280.jpg" alt="Foto Profil"class="header_account></a> -->
+        <div class="header-brand-nav">
+            <a href="index.html" class="header-brand"><span class="header-logo">T</span>TukangKawal</a>
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="politik" class="nav-link">Politik</a></li>
+                    <li><a href="kriminal" class="nav-link">Kriminal</a></li>
+                    <li><a href="lingkungan" class="nav-link">Lingkungan</a></li>
+                    <li><a href="hukum" class="nav-link">Hukum</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-action">
+            <div class="user-avatar-top">MB</div>
+        </div>
     </header>
+
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Mulai Ngawal</h1>
+            <p class="page-subtitle">Sampaikan berita, fakta, atau laporan investigasi Anda kepada publik.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Tulis Artikel Baru</span>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Judul & Label</label>
+                    <input class="form-input" type="text" placeholder="Masukkan judul artikel...">
+                    <input class="form-input" type="text" placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Kategori</label>
+                        <select class="form-select">
+                            <option>Politik</option>
+                            <option>Ekonomi Bisnis</option>
+                            <option>Hukum</option>
+                            <option>Kriminal</option>
+                            <option>Lingkungan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gambar Utama</label>
+                        <input type="file" class="form-input" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konten Artikel</label>
+                    <textarea class="form-textarea" placeholder="Tulis atau salin isi berita di sini..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn-primary">Publikasikan Artikel</button>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>
