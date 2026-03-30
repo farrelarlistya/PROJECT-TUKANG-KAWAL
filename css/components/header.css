@@ -69,6 +69,12 @@ header {
     padding: 5px 5px;
 }
 
+.header-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .action-btn {
     text-decoration: none;
     background: #1a3fc7;
@@ -79,6 +85,32 @@ header {
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
+}
+
+.profile-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, .45);
+    background: transparent;
+    color: rgba(255, 255, 255, .85);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    flex-shrink: 0;
+}
+
+.profile-avatar:hover {
+    border-color: rgba(255, 255, 255, .85);
+    background: rgba(255, 255, 255, .1);
+    color: white;
+    box-shadow: 0 0 0 3px rgba(26, 63, 199, .3);
 }
 
 .ticker {

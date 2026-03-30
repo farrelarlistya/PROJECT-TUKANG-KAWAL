@@ -1,0 +1,255 @@
+        body {
+            background-color: #fcfcfc;
+            color: #333;
+            font-family: 'DM Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .article-layout {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .article-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 42px;
+            line-height: 1.25;
+            color: #111;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #eaeaea;
+            border-bottom: 1px solid #eaeaea;
+            padding: 16px 0;
+            margin-bottom: 30px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0f2347;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .post-date {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-share {
+            padding: 6px 12px;
+            border: 1px solid #dcdcdc;
+            background: white;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-share:hover {
+            background: #f5f5f5;
+            color: #1a3fc7;
+            border-color: #1a3fc7;
+        }
+
+        .article-hero {
+            margin-bottom: 35px;
+        }
+
+        .article-hero img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .article-hero figcaption {
+            font-size: 13px;
+            color: #777;
+            margin-top: 10px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .article-content {
+            font-family: 'Source Serif 4', Georgia, serif;
+            /* Font Serif sangat baik untuk membaca panjang */
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2c2c2c;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid #1a3fc7;
+            padding-left: 20px;
+            margin: 32px 0;
+            font-size: 20px;
+            font-style: italic;
+            color: #111;
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .article-tags {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tags-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .tag-item {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #444;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .tag-item:hover {
+            background: #e0e0e0;
+            color: #1a3fc7;
+        }
+
+        .suggested-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .suggested-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .suggested-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .suggested-category {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #111;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+        }
+
+        .suggested-card {
+            display: block;
+            text-decoration: none;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        .suggested-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .suggested-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .suggested-title-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .t-plus-badge {
+            background-color: #1a3fc7;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 2px;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        .suggested-title {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .suggested-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .article-title {
+                font-size: 32px;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .article-content {
+                font-size: 17px;
+            }
+        }
