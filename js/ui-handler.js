@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = window.getCurrentUser ? window.getCurrentUser() : null;
 
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const isAdminPage = currentPage.startsWith('admin-');
 
-    if (currentPage === 'admin-dashboard.html') {
+    if (isAdminPage) {
         if (!user) {
             window.location.href = 'login.html';
             return;
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (currentPage === 'admin-dashboard.html' && user) {
+    if (isAdminPage && user) {
         const logoutBtn = document.querySelector('.logout-btn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', function(e) {

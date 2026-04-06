@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tulis Artikel Baru – TukangKawal Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components/header.css">
+  <link rel="stylesheet" href="css/admin-dashboard.css">
+</head>
+
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a href="admin-dashboard.html" class="header-brand">
+        <span class="header-logo">T</span> TukangKawal
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html" class="nav-item">
+        Dashboard Utama
+      </a>
+      <a href="admin-review.html" class="nav-item">
+        Review & Persetujuan
+      </a>
+      <a href="admin-tulis-artikel.html" class="nav-item active">
+        Tulis Artikel Baru
+      </a>
+      <a href="admin-kelola-artikel.html" class="nav-item">
+        Kelola Artikel
+      </a>
+      <a href="admin-pengguna.html" class="nav-item">
+        Kelola Pengguna
+      </a>
+      <a href="admin-membership.html" class="nav-item">
+        Paket Membership
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <strong>Administrator</strong>
+        <span>admin@tukangkawal.id</span>
+      </div>
+      <a href="#" class="logout-btn">Keluar</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Tulis Artikel Baru</h1>
+        <p class="page-subtitle">Buat dan publikasikan artikel berita baru</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Form Artikel</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="inputJudul">Judul Artikel</label>
+            <input class="form-input" type="text" id="inputJudul" placeholder="Masukkan judul artikel...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputTag">Tag</label>
+            <input class="form-input" type="text" id="inputTag" placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="selectKategori">Kategori</label>
+              <select class="form-select" id="selectKategori">
+                <option value="" disabled selected>Pilih kategori...</option>
+                <option>Politik</option>
+                <option>Ekonomi</option>
+                <option>Hukum</option>
+                <option>Kriminal</option>
+                <option>Teknologi</option>
+                <option>Kesehatan</option>
+                <option>Lingkungan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputGambar">Gambar Utama</label>
+              <input type="file" class="form-input" id="inputGambar" accept="image/*">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tipe Artikel</label>
+            <div class="exclusive-toggle">
+              <label class="toggle-switch">
+                <input type="checkbox" id="artikelEksklusif">
+                <span class="toggle-slider"></span>
+              </label>
+              <div class="toggle-info">
+                <span class="toggle-label">Berita Eksklusif (T+)</span>
+                <span class="toggle-desc">Artikel ini hanya dapat diakses oleh pelanggan Pengawal Eksklusif</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputKonten">Konten Artikel</label>
+            <textarea class="form-textarea" id="inputKonten" placeholder="Tulis atau salin isi berita di sini..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-primary" id="btnPublikasi" onclick="alert('Artikel berhasil dipublikasikan! (demo)')">Publikasikan Artikel</button>
+            <button class="btn-secondary" onclick="if(confirm('Yakin ingin mereset form?')) this.closest('.form-grid').querySelectorAll('input,textarea,select').forEach(el => el.value = '')">Reset Form</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/user.js"></script>
+  <script src="js/ui-handler.js"></script>
+</body>
+
+</html>

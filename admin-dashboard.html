@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tukang Kawal – Admin Panel</title>
+  <title>Dashboard Utama – TukangKawal Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/components/header.css">
@@ -14,30 +14,30 @@
 <body>
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <a href="#" class="header-brand">
+      <a href="admin-dashboard.html" class="header-brand">
         <span class="header-logo">T</span> TukangKawal
       </a>
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-item active">
+      <a href="admin-dashboard.html" class="nav-item active">
         Dashboard Utama
-      </div>
-      <div class="nav-item">
+      </a>
+      <a href="admin-review.html" class="nav-item">
         Review & Persetujuan
-      </div>
-      <div class="nav-item">
+      </a>
+      <a href="admin-tulis-artikel.html" class="nav-item">
         Tulis Artikel Baru
-      </div>
-      <div class="nav-item">
+      </a>
+      <a href="admin-kelola-artikel.html" class="nav-item">
         Kelola Artikel
-      </div>
-      <div class="nav-item">
+      </a>
+      <a href="admin-pengguna.html" class="nav-item">
         Kelola Pengguna
-      </div>
-      <div class="nav-item">
+      </a>
+      <a href="admin-membership.html" class="nav-item">
         Paket Membership
-      </div>
+      </a>
     </nav>
 
     <div class="sidebar-user">
@@ -52,6 +52,11 @@
 
   <main class="main">
     <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Dashboard Utama</h1>
+        <p class="page-subtitle">Ringkasan aktivitas dan statistik sistem TukangKawal</p>
+      </div>
+
       <section>
         <div class="section-title">Ringkasan Sistem</div>
         <div class="stat-grid">
@@ -76,52 +81,6 @@
 
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Review & Persetujuan</span>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Informasi Artikel</th>
-                <th>Pengirim / User</th>
-                <th>Status</th>
-                <th>Aksi Admin</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="text-bold">Dugaan Korupsi Proyek Infrastruktur...</div>
-                  <div class="text-dim">Kategori: Politik & Hukum | Tag: kpk, korupsi</div>
-                </td>
-                <td>Budi Santoso</td>
-                <td><span class="status-pending">Menunggu Review</span></td>
-                <td>
-                  <button class="btn-approve">Terima</button>
-                  <button class="btn-reject">Tolak</button>
-                  <button class="btn-review">Baca Konten</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="text-bold">Dampak Kenaikan Suku Bunga BI 2024</div>
-                  <div class="text-dim">Kategori: Ekonomi Bisnis | Tag: ekonomi, bi</div>
-                </td>
-                <td>Ahmad Rizki</td>
-                <td><span class="status-pending">Menunggu Review</span></td>
-                <td>
-                  <button class="btn-approve">Terima</button>
-                  <button class="btn-reject">Tolak</button>
-                  <button class="btn-review">Baca Konten</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
           <span class="card-title">Daftar Kategori Artikel</span>
         </div>
         <ul class="category-list">
@@ -142,98 +101,6 @@
             <span class="category-count">77</span>
           </li>
         </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Tulis Artikel Baru</span>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Judul & Label</label>
-            <input class="form-input" type="text" placeholder="Masukkan judul artikel...">
-            <input class="form-input" type="text" placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Kategori</label>
-              <select class="form-select">
-                <option>Politik</option>
-                <option>Ekonomi</option>
-                <option>Hukum</option>
-                <option>Kriminal</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Gambar Utama</label>
-              <input type="file" class="form-input" accept="image/*">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Tipe Artikel</label>
-            <div class="exclusive-toggle">
-              <label class="toggle-switch">
-                <input type="checkbox" id="artikelEksklusif">
-                <span class="toggle-slider"></span>
-              </label>
-              <div class="toggle-info">
-                <span class="toggle-label">Berita Eksklusif (T+)</span>
-                <span class="toggle-desc">Artikel ini hanya dapat diakses oleh pelanggan Pengawal Eksklusif</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Konten Artikel</label>
-            <textarea class="form-textarea" placeholder="Tulis atau salin isi berita di sini..."></textarea>
-          </div>
-
-          <div class="form-actions">
-            <button class="btn-primary">Publikasikan Artikel</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Daftar Pengguna Sistem</span>
-        </div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Tanggal Bergabung</th>
-                <th>Pengaturan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-bold">Ahmad Rizki</td>
-                <td>ahmad.rizki@email.com</td>
-                <td><span class="role-badge role-admin">Admin</span></td>
-                <td class="text-dim">12 Okt 2024</td>
-                <td>
-                  <button class="action-btn">Edit</button>
-                  <button class="action-btn" style="color:#ef4444;">Hapus</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-bold">Siti Nurhaliza</td>
-                <td>siti.n@email.com</td>
-                <td><span class="role-badge role-user">User</span></td>
-                <td class="text-dim">14 Okt 2024</td>
-                <td>
-                  <button class="action-btn">Edit</button>
-                  <button class="action-btn" style="color:#ef4444;">Hapus</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
       </div>
     </div>
   </main>
