@@ -1,127 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Berita Politik Kriminal Lingkungan Hukum Nasional & Internasional | Tukang Kawal</title>
-    <link href="./src/output.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal berita yang mengawal fakta dan berita terkini untuk masyarakat Indonesia." />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <title>Tukang Kawal — Portal Berita Terpercaya</title>
 </head>
-
 <body>
-    <header class="sticky top-0 flex shadow-[0_2px_12px_rgba(0,0,0,.25)] bg-navy justify-around items-center z-[2]">
-        <div class="header-brand-nav max-w-[1160px] px-6 flex items-center">
-            <a href="index.html" class="font-playfair no-underline text-white text-[25px] font-bold"><span class="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span>TukangKawal</a>
-            <nav>
-                <ul id="header-category-nav" class="header-nav flex items-center gap-5 list-none transition-all duration-500 py-5 px-[30px]">
-                    <!-- Kategori di-render oleh newsApp.js -->
-                </ul>
-            </nav>
-        </div>
-        <div class="flex items-center gap-3">
-            <input type="search" id="search-input" placeholder="Cari Berita..." class="no-underline rounded-[5px] border border-white/30 bg-white/10 text-white placeholder-white/50 py-1.5 px-3 text-[14px] outline-none focus:border-white/60 transition-colors">
-            <div class="header-action flex items-center gap-3">
-                <a href="langganan.html" class="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">Pengawal Eksklusif</a>
-                <a href="login.html" class="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">Masuk/Daftar</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="ticker bg-brand p-2">
-        <marquee id="ticker-marquee">Memuat berita terkini...</marquee>
-    </div>
-
-    <main>
-        <!-- Hot News / Hero Section — rendered dynamically -->
-        <div id="hot-news-container"></div>
-
-        <section class="px-[50px] mb-[30px]">
-            <div class="flex items-center justify-between mb-[25px]">
-                <h1 class="text-[28px] text-[#222]">Berita Terkini</h1>
-            </div>
-
-            <!-- News Cards Grid — rendered dynamically -->
-            <div id="news-cards-container" class="grid grid-cols-3 gap-[25px]">
-                <!-- Skeleton cards akan muncul di sini -->
-            </div>
-
-            <!-- Load More Button -->
-            <div id="load-more-section" class="text-center my-[35px]">
-                <button id="load-more-btn" class="bg-white text-brand border-2 border-brand py-3 px-[35px] rounded-lg text-[15px] font-semibold cursor-pointer transition-all duration-300 hover:bg-brand hover:text-white">Muat Lebih Banyak Berita</button>
-            </div>
-        </section>
-    </main>
-
-    <section class="bg-brand p-[50px] flex gap-[30px] items-stretch">
-        <div class="flex-[2]">
-            <h2 class="text-white text-[26px] mb-5">Pengawal Eksklusif</h2>
-            <div id="exclusive-container" class="flex gap-5">
-                <!-- Exclusive cards di-render oleh newsApp.js -->
-            </div>
-        </div>
-        <div class="flex-1 bg-brand-dark rounded-[10px] flex flex-col items-center justify-center text-center py-10 px-[30px]">
-            <h3 class="text-white text-[22px] mb-3">Gabung Pengawal Eksklusif</h3>
-            <p class="text-white/75 text-[14px] mb-5 leading-[1.5]">Dapatkan akses ke berita eksklusif, investigasi mendalam, dan analisis tajam langsung dari tim redaksi.
-            </p>
-            <a href="langganan.html" class="no-underline bg-white text-brand py-3 px-[30px] rounded-lg text-[15px] font-bold border-none cursor-pointer transition-all duration-300 hover:bg-brand-subtle">Langganan Sekarang</a>
-        </div>
-    </section>
-
-    <section class="py-10 px-[50px]">
-        <h2 class="text-[26px] text-[#222] mb-5 pb-[15px] border-b-2 border-[#ddd]">Sedang Trending</h2>
-        <ul id="trending-container" class="list-none">
-            <!-- Trending list di-render oleh newsApp.js -->
-        </ul>
-    </section>
-
-    <footer class="bg-[#1e1e2e] text-[#ccc] pt-[50px] px-[50px] pb-0">
-        <div class="footer-content grid grid-cols-[2fr_1fr_1fr_1fr] gap-10 pb-10 border-b border-[#333]">
-            <div class="footer-brand">
-                <h2><span class="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span> Tukang Kawal</h2>
-                <p>Portal berita yang mengawal fakta dan berita terkini untuk masyarakat Indonesia.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Kategori</h4>
-                <ul>
-                    <li><a href="?category=business">Business</a></li>
-                    <li><a href="?category=entertainment">Entertainment</a></li>
-                    <li><a href="?category=health">Health</a></li>
-                    <li><a href="?category=science">Science</a></li>
-                    <li><a href="?category=sports">Sports</a></li>
-                    <li><a href="?category=technology">Technology</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Tentang Sertai</h4>
-                <ul>
-                    <li><a href="#">Tentang Kami</a></li>
-                    <li><a href="#">Redaksi</a></li>
-                    <li><a href="#">Karir</a></li>
-                    <li><a href="#">Syarat & Ketentuan</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Ikuti Kami</h4>
-                <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter / X</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">YouTube</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="text-center py-5 text-[12px] text-[#666]">
-            <p>&copy; 2026 Tukang Kawal. Hak Cipta Dilindungi. Penyalahgunaan informasi tanpa izin adalah pelanggaran
-                hukum.</p>
-        </div>
-    </footer>
-
-    <script src="js/user.js"></script>
-    <script src="js/ui-handler.js"></script>
-    <script src="js/newsApi.js"></script>
-    <script src="js/categoryMapper.js"></script>
-    <script src="js/articleRenderer.js"></script>
-    <script src="js/newsApp.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
-
 </html>
