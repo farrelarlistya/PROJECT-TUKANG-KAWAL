@@ -55,13 +55,20 @@ async function initHomePage() {
 
 /**
  * Render kategori di navbar (header only)
+ * Member mendapat kategori tambahan "Eksklusif"
  */
 function renderNavbarCategories() {
     const categories = window.CategoryMapper.getAllCategories();
     const headerNav = document.getElementById('header-category-nav');
 
     // Exclude 'semua' dari header navbar
-    const headerCats = categories.filter(c => c.slug !== 'semua');
+    let headerCats = categories.filter(c => c.slug !== 'semua');
+
+    // Tambahkan kategori "Eksklusif" untuk member
+    const user = window.getCurrentUser ? window.getCurrentUser() : null;
+    if (user && user.role === 'member') {
+        headerCats.push({ slug: 'eksklusif', label: '🔒 Eksklusif', icon: '🔒' });
+    }
 
     if (headerNav) {
         headerNav.innerHTML = headerCats.map(c => `
@@ -145,8 +152,23 @@ async function loadHomePageData(categorySlug) {
             20
         );
 
-        const articles = mainData.articles;
-        AppState.totalResults = mainData.totalResults;
+        let articles = mainData.articles;
+
+        // Fallback ke US jika country=id mengembalikan 0 hasil
+        if (articles.length === 0) {
+            console.log('[NewsApp] ID kosong, fallback ke US...');
+            const fallbackData = await window.NewsAPI.fetchTopHeadlines(
+                config.apiCategory,
+                config.query,
+                1,
+                20,
+                'us'
+            );
+            articles = fallbackData.articles;
+            AppState.totalResults = fallbackData.totalResults;
+        } else {
+            AppState.totalResults = mainData.totalResults;
+        }
         AppState.allLoadedArticles = articles;
 
         // --- Render Hot News (artikel pertama) ---
@@ -178,10 +200,15 @@ async function loadHomePageData(categorySlug) {
         // --- Render Exclusive Cards ---
         const exclusiveContainer = document.getElementById('exclusive-container');
         if (exclusiveContainer) {
-            // Fetch bisnis/politik untuk eksklusif jika kategori utama bukan bisnis
             try {
-                const exclusiveData = await window.NewsAPI.fetchTopHeadlines('general', '', 1, 4);
-                exclusiveContainer.innerHTML = window.ArticleRenderer.renderExclusiveCards(exclusiveData.articles);
+                const exclusiveData = await window.NewsAPI.fetchTopHeadlines('general', '', 1, 6);
+                exclusiveContainer.innerHTML = window.ArticleRenderer.renderExclusiveCards(exclusiveData.articles.slice(0, 2));
+
+                // Untuk member: isi container ekstra dengan artikel eksklusif tambahan
+                const extraContainer = document.getElementById('exclusive-extra-container');
+                if (extraContainer && exclusiveData.articles.length > 2) {
+                    extraContainer.innerHTML = window.ArticleRenderer.renderExclusiveCards(exclusiveData.articles.slice(2, 4));
+                }
             } catch {
                 // Fallback: gunakan artikel dari data utama
                 exclusiveContainer.innerHTML = window.ArticleRenderer.renderExclusiveCards(articles.slice(0, 2));
@@ -238,15 +265,18 @@ async function handleLoadMore() {
             config.apiCategory,
             config.query,
             AppState.currentPage,
-            6
+            8
         );
 
+        // Trim ke 6 artikel setelah filtering API (beberapa bisa [Removed])
+        const validArticles = data.articles.slice(0, 6);
+
         const newsCardsContainer = document.getElementById('news-cards-container');
-        if (newsCardsContainer && data.articles.length > 0) {
+        if (newsCardsContainer && validArticles.length > 0) {
             newsCardsContainer.insertAdjacentHTML('beforeend',
-                window.ArticleRenderer.renderNewsCards(data.articles, AppState.currentCategory)
+                window.ArticleRenderer.renderNewsCards(validArticles, AppState.currentCategory)
             );
-            AppState.allLoadedArticles = AppState.allLoadedArticles.concat(data.articles);
+            AppState.allLoadedArticles = AppState.allLoadedArticles.concat(validArticles);
         }
 
         updateLoadMoreVisibility(AppState.allLoadedArticles.length, data.totalResults);
@@ -445,7 +475,9 @@ window.addEventListener('popstate', (event) => {
 // AUTO-INIT BASED ON PAGE
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    // Robust page detection: decode URI and handle backslash from serve
+    const rawPath = decodeURIComponent(window.location.pathname);
+    const currentPage = rawPath.replace(/\\/g, '/').split('/').pop() || 'index.html';
 
     if (currentPage === 'index.html' || currentPage === '' || currentPage === '/') {
         initHomePage();

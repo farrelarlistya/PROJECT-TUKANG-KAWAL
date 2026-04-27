@@ -9,12 +9,14 @@
     --color-brand-hover: #1432a3;
     --color-brand-light: #f0f4ff;
     --color-brand-subtle: #e8edff;
-    --color-badge-politik: #1a3fc7;
-    --color-badge-kriminal: #c72a1a;
-    --color-badge-lingkungan: #1a8a3f;
-    --color-badge-hukum: #7b1ac7;
-    --color-badge-ekonomi: #c77d1a;
-    --color-badge-internasional: #1a8ac7;
+    --color-badge-general: #1a3fc7;
+    --color-badge-business: #c77d1a;
+    --color-badge-entertainment: #c72a6e;
+    --color-badge-health: #1a8a3f;
+    --color-badge-science: #7b1ac7;
+    --color-badge-sports: #c72a1a;
+    --color-badge-technology: #1a8ac7;
+    --color-badge-eksklusif: #0e2a8a;
     --color-primary-blue: #1e3a8a;
     --color-primary-hover: #1e40af;
 
@@ -558,4 +560,45 @@
         width: 100%;
         justify-content: space-between;
     }
+}
+
+/* ============================================
+   PAYWALL OVERLAY — Exclusive article lock
+   ============================================ */
+.paywall-wrapper {
+    position: relative;
+}
+
+.paywall-wrapper .article-content {
+    max-height: 200px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+}
+
+.paywall-overlay {
+    position: relative;
+    text-align: center;
+    padding: 40px 20px 50px;
+    background: linear-gradient(to bottom, rgba(240, 244, 255, 0.8), #f0f4ff);
+    border: 1px solid rgba(26, 63, 199, 0.15);
+    border-radius: 12px;
+    margin-top: -20px;
+}
+
+.paywall-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   MEMBER BADGE T+ — Premium blue style
+   ============================================ */
+.member-badge-plus {
+    animation: badge-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes badge-glow {
+    from { box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3); }
+    to { box-shadow: 0 2px 12px rgba(59, 130, 246, 0.5); }
 }

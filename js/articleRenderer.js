@@ -170,6 +170,8 @@ function renderTrendingList(articles) {
 
         return `
             <li class="flex items-center gap-5 py-[15px] border-b border-[#eee] transition-colors duration-200 hover:bg-[#f5f5f5] article-fade-in">
+                <img src="${getSafeImageUrl(article.urlToImage)}" alt="" class="w-20 h-20 rounded-lg object-cover shrink-0" loading="lazy"
+                     onerror="this.src='https://placehold.co/80x80/1a3fc7/white?text=TK'">
                 <span class="text-[28px] font-extrabold text-[#ccc] min-w-[40px] text-center">${index + 1}</span>
                 <div class="trending-content flex-1">
                     <span class="inline-block py-[3px] px-2.5 rounded-[4px] text-[11px] font-bold text-white uppercase mb-2 ${badgeClass}">${label}</span>
@@ -181,7 +183,7 @@ function renderTrendingList(articles) {
 }
 
 /**
- * Render kartu eksklusif
+ * Render kartu eksklusif (tandai sebagai eksklusif di sessionStorage)
  * @param {Array} articles - Array artikel (max 2)
  * @returns {string} HTML string
  */
@@ -192,6 +194,8 @@ function renderExclusiveCards(articles) {
         const detected = window.CategoryMapper.detectCategoryFromArticle(article);
         const badgeClass = window.CategoryMapper.getBadgeClass(detected);
         const label = window.CategoryMapper.getCategoryLabel(detected);
+        // Tandai sebagai eksklusif sebelum membuat URL
+        article._isExclusive = true;
         const url = createArticleUrl(article, detected);
 
         return `
@@ -301,6 +305,8 @@ function renderEmptyState() {
 
 /**
  * Render halaman detail artikel lengkap
+ * Menampilkan konten lengkap seolah dari database projek ini
+ * Artikel eksklusif mendapat paywall overlay untuk non-member
  * @param {Object} article - Objek artikel
  * @param {string} categorySlug - Slug kategori
  * @returns {string} HTML string
@@ -321,17 +327,37 @@ function renderArticleDetail(article, categorySlug) {
     const badgeClass = window.CategoryMapper.getBadgeClass(detected);
     const label = window.CategoryMapper.getCategoryLabel(detected);
     const authorInitials = getAuthorInitials(article.author);
-    const authorName = article.author || article.source?.name || 'Redaksi TukangKawal';
+    const authorName = article.author || 'Redaksi TukangKawal';
 
-    // Konten: gunakan content dari API (truncated), lalu tampilkan link ke sumber asli
+    // Bangun konten artikel lengkap (seolah dari database projek ini)
     let contentHtml = '';
-    if (article.content && article.content !== '[Removed]') {
-        // Hapus bagian "[+XXXX chars]" dari content
-        const cleanContent = article.content.replace(/\[\+\d+ chars\]$/, '').trim();
-        contentHtml = `<p>${cleanContent}</p>`;
-    }
     if (article.description) {
-        contentHtml = `<p><strong>${article.source?.name || 'TukangKawal'}</strong> — ${article.description}</p>` + contentHtml;
+        contentHtml += `<p><strong>TukangKawal</strong> — ${article.description}</p>`;
+    }
+    if (article.content && article.content !== '[Removed]') {
+        const cleanContent = article.content.replace(/\[\+\d+ chars\]$/, '').trim();
+        contentHtml += `<p>${cleanContent}</p>`;
+    }
+
+    // Cek apakah artikel eksklusif dan user bukan member
+    const isExclusive = article._isExclusive === true;
+    const user = window.getCurrentUser ? window.getCurrentUser() : null;
+    const isMember = user && user.role === 'member';
+    const showPaywall = isExclusive && !isMember;
+
+    // Jika paywall aktif, tambahkan overlay gembok
+    let paywallHtml = '';
+    if (showPaywall) {
+        paywallHtml = `
+            <div class="paywall-overlay">
+                <div class="paywall-content">
+                    <div class="paywall-icon">🔒</div>
+                    <h3 class="text-[22px] font-bold text-[#111] mb-2">Konten Eksklusif</h3>
+                    <p class="text-[15px] text-[#555] mb-5 max-w-[400px] mx-auto leading-[1.6]">Artikel ini hanya tersedia untuk pelanggan Pengawal Eksklusif. Berlangganan untuk membaca selengkapnya.</p>
+                    <a href="langganan.html" class="inline-block bg-brand text-white py-3 px-8 rounded-lg no-underline text-[15px] font-semibold transition-all duration-200 hover:bg-brand-hover hover:-translate-y-[1px]">Langganan Sekarang</a>
+                </div>
+            </div>
+        `;
     }
 
     return `
@@ -346,6 +372,7 @@ function renderArticleDetail(article, categorySlug) {
                 </div>
             </div>
             <div class="flex gap-2.5 items-center">
+                ${isExclusive ? '<span class="inline-block py-[3px] px-2.5 rounded-[4px] text-[11px] font-bold text-white uppercase bg-linear-to-r from-[#1e3a8a] to-[#3b82f6]">🔒 Eksklusif</span>' : ''}
                 <span class="inline-block py-[3px] px-2.5 rounded-[4px] text-[11px] font-bold text-white uppercase ${badgeClass}">${label}</span>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>alert('Tautan disalin!'))" class="py-1.5 px-3 border border-[#dcdcdc] bg-white rounded-[6px] text-[13px] font-semibold text-[#555] cursor-pointer transition-all duration-200 hover:bg-[#f5f5f5] hover:text-brand hover:border-brand">Salin Tautan</button>
             </div>
@@ -354,23 +381,19 @@ function renderArticleDetail(article, categorySlug) {
         <figure class="article-hero mb-[35px]">
             <img src="${getSafeImageUrl(article.urlToImage)}" alt="${article.title}" loading="lazy"
                  onerror="this.src='https://placehold.co/800x400/1a3fc7/white?text=Tukang+Kawal'">
-            <figcaption>${article.source?.name ? `Sumber: ${article.source.name}` : 'Dokumentasi Media'}</figcaption>
+            <figcaption>Dokumentasi TukangKawal</figcaption>
         </figure>
 
-        <article class="article-content font-source-serif text-[18px] leading-[1.8] text-[#2c2c2c]">
-            ${contentHtml}
-            <div class="mt-8 p-6 bg-brand-light rounded-lg border border-brand/20">
-                <p class="text-[15px] text-[#555] mb-3">📖 Konten artikel ini merupakan ringkasan. Untuk membaca artikel lengkap, kunjungi sumber asli:</p>
-                <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-brand text-white py-2.5 px-5 rounded-lg no-underline text-[14px] font-semibold hover:bg-brand-hover transition-colors">
-                    Baca Selengkapnya di ${article.source?.name || 'Sumber Asli'} →
-                </a>
-            </div>
-        </article>
+        <div class="${showPaywall ? 'paywall-wrapper' : ''}">
+            <article class="article-content font-source-serif text-[18px] leading-[1.8] text-[#2c2c2c]">
+                ${contentHtml}
+            </article>
+            ${paywallHtml}
+        </div>
 
         <div class="mt-10 pt-5 border-t border-[#eaeaea] flex items-center gap-2.5 flex-wrap">
             <span class="text-[14px] font-semibold text-[#555]">Topik Terkait:</span>
             <a href="index.html?category=${detected}" class="inline-block bg-[#f0f0f0] text-[#444] py-1.5 px-3 rounded-[20px] text-[13px] font-medium no-underline transition-colors duration-200 hover:bg-[#e0e0e0] hover:text-brand">${label}</a>
-            ${article.source?.name ? `<a href="#" class="inline-block bg-[#f0f0f0] text-[#444] py-1.5 px-3 rounded-[20px] text-[13px] font-medium no-underline transition-colors duration-200 hover:bg-[#e0e0e0] hover:text-brand">${article.source.name}</a>` : ''}
         </div>
 
         <div id="related-articles" class="mt-10 pt-[30px] border-t border-[#eaeaea]">

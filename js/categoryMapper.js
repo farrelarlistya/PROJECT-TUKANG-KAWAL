@@ -1,33 +1,36 @@
 /**
  * categoryMapper.js — Modul pemetaan kategori
- * Memetakan kategori projek TukangKawal ke kategori NewsAPI.org
+ * Menggunakan kategori resmi dari NewsAPI.org secara langsung
  */
 
 const CATEGORY_MAP = {
     'semua': {
-        apiCategory: 'general', query: '', badgeClass: 'bg-badge-politik', label: 'Semua', icon: '📰'
+        apiCategory: 'general', query: '', badgeClass: 'bg-badge-general', label: 'Semua', icon: '📰'
     },
-    'politik': {
-        apiCategory: 'general', query: 'politik OR pemerintah OR presiden OR DPR', badgeClass: 'bg-badge-politik', label: 'Politik', icon: '🏛️'
+    'business': {
+        apiCategory: 'business', query: '', badgeClass: 'bg-badge-business', label: 'Business', icon: '💼'
     },
-    'kriminal': {
-        apiCategory: 'general', query: 'kriminal OR polisi OR kejahatan', badgeClass: 'bg-badge-kriminal', label: 'Kriminal', icon: '🚔'
+    'entertainment': {
+        apiCategory: 'entertainment', query: '', badgeClass: 'bg-badge-entertainment', label: 'Entertainment', icon: '🎬'
     },
-    'lingkungan': {
-        apiCategory: 'science', query: 'lingkungan OR bencana OR iklim', badgeClass: 'bg-badge-lingkungan', label: 'Lingkungan', icon: '🌿'
+    'health': {
+        apiCategory: 'health', query: '', badgeClass: 'bg-badge-health', label: 'Health', icon: '🏥'
     },
-    'hukum': {
-        apiCategory: 'general', query: 'hukum OR pengadilan OR korupsi', badgeClass: 'bg-badge-hukum', label: 'Hukum', icon: '⚖️'
+    'science': {
+        apiCategory: 'science', query: '', badgeClass: 'bg-badge-science', label: 'Science', icon: '🔬'
     },
-    'ekonomi': {
-        apiCategory: 'business', query: '', badgeClass: 'bg-badge-ekonomi', label: 'Ekonomi', icon: '💰'
+    'sports': {
+        apiCategory: 'sports', query: '', badgeClass: 'bg-badge-sports', label: 'Sports', icon: '⚽'
     },
-    'internasional': {
-        apiCategory: 'general', query: 'internasional OR dunia OR global', badgeClass: 'bg-badge-internasional', label: 'Internasional', icon: '🌍'
+    'technology': {
+        apiCategory: 'technology', query: '', badgeClass: 'bg-badge-technology', label: 'Technology', icon: '💻'
+    },
+    'eksklusif': {
+        apiCategory: 'general', query: '', badgeClass: 'bg-badge-eksklusif', label: 'Eksklusif', icon: '🔒'
     }
 };
 
-const NAVBAR_CATEGORIES = ['semua', 'politik', 'kriminal', 'lingkungan', 'hukum', 'ekonomi', 'internasional'];
+const NAVBAR_CATEGORIES = ['semua', 'business', 'entertainment', 'health', 'science', 'sports', 'technology'];
 
 function getCategoryConfig(slug) {
     const s = (slug || 'semua').toLowerCase().trim();
@@ -47,12 +50,12 @@ function getCategoryLabel(slug) { return getCategoryConfig(slug).label; }
 function detectCategoryFromArticle(article) {
     const text = `${article.title || ''} ${article.description || ''}`.toLowerCase();
     const keywords = {
-        'politik': ['politik', 'pemerintah', 'presiden', 'dpr', 'menteri', 'partai', 'pemilu'],
-        'kriminal': ['polisi', 'kriminal', 'kejahatan', 'ditangkap', 'tersangka', 'narkoba'],
-        'hukum': ['hukum', 'pengadilan', 'hakim', 'vonis', 'korupsi', 'kpk', 'sidang'],
-        'lingkungan': ['lingkungan', 'bencana', 'banjir', 'gempa', 'iklim', 'polusi'],
-        'ekonomi': ['ekonomi', 'bisnis', 'saham', 'ihsg', 'rupiah', 'inflasi', 'investasi'],
-        'internasional': ['internasional', 'dunia', 'global', 'pbb', 'amerika', 'eropa']
+        'business': ['business', 'economy', 'market', 'stock', 'trade', 'finance', 'invest', 'bank', 'company'],
+        'entertainment': ['movie', 'film', 'music', 'celebrity', 'actor', 'singer', 'award', 'show', 'netflix', 'disney'],
+        'health': ['health', 'medical', 'doctor', 'hospital', 'vaccine', 'disease', 'pandemic', 'mental', 'drug'],
+        'science': ['science', 'nasa', 'space', 'research', 'study', 'climate', 'biology', 'physics'],
+        'sports': ['sport', 'game', 'team', 'player', 'match', 'league', 'nba', 'nfl', 'soccer', 'football'],
+        'technology': ['tech', 'ai', 'software', 'app', 'google', 'apple', 'microsoft', 'data', 'robot', 'cyber']
     };
     let best = 'semua', high = 0;
     for (const [cat, words] of Object.entries(keywords)) {

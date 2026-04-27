@@ -6,8 +6,8 @@
 const NEWS_CONFIG = {
     API_KEY: '711ffbd68874473285411075bb5de8f4',
     BASE_URL: 'https://newsapi.org/v2',
-    DEFAULT_COUNTRY: 'us',       // US memiliki coverage lebih baik di free tier
-    FALLBACK_COUNTRY: 'id',
+    DEFAULT_COUNTRY: 'id',       // Indonesia sesuai request user
+    FALLBACK_COUNTRY: 'us',
     DEFAULT_PAGE_SIZE: 6,
     CACHE_DURATION_MS: 5 * 60 * 1000 // 5 menit cache
 };
@@ -56,10 +56,10 @@ function filterValidArticles(articles) {
  * @param {number} pageSize - Jumlah artikel per halaman
  * @returns {Promise<{articles: Array, totalResults: number}>}
  */
-async function fetchTopHeadlines(category = 'general', query = '', page = 1, pageSize = NEWS_CONFIG.DEFAULT_PAGE_SIZE) {
+async function fetchTopHeadlines(category = 'general', query = '', page = 1, pageSize = NEWS_CONFIG.DEFAULT_PAGE_SIZE, countryOverride = null) {
     const params = {
         apiKey: NEWS_CONFIG.API_KEY,
-        country: NEWS_CONFIG.DEFAULT_COUNTRY,
+        country: countryOverride || NEWS_CONFIG.DEFAULT_COUNTRY,
         category: category,
         page: page,
         pageSize: pageSize
