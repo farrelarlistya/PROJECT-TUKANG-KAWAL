@@ -5,64 +5,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Review & Persetujuan – TukangKawal Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/components/header.css">
-  <link rel="stylesheet" href="css/admin-dashboard.css">
+  <link href="./src/output.css" rel="stylesheet">
 </head>
 
-<body>
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <a href="admin-dashboard.html" class="header-brand">
-        <span class="header-logo">T</span> TukangKawal
+<body class="flex min-h-screen text-[14px]">
+  <aside class="w-[240px] min-h-screen bg-navy flex flex-col fixed top-0 left-0 bottom-0 z-[100] shadow-[2px_0_12px_rgba(0,0,0,0.15)]">
+    <div class="py-5 px-6 border-b border-white/10 flex items-center">
+      <a href="admin-dashboard.html" class="font-playfair no-underline text-white text-[25px] font-bold">
+        <span class="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span> TukangKawal
       </a>
     </div>
 
-    <nav class="sidebar-nav">
-      <a href="admin-dashboard.html" class="nav-item">
+    <nav class="flex-1 py-4 px-3 overflow-y-auto">
+      <a href="admin-dashboard.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Dashboard Utama
       </a>
-      <a href="admin-review.html" class="nav-item active">
+      <a href="admin-review.html" class="flex items-center py-3 px-3.5 rounded-lg text-white bg-brand cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200">
         Review & Persetujuan
       </a>
-      <a href="admin-tulis-artikel.html" class="nav-item">
+      <a href="admin-tulis-artikel.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Tulis Artikel Baru
       </a>
-      <a href="admin-kelola-artikel.html" class="nav-item">
+      <a href="admin-kelola-artikel.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Kelola Artikel
       </a>
-      <a href="admin-pengguna.html" class="nav-item">
+      <a href="admin-pengguna.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Kelola Pengguna
       </a>
-      <a href="admin-membership.html" class="nav-item">
+      <a href="admin-membership.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Paket Membership
       </a>
     </nav>
 
-    <div class="sidebar-user">
-      <div class="user-avatar">AD</div>
-      <div class="user-info">
-        <strong>Administrator</strong>
-        <span>admin@tukangkawal.id</span>
+    <div class="py-4 px-5 border-t border-white/10 flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-[13px] font-bold text-white">AD</div>
+      <div class="flex-1 overflow-hidden text-white">
+        <strong class="block text-[13px] font-semibold">Administrator</strong>
+        <span class="text-[11px] text-white/60 whitespace-nowrap overflow-hidden text-ellipsis block">admin@tukangkawal.id</span>
       </div>
-      <a href="#" class="logout-btn">Keluar</a>
+      <a href="#" class="text-white/60 cursor-pointer text-[12px] no-underline hover:text-[#ef4444] hover:underline">Keluar</a>
     </div>
   </aside>
 
-  <main class="main">
-    <div class="content">
-      <div class="page-header">
-        <h1 class="page-title">Review & Persetujuan</h1>
-        <p class="page-subtitle">Tinjau dan kelola artikel yang masuk dari kontributor</p>
+  <main class="ml-[240px] flex flex-col min-h-screen w-[calc(100%-240px)]">
+    <div class="p-7 flex flex-col gap-6">
+      <div class="mb-1">
+        <h1 class="text-[22px] font-bold text-navy">Review & Persetujuan</h1>
+        <p class="text-[13.5px] text-[#888] mt-1">Tinjau dan kelola artikel yang masuk dari kontributor</p>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Artikel Menunggu Review</span>
+      <div class="my-[15px] bg-white border border-[#dcdcdc] rounded-lg p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+        <div class="mb-4 pb-3 border-b border-[#f0f4f8]">
+          <span class="text-base font-semibold text-navy">Artikel Menunggu Review</span>
         </div>
         <div style="overflow-x:auto;">
-          <table class="data-table">
+          <table class="data-table w-full border-collapse">
             <thead>
               <tr>
                 <th>Informasi Artikel</th>
@@ -75,44 +72,44 @@
             <tbody>
               <tr>
                 <td>
-                  <div class="text-bold">Dugaan Korupsi Proyek Infrastruktur di Jawa Barat</div>
-                  <div class="text-dim">Kategori: Politik & Hukum | Tag: kpk, korupsi</div>
+                  <div class="font-semibold text-[#333]">Dugaan Korupsi Proyek Infrastruktur di Jawa Barat</div>
+                  <div class="text-[#888] text-[12px]">Kategori: Politik & Hukum | Tag: kpk, korupsi</div>
                 </td>
                 <td>Budi Santoso</td>
-                <td class="text-dim">28 Mar 2026</td>
-                <td><span class="status-pending">Menunggu Review</span></td>
+                <td class="text-[#888] text-[12px]">28 Mar 2026</td>
+                <td><span class="py-1 px-2.5 rounded-[4px] text-[11px] font-bold whitespace-nowrap inline-block bg-[rgba(245,158,11,0.15)] text-[#b45309]">Menunggu Review</span></td>
                 <td>
-                  <button class="btn-approve">Terima</button>
-                  <button class="btn-reject">Tolak</button>
-                  <a href="detail-artikel.html" target="_blank" class="btn-review">Baca Konten</a>
+                  <button class="bg-[#22c55e] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#1da34d]">Terima</button>
+                  <button class="bg-[#ef4444] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#dc2626]">Tolak</button>
+                  <a href="detail-artikel.html" target="_blank" class="bg-transparent border border-brand text-brand rounded-[6px] py-[5px] px-3 text-[12px] font-semibold cursor-pointer no-underline inline-block leading-[1.5] hover:bg-brand hover:text-white">Baca Konten</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <div class="text-bold">Dampak Kenaikan Suku Bunga BI 2024</div>
-                  <div class="text-dim">Kategori: Ekonomi Bisnis | Tag: ekonomi, bi</div>
+                  <div class="font-semibold text-[#333]">Dampak Kenaikan Suku Bunga BI 2024</div>
+                  <div class="text-[#888] text-[12px]">Kategori: Ekonomi Bisnis | Tag: ekonomi, bi</div>
                 </td>
                 <td>Ahmad Rizki</td>
-                <td class="text-dim">27 Mar 2026</td>
-                <td><span class="status-pending">Menunggu Review</span></td>
+                <td class="text-[#888] text-[12px]">27 Mar 2026</td>
+                <td><span class="py-1 px-2.5 rounded-[4px] text-[11px] font-bold whitespace-nowrap inline-block bg-[rgba(245,158,11,0.15)] text-[#b45309]">Menunggu Review</span></td>
                 <td>
-                  <button class="btn-approve">Terima</button>
-                  <button class="btn-reject">Tolak</button>
-                  <a href="detail-artikel.html" target="_blank" class="btn-review">Baca Konten</a>
+                  <button class="bg-[#22c55e] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#1da34d]">Terima</button>
+                  <button class="bg-[#ef4444] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#dc2626]">Tolak</button>
+                  <a href="detail-artikel.html" target="_blank" class="bg-transparent border border-brand text-brand rounded-[6px] py-[5px] px-3 text-[12px] font-semibold cursor-pointer no-underline inline-block leading-[1.5] hover:bg-brand hover:text-white">Baca Konten</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <div class="text-bold">Polusi Udara Jakarta Tembus Level Berbahaya</div>
-                  <div class="text-dim">Kategori: Lingkungan | Tag: polusi, jakarta</div>
+                  <div class="font-semibold text-[#333]">Polusi Udara Jakarta Tembus Level Berbahaya</div>
+                  <div class="text-[#888] text-[12px]">Kategori: Lingkungan | Tag: polusi, jakarta</div>
                 </td>
                 <td>Dewi Lestari</td>
-                <td class="text-dim">25 Mar 2026</td>
-                <td><span class="status-pending">Menunggu Review</span></td>
+                <td class="text-[#888] text-[12px]">25 Mar 2026</td>
+                <td><span class="py-1 px-2.5 rounded-[4px] text-[11px] font-bold whitespace-nowrap inline-block bg-[rgba(245,158,11,0.15)] text-[#b45309]">Menunggu Review</span></td>
                 <td>
-                  <button class="btn-approve">Terima</button>
-                  <button class="btn-reject">Tolak</button>
-                  <a href="detail-artikel.html" target="_blank" class="btn-review">Baca Konten</a>
+                  <button class="bg-[#22c55e] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#1da34d]">Terima</button>
+                  <button class="bg-[#ef4444] text-white border-none rounded-[6px] py-1.5 px-3 text-[12px] font-semibold cursor-pointer mr-1 hover:bg-[#dc2626]">Tolak</button>
+                  <a href="detail-artikel.html" target="_blank" class="bg-transparent border border-brand text-brand rounded-[6px] py-[5px] px-3 text-[12px] font-semibold cursor-pointer no-underline inline-block leading-[1.5] hover:bg-brand hover:text-white">Baca Konten</a>
                 </td>
               </tr>
             </tbody>

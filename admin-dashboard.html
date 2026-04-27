@@ -5,100 +5,97 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Utama – TukangKawal Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/components/header.css">
-  <link rel="stylesheet" href="css/admin-dashboard.css">
+  <link href="./src/output.css" rel="stylesheet">
 </head>
 
-<body>
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <a href="admin-dashboard.html" class="header-brand">
-        <span class="header-logo">T</span> TukangKawal
+<body class="flex min-h-screen text-[14px]">
+  <aside class="w-[240px] min-h-screen bg-navy flex flex-col fixed top-0 left-0 bottom-0 z-[100] shadow-[2px_0_12px_rgba(0,0,0,0.15)]">
+    <div class="py-5 px-6 border-b border-white/10 flex items-center">
+      <a href="admin-dashboard.html" class="font-playfair no-underline text-white text-[25px] font-bold">
+        <span class="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span> TukangKawal
       </a>
     </div>
 
-    <nav class="sidebar-nav">
-      <a href="admin-dashboard.html" class="nav-item active">
+    <nav class="flex-1 py-4 px-3 overflow-y-auto">
+      <a href="admin-dashboard.html" class="flex items-center py-3 px-3.5 rounded-lg text-white bg-brand cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200">
         Dashboard Utama
       </a>
-      <a href="admin-review.html" class="nav-item">
+      <a href="admin-review.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Review & Persetujuan
       </a>
-      <a href="admin-tulis-artikel.html" class="nav-item">
+      <a href="admin-tulis-artikel.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Tulis Artikel Baru
       </a>
-      <a href="admin-kelola-artikel.html" class="nav-item">
+      <a href="admin-kelola-artikel.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Kelola Artikel
       </a>
-      <a href="admin-pengguna.html" class="nav-item">
+      <a href="admin-pengguna.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Kelola Pengguna
       </a>
-      <a href="admin-membership.html" class="nav-item">
+      <a href="admin-membership.html" class="flex items-center py-3 px-3.5 rounded-lg text-white/78 cursor-pointer mb-1 text-[14px] font-medium no-underline transition-all duration-200 hover:bg-white/10 hover:text-white">
         Paket Membership
       </a>
     </nav>
 
-    <div class="sidebar-user">
-      <div class="user-avatar">AD</div>
-      <div class="user-info">
-        <strong>Administrator</strong>
-        <span>admin@tukangkawal.id</span>
+    <div class="py-4 px-5 border-t border-white/10 flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-[13px] font-bold text-white">AD</div>
+      <div class="flex-1 overflow-hidden text-white">
+        <strong class="block text-[13px] font-semibold">Administrator</strong>
+        <span class="text-[11px] text-white/60 whitespace-nowrap overflow-hidden text-ellipsis block">admin@tukangkawal.id</span>
       </div>
-      <a href="#" class="logout-btn">Keluar</a>
+      <a href="#" class="text-white/60 cursor-pointer text-[12px] no-underline hover:text-[#ef4444] hover:underline">Keluar</a>
     </div>
   </aside>
 
-  <main class="main">
-    <div class="content">
-      <div class="page-header">
-        <h1 class="page-title">Dashboard Utama</h1>
-        <p class="page-subtitle">Ringkasan aktivitas dan statistik sistem TukangKawal</p>
+  <main class="ml-[240px] flex flex-col min-h-screen w-[calc(100%-240px)]">
+    <div class="p-7 flex flex-col gap-6">
+      <div class="mb-1">
+        <h1 class="text-[22px] font-bold text-navy">Dashboard Utama</h1>
+        <p class="text-[13.5px] text-[#888] mt-1">Ringkasan aktivitas dan statistik sistem TukangKawal</p>
       </div>
 
       <section>
-        <div class="section-title">Ringkasan Sistem</div>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Menunggu Persetujuan</div>
+        <div class="text-[20px] font-bold text-navy mb-3">Ringkasan Sistem</div>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="bg-white border border-[#dcdcdc] rounded-lg p-[18px] flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div class="text-[28px] font-bold text-[#333]">12</div>
+            <div class="text-[13px] text-[#565656]">Menunggu Persetujuan</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value">342</div>
-            <div class="stat-label">Total Artikel Ditulis</div>
+          <div class="bg-white border border-[#dcdcdc] rounded-lg p-[18px] flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div class="text-[28px] font-bold text-[#333]">342</div>
+            <div class="text-[13px] text-[#565656]">Total Artikel Ditulis</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value">1,247</div>
-            <div class="stat-label">Total Pengguna Aktif</div>
+          <div class="bg-white border border-[#dcdcdc] rounded-lg p-[18px] flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div class="text-[28px] font-bold text-[#333]">1,247</div>
+            <div class="text-[13px] text-[#565656]">Total Pengguna Aktif</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value">128</div>
-            <div class="stat-label">Pelanggan Membership</div>
+          <div class="bg-white border border-[#dcdcdc] rounded-lg p-[18px] flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div class="text-[28px] font-bold text-[#333]">128</div>
+            <div class="text-[13px] text-[#565656]">Pelanggan Membership</div>
           </div>
         </div>
       </section>
 
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Daftar Kategori Artikel</span>
+      <div class="my-[15px] bg-white border border-[#dcdcdc] rounded-lg p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+        <div class="mb-4 pb-3 border-b border-[#f0f4f8]">
+          <span class="text-base font-semibold text-navy">Daftar Kategori Artikel</span>
         </div>
-        <ul class="category-list">
-          <li class="category-item">
-            <span class="category-name">Politik & Hukum</span>
-            <span class="category-count">120</span>
+        <ul class="list-none flex flex-col gap-3">
+          <li class="flex justify-between items-center py-2.5 px-3.5 bg-[#f0f4f8] rounded-[6px] border border-[#dcdcdc]">
+            <span class="font-semibold text-[#333]">Politik & Hukum</span>
+            <span class="bg-brand text-white py-[2px] px-2 rounded-xl text-[12px] font-bold">120</span>
           </li>
-          <li class="category-item">
-            <span class="category-name">Ekonomi Bisnis</span>
-            <span class="category-count">85</span>
+          <li class="flex justify-between items-center py-2.5 px-3.5 bg-[#f0f4f8] rounded-[6px] border border-[#dcdcdc]">
+            <span class="font-semibold text-[#333]">Ekonomi Bisnis</span>
+            <span class="bg-brand text-white py-[2px] px-2 rounded-xl text-[12px] font-bold">85</span>
           </li>
-          <li class="category-item">
-            <span class="category-name">Teknologi</span>
-            <span class="category-count">60</span>
+          <li class="flex justify-between items-center py-2.5 px-3.5 bg-[#f0f4f8] rounded-[6px] border border-[#dcdcdc]">
+            <span class="font-semibold text-[#333]">Teknologi</span>
+            <span class="bg-brand text-white py-[2px] px-2 rounded-xl text-[12px] font-bold">60</span>
           </li>
-          <li class="category-item">
-            <span class="category-name">Kesehatan</span>
-            <span class="category-count">77</span>
+          <li class="flex justify-between items-center py-2.5 px-3.5 bg-[#f0f4f8] rounded-[6px] border border-[#dcdcdc]">
+            <span class="font-semibold text-[#333]">Kesehatan</span>
+            <span class="bg-brand text-white py-[2px] px-2 rounded-xl text-[12px] font-bold">77</span>
           </li>
         </ul>
       </div>

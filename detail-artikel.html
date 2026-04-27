@@ -4,153 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DPR Sahkan RUU Kontroversial di Tengah Protes Masif | Tukang Kawal</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/detail-artikel.css">
-    <link rel="stylesheet" href="css/components/header.css">
+    <title>Memuat Artikel... | Tukang Kawal</title>
+    <link href="./src/output.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="!bg-[#fcfcfc] font-dm-sans">
 
-    <header>
-        <div class="header-brand-nav">
-            <a href="index.html" class="header-brand"><span class="header-logo">T</span>TukangKawal</a>
+    <header class="sticky top-0 flex shadow-[0_2px_12px_rgba(0,0,0,.25)] bg-navy justify-around items-center z-[2]">
+        <div class="max-w-[1160px] px-6 flex items-center">
+            <a href="index.html" class="font-playfair no-underline text-white text-[25px] font-bold"><span class="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span>TukangKawal</a>
             <nav>
-                <ul class="header-nav">
-                    <li><a href="politik" class="nav-link">Politik</a></li>
-                    <li><a href="kriminal" class="nav-link">Kriminal</a></li>
-                    <li><a href="lingkungan" class="nav-link">Lingkungan</a></li>
-                    <li><a href="hukum" class="nav-link">Hukum</a></li>
+                <ul class="header-nav flex items-center gap-5 list-none transition-all duration-500 py-5 px-[30px]">
+                    <li><a href="index.html?category=politik" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Politik</a></li>
+                    <li><a href="index.html?category=kriminal" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Kriminal</a></li>
+                    <li><a href="index.html?category=lingkungan" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Lingkungan</a></li>
+                    <li><a href="index.html?category=hukum" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Hukum</a></li>
                 </ul>
             </nav>
         </div>
-        <div class="header-action">
-            <a href="langganan.html" class="action-btn">Pengawal Eksklusif</a>
-            <a href="login.html" class="action-btn">Masuk/Daftar</a>
+        <div class="flex items-center gap-3">
+            <a href="langganan.html" class="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">Pengawal Eksklusif</a>
+            <a href="login.html" class="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">Masuk/Daftar</a>
             <!-- <a href="#" class="profile-avatar">FA</a> -->
             <!-- <span class="header-member-badge">T+</span> -->
         </div>
     </header>
 
-    <main class="article-layout">
-
-        <h1 class="article-title">DPR Sahkan RUU Kontroversial di Tengah Protes Masif dari Masyarakat</h1>
-
-        <div class="article-meta">
-            <div class="author-info">
-                <div class="author-avatar">BS</div>
-                <div class="author-details">
-                    <span class="author-name">Budi Santoso</span>
-                    <span class="post-date">Senin, 30 September 2024 | 14:30 WIB</span>
-                </div>
-            </div>
-
-            <div class="share-buttons">
-                <button class="btn-share">Salin Tautan</button>
-            </div>
+    <main id="article-detail-container" class="article-layout max-w-[800px] mx-auto my-10 px-6">
+        <!-- Konten artikel di-render dinamis oleh newsApp.js -->
+        <div class="text-center py-20">
+            <div class="inline-block w-10 h-10 border-4 border-brand/30 border-t-brand rounded-full animate-spin"></div>
+            <p class="mt-4 text-[#777]">Memuat artikel...</p>
         </div>
-
-        <figure class="article-hero">
-            <img src="https://awsimages.detik.net.id/community/media/visual/2024/09/30/rapat-paripurna-akhir-periode-dpr-2019-2024-dwidetikcom.jpeg?w=1200"
-                alt="Suasana Rapat Paripurna DPR">
-            <figcaption>Suasana rapat paripurna akhir periode DPR 2019-2024. (Foto: Dokumentasi Media)</figcaption>
-        </figure>
-
-        <article class="article-content">
-            <p><strong>JAKARTA, TukangKawal</strong> — Ribuan demonstran turun ke jalan menentang pengesahan
-                undang-undang yang dinilai merugikan kepentingan publik. Meskipun diwarnai penolakan keras dari berbagai
-                elemen masyarakat sipil dan mahasiswa, Dewan Perwakilan Rakyat (DPR) secara resmi mengesahkan Rancangan
-                Undang-Undang (RUU) tersebut pada rapat paripurna siang ini.</p>
-
-            <p>Pengesahan ini memicu reaksi cepat. Di luar gedung parlemen, massa yang sejak pagi telah berkumpul mulai
-                melakukan orasi dan membakar ban sebagai bentuk kekecewaan. Mereka menilai wakil rakyat telah
-                mengabaikan aspirasi publik demi kepentingan elite politik tertentu.</p>
-
-            <blockquote>
-                "Ini adalah kemunduran bagi demokrasi kita. Suara rakyat sama sekali tidak didengar dalam proses
-                legislasi yang terkesan terburu-buru dan minim partisipasi publik ini," ujar salah satu orator dari
-                aliansi mahasiswa.
-            </blockquote>
-
-            <p>Sementara itu, dari dalam ruang sidang, perwakilan pemerintah berjanji akan mendengar aspirasi rakyat
-                terkait aturan turunan yang akan disusun. Menteri Dalam Negeri yang hadir mewakili presiden menyatakan
-                bahwa undang-undang ini justru diperlukan untuk memberikan kepastian hukum dan mendorong investasi yang
-                sempat lesu akibat ketidakpastian regulasi.</p>
-
-            <p>Hingga berita ini diturunkan, aparat kepolisian masih melakukan penjagaan ketat di sekitar area gedung
-                DPR/MPR. Arus lalu lintas di jalan Gatot Subroto dialihkan sementara untuk menghindari kemacetan panjang
-                imbas dari penumpukan massa.</p>
-        </article>
-
-        <div class="article-tags">
-            <span class="tags-label">Topik Terkait:</span>
-            <a href="#" class="tag-item">DPR RI</a>
-            <a href="#" class="tag-item">Demonstrasi</a>
-            <a href="#" class="tag-item">Politik 2024</a>
-            <a href="#" class="tag-item">RUU Kontroversial</a>
-        </div>
-
-        <div class="suggested-section">
-            <div class="suggested-grid">
-                <div class="suggested-col">
-                    <h4 class="suggested-category">Politik</h4>
-                    <a href="#" class="suggested-card">
-                        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=500&h=300&fit=crop"
-                            alt="Berita Politik" class="suggested-img">
-                        <div class="suggested-title-row">
-                            <span class="t-plus-badge">T+</span>
-                            <h5 class="suggested-title">Tak Ada Toleransi pada Pelaku Teror Air Keras Andrie Yunus</h5>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="suggested-col">
-                    <h4 class="suggested-category">Kriminal</h4>
-                    <a href="#" class="suggested-card">
-                        <img src="https://tribratanews.polri.go.id/web/image/blog.post/81129/image"
-                            alt="Berita Kriminal" class="suggested-img">
-                        <div class="suggested-title-row">
-                            <span class="t-plus-badge">T+</span>
-                            <h5 class="suggested-title">Polisi Tangkap Sejumlah Bandar Narkoba di Jakarta Internasional
-                            </h5>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="suggested-col">
-                    <h4 class="suggested-category">Lingkungan</h4>
-                    <a href="#" class="suggested-card">
-                        <img src="https://padang.go.id/storage/images/EWnOnyyTFNa9kVWjYseEVrqjI8dPaqezWtZdv6TH.jpg"
-                            alt="Berita Lingkungan" class="suggested-img">
-                        <div class="suggested-title-row">
-                            <span class="t-plus-badge">T+</span>
-                            <h5 class="suggested-title">Banjir Merendam 5 Kecamatan, Ribuan Warga Mengungsi</h5>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="suggested-col">
-                    <h4 class="suggested-category">Hukum</h4>
-                    <a href="#" class="suggested-card">
-                        <img src="https://www.mediajustitia.com/wp-content/uploads/2024/10/kasus-korupsi.jpg"
-                            alt="Berita Hukum" class="suggested-img">
-                        <div class="suggested-title-row">
-                            <span class="t-plus-badge">T+</span>
-                            <h5 class="suggested-title">Mantan Gubernur Divonis 8 Tahun Penjara Korupsi Infrastruktur
-                            </h5>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
     </main>
     
     <script src="js/user.js"></script>
     <script src="js/ui-handler.js"></script>
+    <script src="js/newsApi.js"></script>
+    <script src="js/categoryMapper.js"></script>
+    <script src="js/articleRenderer.js"></script>
+    <script src="js/newsApp.js"></script>
 </body>
 
 </html>

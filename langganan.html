@@ -7,29 +7,24 @@
     <title>Berlangganan Pengawal Eksklusif | Tukang Kawal</title>
     <meta name="description"
         content="Berlangganan Pengawal Eksklusif Tukang Kawal untuk akses investigasi mendalam, dokumen internal, dan berita eksklusif.">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/components/header.css">
-    <link rel="stylesheet" href="css/langganan.css">
+    <link href="./src/output.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <header>
-        <div class="header-brand-nav">
-            <a href="index.html" class="header-brand"><span class="header-logo">T</span>TukangKawal</a>
+    <header class="sticky top-0 flex shadow-[0_2px_12px_rgba(0,0,0,.25)] bg-navy justify-around items-center z-[2]">
+        <div class="max-w-[1160px] px-6 flex items-center">
+            <a href="index.html" class="font-playfair no-underline text-white text-[25px] font-bold"><span class="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span>TukangKawal</a>
             <nav>
-                <ul class="header-nav">
-                    <li><a href="politik" class="nav-link">Politik</a></li>
-                    <li><a href="kriminal" class="nav-link">Kriminal</a></li>
-                    <li><a href="lingkungan" class="nav-link">Lingkungan</a></li>
-                    <li><a href="hukum" class="nav-link">Hukum</a></li>
+                <ul class="header-nav flex items-center gap-5 list-none transition-all duration-500 py-5 px-[30px]">
+                    <li><a href="politik" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Politik</a></li>
+                    <li><a href="kriminal" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Kriminal</a></li>
+                    <li><a href="lingkungan" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Lingkungan</a></li>
+                    <li><a href="hukum" class="no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px]">Hukum</a></li>
                 </ul>
             </nav>
         </div>
-        <div class="header-action">
+        <div class="flex items-center gap-3">
             <!-- <a href="mulai-ngawal.html" class="action-btn action-btn-ngawal">Mulai Ngawal</a> -->
             <!-- <a href="login.html" class="action-btn">Masuk/Daftar</a> -->
             <!-- <a href="#" class="profile-avatar">FA</a> -->
@@ -37,49 +32,49 @@
         </div>
     </header>
 
-    <main class="langganan-container">
+    <main class="langganan-container max-w-[760px] mx-auto py-8 px-6 pb-[60px]">
 
-        <div class="langganan-banner">
-            <h1 class="langganan-banner-title">
+        <div class="text-center mb-10 pb-8 border-b border-[#e0e0e0]">
+            <h1 class="font-playfair font-bold text-navy text-[28px] mb-3">
                 Pengawal Eksklusif
             </h1>
-            <p class="langganan-banner-desc">
+            <p class="text-[15px] text-[#666] leading-[1.7] max-w-[560px] mx-auto">
                 Satu akses penuh untuk membuka seluruh laporan investigasi mendalam, dokumen internal, dan analisis dari
                 redaksi kami.
             </p>
         </div>
 
-        <div class="step-header">
-            <span class="step-number">1</span>
-            <h2 class="step-title">Pilih Durasi Berlangganan</h2>
+        <div class="flex items-center gap-3 mb-5 mt-10">
+            <span class="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">1</span>
+            <h2 class="text-[20px] font-bold text-[#1a1a1a]">Pilih Durasi Berlangganan</h2>
         </div>
 
-        <div class="paket-list">
+        <div class="flex flex-col">
 
             <input type="radio" name="paket" id="paket-1bulan" class="paket-radio" value="1bulan">
-            <label for="paket-1bulan" class="paket-card">
-                <div class="paket-card-left">
-                    <div class="paket-card-name">Langganan 1 Bulan</div>
-                    <div class="paket-card-desc">Akses penuh selama 30 hari. Perpanjang kapan saja.</div>
+            <label for="paket-1bulan" class="paket-card flex items-center justify-between py-5 px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative hover:bg-[#fafafa]">
+                <div class="flex-1">
+                    <div class="text-base font-bold text-[#1a1a1a]">Langganan 1 Bulan</div>
+                    <div class="text-[13px] text-[#666] mt-1.5 leading-[1.4] max-w-[90%]">Akses penuh selama 30 hari. Perpanjang kapan saja.</div>
                 </div>
-                <div class="paket-card-right">
-                    <div class="paket-price-group">
-                        <span class="paket-price">Rp 49.000<span class="paket-price-period">/bln</span></span>
+                <div class="paket-card-right text-right shrink-0 flex items-center gap-4">
+                    <div>
+                        <span class="text-[26px] font-extrabold text-[#1a1a1a]">Rp 49.000<span class="text-[14px] font-normal text-[#888]">/bln</span></span>
                     </div>
                     <span class="paket-radio-circle"></span>
                 </div>
             </label>
 
             <input type="radio" name="paket" id="paket-1tahun" class="paket-radio" value="1tahun" checked>
-            <label for="paket-1tahun" class="paket-card" style="overflow: visible;">
-                <span class="paket-best-label">Lebih Hemat 30%</span>
-                <div class="paket-card-left">
-                    <div class="paket-card-name">Langganan 1 Tahun</div>
-                    <div class="paket-card-desc">Akses penuh selama 12 bulan penuh. Ditagih Rp 411.600 per tahun.</div>
+            <label for="paket-1tahun" class="paket-card flex items-center justify-between py-5 px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative hover:bg-[#fafafa]" style="overflow: visible;">
+                <span class="absolute -top-3 left-5 bg-brand text-white text-[11px] font-bold py-1 px-3 rounded-[4px] tracking-[0.3px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] z-[2]">Lebih Hemat 30%</span>
+                <div class="flex-1">
+                    <div class="text-base font-bold text-[#1a1a1a]">Langganan 1 Tahun</div>
+                    <div class="text-[13px] text-[#666] mt-1.5 leading-[1.4] max-w-[90%]">Akses penuh selama 12 bulan penuh. Ditagih Rp 411.600 per tahun.</div>
                 </div>
-                <div class="paket-card-right">
-                    <div class="paket-price-group">
-                        <span class="paket-price">Rp 34.300<span class="paket-price-period">/bln</span></span>
+                <div class="paket-card-right text-right shrink-0 flex items-center gap-4">
+                    <div>
+                        <span class="text-[26px] font-extrabold text-[#1a1a1a]">Rp 34.300<span class="text-[14px] font-normal text-[#888]">/bln</span></span>
                     </div>
                     <span class="paket-radio-circle"></span>
                 </div>
@@ -87,63 +82,63 @@
 
         </div>
 
-        <div class="step-header">
-            <span class="step-number">2</span>
-            <h2 class="step-title">Pilih Metode Pembayaran</h2>
+        <div class="flex items-center gap-3 mb-5 mt-10">
+            <span class="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">2</span>
+            <h2 class="text-[20px] font-bold text-[#1a1a1a]">Pilih Metode Pembayaran</h2>
         </div>
 
-        <div class="payment-accordion">
+        <div class="border border-[#e0e0e0] rounded-lg overflow-hidden bg-white">
 
-            <details class="payment-group" open>
-                <summary>
+            <details class="payment-group border-b border-[#e0e0e0]" open>
+                <summary class="flex items-center justify-between py-4 px-6 text-[15px] font-semibold text-[#1a1a1a] cursor-pointer list-none transition-colors duration-200 select-none hover:bg-[#fafafa]">
                     Bank Transfer
-                    <span class="summary-arrow">▼</span>
+                    <span class="summary-arrow text-[12px] text-[#999] transition-transform duration-300">▼</span>
                 </summary>
-                <div class="payment-options">
+                <div class="py-2">
 
                     <input type="radio" name="payment" id="pay-bca" class="payment-radio" value="bca" checked>
-                    <label for="pay-bca" class="payment-option">
+                    <label for="pay-bca" class="payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5]">
                         <span class="payment-radio-circle"></span>
-                        <span class="payment-icon">🏦</span>
-                        <span class="payment-name">BCA Virtual Account</span>
+                        <span class="text-[20px] w-10 text-center shrink-0">🏦</span>
+                        <span class="text-[14px] font-medium text-[#333]">BCA Virtual Account</span>
                     </label>
 
                     <input type="radio" name="payment" id="pay-mandiri" class="payment-radio" value="mandiri">
-                    <label for="pay-mandiri" class="payment-option">
+                    <label for="pay-mandiri" class="payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5]">
                         <span class="payment-radio-circle"></span>
-                        <span class="payment-icon">🏦</span>
-                        <span class="payment-name">Mandiri Virtual Account</span>
+                        <span class="text-[20px] w-10 text-center shrink-0">🏦</span>
+                        <span class="text-[14px] font-medium text-[#333]">Mandiri Virtual Account</span>
                     </label>
 
                 </div>
             </details>
 
             <details class="payment-group">
-                <summary>
+                <summary class="flex items-center justify-between py-4 px-6 text-[15px] font-semibold text-[#1a1a1a] cursor-pointer list-none transition-colors duration-200 select-none hover:bg-[#fafafa]">
                     E-Wallet & QRIS
-                    <span class="summary-arrow">▼</span>
+                    <span class="summary-arrow text-[12px] text-[#999] transition-transform duration-300">▼</span>
                 </summary>
-                <div class="payment-options">
+                <div class="py-2">
 
                     <input type="radio" name="payment" id="pay-gopay" class="payment-radio" value="gopay">
-                    <label for="pay-gopay" class="payment-option">
+                    <label for="pay-gopay" class="payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5]">
                         <span class="payment-radio-circle"></span>
-                        <span class="payment-icon">📱</span>
-                        <span class="payment-name">GoPay</span>
+                        <span class="text-[20px] w-10 text-center shrink-0">📱</span>
+                        <span class="text-[14px] font-medium text-[#333]">GoPay</span>
                     </label>
 
                     <input type="radio" name="payment" id="pay-ovo" class="payment-radio" value="ovo">
-                    <label for="pay-ovo" class="payment-option">
+                    <label for="pay-ovo" class="payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5]">
                         <span class="payment-radio-circle"></span>
-                        <span class="payment-icon">📱</span>
-                        <span class="payment-name">OVO</span>
+                        <span class="text-[20px] w-10 text-center shrink-0">📱</span>
+                        <span class="text-[14px] font-medium text-[#333]">OVO</span>
                     </label>
 
                     <input type="radio" name="payment" id="pay-qris" class="payment-radio" value="qris">
-                    <label for="pay-qris" class="payment-option">
+                    <label for="pay-qris" class="payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5]">
                         <span class="payment-radio-circle"></span>
-                        <span class="payment-icon">📱</span>
-                        <span class="payment-name">QRIS</span>
+                        <span class="text-[20px] w-10 text-center shrink-0">📱</span>
+                        <span class="text-[14px] font-medium text-[#333]">QRIS</span>
                     </label>
 
                 </div>
@@ -151,31 +146,31 @@
 
         </div>
 
-        <div class="step-header">
-            <span class="step-number">3</span>
-            <h2 class="step-title">Detail Tagihan</h2>
+        <div class="flex items-center gap-3 mb-5 mt-10">
+            <span class="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">3</span>
+            <h2 class="text-[20px] font-bold text-[#1a1a1a]">Detail Tagihan</h2>
         </div>
 
-        <div class="tagihan-box">
-            <div class="tagihan-row">
-                <span class="tagihan-row-label">Langganan 1 Tahun</span>
-                <span class="tagihan-row-value">Rp 411.600</span>
+        <div>
+            <div class="flex justify-between items-center py-2.5 text-[14px] text-[#555]">
+                <span>Langganan 1 Tahun</span>
+                <span class="font-semibold text-[#1a1a1a]">Rp 411.600</span>
             </div>
-            <div class="tagihan-divider"></div>
-            <div class="tagihan-total">
-                <span class="tagihan-total-label">Total Pembayaran</span>
-                <span class="tagihan-total-value">Rp 411.600</span>
+            <div class="h-px bg-[#e0e0e0] my-1"></div>
+            <div class="flex justify-between items-center pt-3 pb-1 text-[15px]">
+                <span class="font-bold text-[#1a1a1a]">Total Pembayaran</span>
+                <span class="font-extrabold text-[18px] text-navy">Rp 411.600</span>
             </div>
         </div>
 
-        <div class="agreement-section">
-            <label class="agreement-label">
-                <input type="checkbox" id="agreement-check" required>
-                <span>Saya menyetujui <a href="#">Syarat & Ketentuan</a>, serta <a href="#">Kebijakan Privasi</a> yang
+        <div class="mt-9 pt-6 border-t border-[#e0e0e0]">
+            <label class="flex items-start gap-2.5 text-[14px] text-[#555] cursor-pointer leading-[1.5]">
+                <input type="checkbox" id="agreement-check" required class="mt-[3px] w-[18px] h-[18px] accent-navy shrink-0 cursor-pointer">
+                <span>Saya menyetujui <a href="#" class="text-[#1a1a1a] font-semibold underline hover:text-brand">Syarat & Ketentuan</a>, serta <a href="#" class="text-[#1a1a1a] font-semibold underline hover:text-brand">Kebijakan Privasi</a> yang
                     berlaku.</span>
             </label>
 
-            <button type="button" class="btn-mulai-langganan" id="btn-mulai-langganan">
+            <button type="button" class="block w-full p-4 mt-4 bg-navy text-white text-base font-bold border-none rounded-[6px] cursor-pointer transition-all duration-200 hover:bg-[#0f2397] hover:-translate-y-[1px]" id="btn-mulai-langganan">
                 Lanjutkan ke Pembayaran
             </button>
         </div>
