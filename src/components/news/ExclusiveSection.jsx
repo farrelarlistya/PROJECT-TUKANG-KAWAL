@@ -5,7 +5,7 @@ import ExclusiveCard from './ExclusiveCard';
 import { fetchTopHeadlines } from '@/services/newsService';
 
 export default function ExclusiveSection() {
-  const { isMember } = useAuth();
+  const { isMember, isAuthenticated } = useAuth();
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -44,10 +44,10 @@ export default function ExclusiveSection() {
             Dapatkan akses ke berita eksklusif, investigasi mendalam, dan analisis tajam langsung dari tim redaksi.
           </p>
           <Link
-            to="/subscription"
+            to={isAuthenticated ? "/subscription" : "/login?redirect=/subscription"}
             className="no-underline bg-white text-brand py-3 px-[30px] rounded-lg text-[15px] font-bold border-none cursor-pointer transition-all duration-300 hover:bg-brand-subtle"
           >
-            Langganan Sekarang
+            {isAuthenticated ? "Langganan Sekarang" : "Masuk untuk Berlangganan"}
           </Link>
         </div>
       )}

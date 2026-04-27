@@ -33,41 +33,91 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex bg-white font-sans overflow-hidden">
       <Toast />
-      <header className="sticky top-0 flex shadow-[0_2px_12px_rgba(0,0,0,.25)] bg-navy justify-center items-center z-[2] p-[15px]">
-        <Link to="/" className="font-playfair no-underline text-white text-[25px] font-bold">
-          <span className="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span>
-          TukangKawal
-        </Link>
-      </header>
-      <main className="flex justify-center pt-[21.5px]">
-        <div className="border border-[#e0e0e0] rounded-[10px] py-10 px-[50px] shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-          <h1 className="text-[25px] mb-[5px]">Masuk</h1>
-          <p className="text-[15px] text-[#666]">Masuk ke akun Anda untuk melanjutkan membaca</p>
-          <form onSubmit={handleSubmit} className="flex flex-col">
-            <div className="flex flex-col">
-              <label htmlFor="namaEmail" className="text-[14px] text-[#333] mb-[5px] mt-5">Username</label>
-              <input type="text" id="namaEmail" value={identifier} onChange={(e) => setIdentifier(e.target.value)} className="text-[15px] font-thin py-3 px-[15px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#e0e0e0] rounded-lg bg-white outline-none focus:border-brand" placeholder="Masukkan Username" required />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-[14px] text-[#333] mb-[5px] mt-5">Kata Sandi</label>
-              <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-[15px] font-thin py-3 px-[15px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#e0e0e0] rounded-lg bg-white outline-none focus:border-brand" placeholder="Masukkan Password" required />
-            </div>
-            <a href="#" className="text-[14px] no-underline text-end font-medium mt-2.5 mb-[30px]">Lupa Kata Sandi?</a>
-            <button type="submit" disabled={loading} className="text-[15px] font-semibold text-white bg-brand py-[13px] rounded-lg border-none cursor-pointer transition-all duration-200 w-full hover:bg-brand-hover hover:-translate-y-[1px] disabled:opacity-50">
-              {loading ? 'Memproses...' : 'Masuk'}
-            </button>
-          </form>
-          <p className="alternatif-option mt-[30px] text-center text-[#666] text-[14px] relative flex items-center justify-center">Atau masuk dengan</p>
-          <a href="https://google.com" className="mt-5 flex justify-center items-center p-2.5 rounded-lg border border-[#e0e0e0] no-underline transition-colors duration-200 hover:bg-[#f5f5f5]">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="Google Logo" className="w-6 h-6" />
-          </a>
-          <p className="mt-[35px] text-center text-[#555] text-[15px]">
-            Belum mempunyai akun? <Link to="/register" className="no-underline text-brand font-semibold hover:underline">Daftar</Link>
+
+      {/* CSS Animasi Khusus */}
+      <style>{`
+        @keyframes slideFromLeft {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideFromRight {
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
+
+      {/* Sisi Kiri: Visual Banner (Masuk dari Kiri) */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-navy items-center justify-center overflow-hidden animate-[slideFromLeft_0.6s_ease-out_forwards]">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop')" }}
+        ></div>
+        
+        <div className="relative z-10 p-12 max-w-lg text-white">
+          <Link to="/" className="inline-flex items-center no-underline text-white text-[32px] font-bold font-playfair mb-8">
+            <span className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-brand to-[#7e85a7] text-white font-playfair text-[22px] font-extrabold rounded-lg mr-3 shadow-lg">T</span>
+            TukangKawal
+          </Link>
+          <h1 className="text-4xl font-playfair font-bold leading-tight mb-4">
+            Kawal Fakta,<br />Temukan Kebenaran.
+          </h1>
+          <p className="text-lg text-gray-200 leading-relaxed">
+            Akses ribuan artikel berita eksklusif, opini pakar, dan liputan mendalam langsung dari ujung jari Anda. Tetap terhubung dengan dunia setiap hari.
           </p>
         </div>
-      </main>
+      </div>
+
+      {/* Sisi Kanan: Form Login (Masuk dari Kanan) */}
+      <div className="flex-1 flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-24 xl:px-32 bg-white animate-[slideFromRight_0.6s_ease-out_forwards]">
+        <div className="mx-auto w-full max-w-md">
+          <div className="lg:hidden flex justify-center mb-10">
+            <Link to="/" className="inline-flex items-center no-underline text-navy text-[28px] font-bold font-playfair">
+              <span className="inline-flex items-center justify-center w-9 h-9 bg-gradient-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] font-extrabold rounded-lg mr-2.5">T</span>
+              TukangKawal
+            </Link>
+          </div>
+
+          <h2 className="text-[28px] font-bold text-gray-900 mb-2 font-playfair">Selamat Datang Kembali</h2>
+          <p className="text-[15px] text-gray-500 mb-8">Masuk ke akun Anda untuk melanjutkan membaca berita hari ini.</p>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="identifier" className="block text-[14px] font-medium text-gray-700 mb-1.5">Username atau Email</label>
+              <input type="text" id="identifier" value={identifier} onChange={(e) => setIdentifier(e.target.value)} className="w-full text-[15px] py-3 px-4 border border-gray-300 rounded-lg bg-gray-50 outline-none focus:bg-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-200" placeholder="Masukkan username atau email" required />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-[14px] font-medium text-gray-700 mb-1.5">Kata Sandi</label>
+              <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full text-[15px] py-3 px-4 border border-gray-300 rounded-lg bg-gray-50 outline-none focus:bg-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-200" placeholder="Masukkan kata sandi" required />
+            </div>
+
+            <div className="flex items-center justify-end">
+              <a href="#" className="text-[13px] font-semibold text-brand hover:underline">Lupa Kata Sandi?</a>
+            </div>
+
+            <button type="submit" disabled={loading} className="w-full text-[15px] font-semibold text-white bg-brand py-3.5 rounded-lg border-none cursor-pointer shadow-md transition-all duration-200 hover:bg-brand-hover hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center">
+              {loading ? 'Memproses...' : 'Masuk ke Berita'}
+            </button>
+          </form>
+
+          <div className="mt-8 flex items-center justify-center space-x-4">
+            <span className="h-px w-full bg-gray-200"></span>
+            <span className="text-[13px] text-gray-500 font-medium whitespace-nowrap">Atau lanjutkan dengan</span>
+            <span className="h-px w-full bg-gray-200"></span>
+          </div>
+
+          <a href="https://google.com" className="mt-6 flex justify-center items-center gap-3 w-full py-3 px-4 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-semibold transition-colors duration-200 hover:bg-gray-50">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="Google Logo" className="w-5 h-5" />
+            Google
+          </a>
+
+          <p className="mt-10 text-center text-gray-600 text-[14px]">
+            Belum berlangganan? <Link to="/register" className="text-brand font-semibold hover:underline">Daftar Sekarang</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
