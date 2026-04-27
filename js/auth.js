@@ -50,7 +50,7 @@ function login(identifier, password) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('.register-form');
+    const loginForm = document.querySelector('form');
     
     const currentUser = window.getCurrentUser ? window.getCurrentUser() : null;
     if (currentUser) {

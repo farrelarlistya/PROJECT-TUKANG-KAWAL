@@ -54,29 +54,19 @@ async function initHomePage() {
 }
 
 /**
- * Render kategori di navbar (header & section)
+ * Render kategori di navbar (header only)
  */
 function renderNavbarCategories() {
     const categories = window.CategoryMapper.getAllCategories();
     const headerNav = document.getElementById('header-category-nav');
-    const sectionNav = document.getElementById('section-category-nav');
 
-    // Exclude 'semua' dari header navbar, include di section
+    // Exclude 'semua' dari header navbar
     const headerCats = categories.filter(c => c.slug !== 'semua');
-    const sectionCats = categories;
 
     if (headerNav) {
         headerNav.innerHTML = headerCats.map(c => `
             <li><a href="?category=${c.slug}" data-category="${c.slug}" 
-                   class="nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px] transition-all duration-200"
-                   onclick="handleCategoryClick(event, '${c.slug}')">${c.label}</a></li>
-        `).join('');
-    }
-
-    if (sectionNav) {
-        sectionNav.innerHTML = sectionCats.map(c => `
-            <li><a href="?category=${c.slug}" data-category="${c.slug}" 
-                   class="nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-[rgb(86,86,86)] p-[5px] transition-all duration-200"
+                   class="nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200"
                    onclick="handleCategoryClick(event, '${c.slug}')">${c.label}</a></li>
         `).join('');
     }
