@@ -14,7 +14,7 @@ export default function Home() {
   const category = slug || 'general';
 
   const { articles, totalResults, isLoading, error } = useNewsAPI(category, 1, 20);
-  const { extraArticles, loadMore, isLoading: loadingMore, hasMore, reset } = useLoadMoreArticles(category);
+  const { extraArticles, loadMore, isLoading: loadingMore, hasMore, reset } = useLoadMoreArticles(category, 10, 20);
   const { articles: searchResults, isLoading: searching, search } = useNewsSearch();
 
   const [isSearching, setIsSearching] = useState(false);

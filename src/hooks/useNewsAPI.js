@@ -89,45 +89,73 @@ export function useNewsSearch(pageSize = 12) {
 
 /**
  * Hook untuk load more articles (pagination offset)
+ * 
+ * IMPORTANT: pageSize harus membagi initialFetchSize secara rata
+ * agar pagination API sejajar (tidak ada artikel yang terlewat/duplikat).
+ * Default: initialFetchSize=20, pageSize=10 → startPage=2, first load = page 3
+ * 
  * @param {string} category
- * @param {number} pageSize
- * @returns {{ articles, loadMore, isLoading, hasMore, reset }}
+ * @param {number} pageSize - Jumlah artikel per load (harus membagi initialFetchSize)
+ * @param {number} initialFetchSize - pageSize dari fetch awal di useNewsAPI
+ * @returns {{ extraArticles, loadMore, isLoading, hasMore, reset }}
  */
-export function useLoadMoreArticles(category = 'general', pageSize = 6) {
+export function useLoadMoreArticles(category = 'general', pageSize = 10, initialFetchSize = 20) {
+  // Hitung halaman awal agar tidak overlap dengan fetch awal
+  // Initial fetch: page=1, pageSize=20 → articles 0-19
+  // Load more pageSize=10: startPage = 20/10 = 2
+  // First loadMore: nextPage = 3, offset = 2*10 = 20 → articles 20-29 ✓
+  const startPage = Math.ceil(initialFetchSize / pageSize);
+
   const [extraArticles, setExtraArticles] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(startPage);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  // Gunakan ref untuk guard agar tidak ada race condition saat klik cepat
+  const isLoadingRef = useRef(false);
 
   const loadMore = useCallback(async () => {
-    if (isLoading) return;
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
     setIsLoading(true);
 
     const nextPage = currentPage + 1;
     const config = getCategoryConfig(category);
 
     try {
-      const data = await fetchTopHeadlines(config.apiCategory, '', nextPage, pageSize + 2);
-      const validArticles = data.articles.slice(0, pageSize);
+      let data = await fetchTopHeadlines(config.apiCategory, '', nextPage, pageSize);
 
-      if (validArticles.length === 0) {
+      // Fallback ke US jika Indonesia kosong
+      if (data.articles.length === 0) {
+        console.log('[useLoadMore] ID kosong, fallback ke US...');
+        data = await fetchTopHeadlines(config.apiCategory, '', nextPage, pageSize, 'us');
+      }
+
+      if (data.articles.length === 0) {
         setHasMore(false);
       } else {
-        setExtraArticles(prev => [...prev, ...validArticles]);
+        setExtraArticles(prev => [...prev, ...data.articles]);
         setCurrentPage(nextPage);
+        // Jika hasil kurang dari pageSize, berarti sudah habis
+        if (data.articles.length < pageSize) {
+          setHasMore(false);
+        }
       }
     } catch (err) {
       console.error('[useLoadMore] Error:', err);
+      // Sembunyikan tombol saat error agar tidak terus gagal
+      setHasMore(false);
     } finally {
+      isLoadingRef.current = false;
       setIsLoading(false);
     }
-  }, [category, currentPage, isLoading, pageSize]);
+  }, [category, currentPage, pageSize]);
 
   const reset = useCallback(() => {
     setExtraArticles([]);
-    setCurrentPage(1);
+    setCurrentPage(startPage);
     setHasMore(true);
-  }, []);
+    isLoadingRef.current = false;
+  }, [startPage]);
 
   return { extraArticles, loadMore, isLoading, hasMore, reset };
 }

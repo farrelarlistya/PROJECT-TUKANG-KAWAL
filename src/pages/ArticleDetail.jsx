@@ -41,8 +41,12 @@ export default function ArticleDetail() {
       await Promise.all(cats.map(async (slug) => {
         const config = getCategoryConfig(slug);
         try {
-          const data = await fetchTopHeadlines(config.apiCategory, '', 1, 2);
-          results[slug] = data.articles;
+          let data = await fetchTopHeadlines(config.apiCategory, '', 1, 4);
+          // Fallback ke US jika Indonesia kosong
+          if (!data.articles || data.articles.length === 0) {
+            data = await fetchTopHeadlines(config.apiCategory, '', 1, 4, 'us');
+          }
+          results[slug] = data.articles || [];
         } catch {
           results[slug] = [];
         }
@@ -160,23 +164,31 @@ export default function ArticleDetail() {
         {/* Related Articles */}
         <div className="mt-10 pt-[30px] border-t border-[#eaeaea]">
           <h3 className="text-[20px] font-bold text-[#222] mb-5">Berita Terkait</h3>
-          <div className="article-detail-grid grid grid-cols-4 gap-5">
-            {Object.entries(relatedArticles).map(([slug, arts]) => {
-              if (!arts || arts.length === 0) return null;
-              const a = arts[0];
-              return (
-                <div key={slug} className="flex flex-col article-fade-in">
-                  <h4 className="font-dm-sans text-[15px] font-extrabold uppercase text-[#111] mb-4 pb-2">
-                    {getCategoryLabel(slug)}
-                  </h4>
-                  <NewsCard article={a} categorySlug={slug} />
-                </div>
-              );
-            })}
-            {Object.keys(relatedArticles).length === 0 && (
-              <div className="col-span-4 text-center text-[#999] py-5">Memuat berita terkait...</div>
-            )}
-          </div>
+
+          {Object.keys(relatedArticles).length === 0 ? (
+            <div className="text-center py-10">
+              <div className="inline-block w-8 h-8 border-4 border-brand/30 border-t-brand rounded-full animate-spin" />
+              <p className="mt-3 text-[14px] text-[#999]">Memuat berita terkait...</p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {Object.entries(relatedArticles).map(([slug, arts]) => {
+                if (!arts || arts.length === 0) return null;
+                return (
+                  <div key={slug} className="article-fade-in">
+                    <h4 className="font-dm-sans text-[15px] font-extrabold uppercase text-[#111] mb-4 pb-2 border-b border-[#eee]">
+                      {getCategoryLabel(slug)}
+                    </h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {arts.slice(0, 2).map((a, i) => (
+                        <NewsCard key={a.url || i} article={a} categorySlug={slug} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </main>
     </PageWrapper>
