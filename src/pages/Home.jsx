@@ -11,7 +11,7 @@ import { useNewsAPI, useLoadMoreArticles, useNewsSearch } from '@/hooks/useNewsA
 
 export default function Home() {
   const { slug } = useParams();
-  const category = slug || 'semua';
+  const category = slug || 'general';
 
   const { articles, totalResults, isLoading, error } = useNewsAPI(category, 1, 20);
   const { extraArticles, loadMore, isLoading: loadingMore, hasMore, reset } = useLoadMoreArticles(category);

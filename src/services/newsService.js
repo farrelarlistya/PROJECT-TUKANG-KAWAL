@@ -4,7 +4,7 @@
 import { NEWS_CONFIG } from '@/utils/constants';
 
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
-const BASE_URL = 'https://newsapi.org/v2';
+const BASE_URL = '/api/news/v2';
 
 /** Cache sederhana berbasis Map */
 const apiCache = new Map();

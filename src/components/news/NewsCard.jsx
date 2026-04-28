@@ -5,7 +5,7 @@ import { timeAgo, getSafeImageUrl, createArticleId } from '@/utils/formatters';
 import { detectCategoryFromArticle } from '@/utils/categoryMapper';
 
 const NewsCard = memo(function NewsCard({ article, categorySlug }) {
-  const detected = categorySlug && categorySlug !== 'semua'
+  const detected = categorySlug && categorySlug !== 'general'
     ? categorySlug
     : detectCategoryFromArticle(article);
   const articleId = createArticleId(article);

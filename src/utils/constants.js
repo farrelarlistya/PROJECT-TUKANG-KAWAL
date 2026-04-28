@@ -60,7 +60,6 @@ export const DEFAULT_USERS = [
 ];
 
 export const CATEGORIES = [
-  { slug: 'semua', apiCategory: 'general', label: 'Semua', icon: '📰', badgeClass: 'bg-badge-general' },
   { slug: 'business', apiCategory: 'business', label: 'Business', icon: '💼', badgeClass: 'bg-badge-business' },
   { slug: 'entertainment', apiCategory: 'entertainment', label: 'Entertainment', icon: '🎬', badgeClass: 'bg-badge-entertainment' },
   { slug: 'health', apiCategory: 'health', label: 'Health', icon: '🏥', badgeClass: 'bg-badge-health' },

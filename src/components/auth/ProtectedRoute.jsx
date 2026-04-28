@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/context/AppContext';
 
 /**
@@ -7,10 +7,9 @@ import { useAuth } from '@/context/AppContext';
  */
 export default function ProtectedRoute({ children, requiredRole }) {
   const { isAuthenticated, user } = useAuth();
-  const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (requiredRole && user?.role !== requiredRole) {

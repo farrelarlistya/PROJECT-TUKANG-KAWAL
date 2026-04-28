@@ -105,10 +105,7 @@ export function AppProvider({ children }) {
     };
     const updatedUsers = [...state.registeredUsers, newUser];
     dispatch({ type: AUTH_ACTIONS.SET_USERS, payload: updatedUsers });
-    // Auto-login
-    const userData = { id: newUser.id, email, username, role: newUser.role, initials, fullName };
-    dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData });
-    return { success: true, user: userData };
+    return { success: true };
   }, [state.registeredUsers]);
 
   const logout = useCallback(() => {

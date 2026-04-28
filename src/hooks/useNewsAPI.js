@@ -11,7 +11,7 @@ import { getCategoryConfig } from '@/utils/categoryMapper';
  * @param {number} pageSize - Jumlah artikel per halaman
  * @returns {{ articles, totalResults, isLoading, error, refetch }}
  */
-export function useNewsAPI(category = 'semua', page = 1, pageSize = 20) {
+export function useNewsAPI(category = 'general', page = 1, pageSize = 20) {
   const [articles, setArticles] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -93,7 +93,7 @@ export function useNewsSearch(pageSize = 12) {
  * @param {number} pageSize
  * @returns {{ articles, loadMore, isLoading, hasMore, reset }}
  */
-export function useLoadMoreArticles(category = 'semua', pageSize = 6) {
+export function useLoadMoreArticles(category = 'general', pageSize = 6) {
   const [extraArticles, setExtraArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);

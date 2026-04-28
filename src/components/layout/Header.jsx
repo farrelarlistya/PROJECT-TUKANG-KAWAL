@@ -35,7 +35,7 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
               {categories.map(cat => (
                 <li key={cat.slug}>
                   <Link
-                    to={cat.slug === 'semua' ? '/' : `/category/${cat.slug}`}
+                    to={`/category/${cat.slug}`}
                     className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
                       activeCategory === cat.slug ? 'nav-category-active' : ''
                     }`}

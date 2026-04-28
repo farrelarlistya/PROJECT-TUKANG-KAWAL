@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useToast } from '@/context/AppContext';
 import Toast from '@/components/ui/Toast';
 
@@ -10,11 +10,15 @@ export default function Login() {
   const { login, isAuthenticated, isAdmin } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(isAdmin ? '/admin' : '/', { replace: true });
+    }
+  }, [isAuthenticated, isAdmin, navigate]);
 
   if (isAuthenticated) {
-    const redirect = searchParams.get('redirect') || (isAdmin ? '/admin' : '/');
-    navigate(redirect, { replace: true });
     return null;
   }
 
@@ -24,8 +28,8 @@ export default function Login() {
     const result = login(identifier, password);
     if (result.success) {
       addToast('Login berhasil!', 'success');
-      const redirect = searchParams.get('redirect') || (result.user.role === 'admin' ? '/admin' : '/');
-      setTimeout(() => navigate(redirect, { replace: true }), 100);
+      const target = result.user.role === 'admin' ? '/admin' : '/';
+      setTimeout(() => navigate(target, { replace: true }), 100);
     } else {
       addToast(result.error, 'error');
       setLoading(false);

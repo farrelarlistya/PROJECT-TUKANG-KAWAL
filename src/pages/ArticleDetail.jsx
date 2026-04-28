@@ -12,7 +12,7 @@ import { detectCategoryFromArticle, getCategoryConfig, getCategoryLabel } from '
 export default function ArticleDetail() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const categorySlug = searchParams.get('category') || 'semua';
+  const categorySlug = searchParams.get('category') || 'general';
   const { isMember } = useAuth();
 
   const [article, setArticle] = useState(null);

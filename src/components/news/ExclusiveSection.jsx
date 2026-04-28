@@ -11,7 +11,11 @@ export default function ExclusiveSection() {
   useEffect(() => {
     async function load() {
       try {
-        const data = await fetchTopHeadlines('general', '', 1, 6);
+        let data = await fetchTopHeadlines('general', '', 1, 6);
+        // Fallback ke US jika Indonesia kosong
+        if (data.articles.length === 0) {
+          data = await fetchTopHeadlines('general', '', 1, 6, 'us');
+        }
         setArticles(data.articles);
       } catch {
         setArticles([]);
@@ -44,7 +48,7 @@ export default function ExclusiveSection() {
             Dapatkan akses ke berita eksklusif, investigasi mendalam, dan analisis tajam langsung dari tim redaksi.
           </p>
           <Link
-            to={isAuthenticated ? "/subscription" : "/login?redirect=/subscription"}
+            to={isAuthenticated ? "/subscription" : "/login"}
             className="no-underline bg-white text-brand py-3 px-[30px] rounded-lg text-[15px] font-bold border-none cursor-pointer transition-all duration-300 hover:bg-brand-subtle"
           >
             {isAuthenticated ? "Langganan Sekarang" : "Masuk untuk Berlangganan"}

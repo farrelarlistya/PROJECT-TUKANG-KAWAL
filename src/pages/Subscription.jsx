@@ -16,7 +16,7 @@ export default function Subscription() {
 
   const handleSubmit = () => {
     if (!agreed) { addToast('Setujui syarat & ketentuan', 'error'); return; }
-    if (!isAuthenticated) { navigate('/login?redirect=/subscription'); return; }
+    if (!isAuthenticated) { navigate('/login'); return; }
     upgradeToMember();
     addToast('Selamat! Anda sekarang Pengawal Eksklusif!', 'success');
     navigate('/account/subscription');

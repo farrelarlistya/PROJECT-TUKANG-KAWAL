@@ -7,7 +7,7 @@ import { detectCategoryFromArticle } from '@/utils/categoryMapper';
 const HotNews = memo(function HotNews({ article, categorySlug }) {
   if (!article) return null;
 
-  const detected = categorySlug && categorySlug !== 'semua' ? categorySlug : detectCategoryFromArticle(article);
+  const detected = categorySlug && categorySlug !== 'general' ? categorySlug : detectCategoryFromArticle(article);
   const articleId = createArticleId(article);
 
   // Store article for detail page
