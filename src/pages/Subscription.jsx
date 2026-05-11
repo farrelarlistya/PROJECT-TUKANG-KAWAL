@@ -14,10 +14,10 @@ export default function Subscription() {
   const prices = { '1bulan': { label: '1 Bulan', monthly: 'Rp 49.000', total: 'Rp 49.000' }, '1tahun': { label: '1 Tahun', monthly: 'Rp 34.300', total: 'Rp 411.600' } };
   const selected = prices[paket];
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!agreed) { addToast('Setujui syarat & ketentuan', 'error'); return; }
     if (!isAuthenticated) { navigate('/login'); return; }
-    upgradeToMember();
+    await upgradeToMember();
     addToast('Selamat! Anda sekarang Pengawal Eksklusif!', 'success');
     navigate('/account/subscription');
   };

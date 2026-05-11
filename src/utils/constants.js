@@ -29,35 +29,9 @@ export const ROUTES = {
   ADMIN_MEMBERSHIP: '/admin/membership',
 };
 
-export const DEFAULT_USERS = [
-  {
-    id: 1,
-    email: 'admin@gmail.com',
-    username: 'admin',
-    password: 'admin123',
-    role: USER_ROLES.ADMIN,
-    initials: 'AD',
-    fullName: 'Administrator',
-  },
-  {
-    id: 2,
-    email: 'user@gmail.com',
-    username: 'user',
-    password: 'user123',
-    role: USER_ROLES.USER,
-    initials: 'US',
-    fullName: 'User Biasa',
-  },
-  {
-    id: 3,
-    email: 'member@gmail.com',
-    username: 'member',
-    password: 'member123',
-    role: USER_ROLES.MEMBER,
-    initials: 'MB',
-    fullName: 'Member Premium',
-  },
-];
+// DEFAULT_USERS telah dihapus — auth sekarang menggunakan Supabase.
+// Untuk membuat akun admin, insert langsung ke tabel profiles via Supabase Dashboard.
+
 
 export const CATEGORIES = [
   { slug: 'business', apiCategory: 'business', label: 'Business', icon: '💼', badgeClass: 'bg-badge-business' },

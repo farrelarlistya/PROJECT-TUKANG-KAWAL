@@ -1,148 +1,317 @@
 /**
- * AppContext.jsx — Global state: Auth + UI preferences
+ * AppContext.jsx — Global state: Supabase Auth + Toast notifications
+ *
+ * Refactored: Dummy localStorage auth → Supabase Auth real
+ * Interface useAuth() TETAP SAMA agar komponen lain tidak perlu berubah.
  */
-import { createContext, useReducer, useEffect, useCallback, useContext } from 'react';
-import { DEFAULT_USERS, USER_ROLES } from '@/utils/constants';
+import { createContext, useState, useEffect, useCallback, useContext, useReducer } from 'react';
+import { USER_ROLES } from '@/utils/constants';
+import { supabase } from '@/services/supabaseClient';
+import { getProfile, updateProfile, upgradeToMember as upgradeProfileRole } from '@/services/profileService';
 
-// --- Auth Reducer ---
-const AUTH_ACTIONS = {
-  LOGIN: 'LOGIN',
-  LOGOUT: 'LOGOUT',
-  UPDATE_USER: 'UPDATE_USER',
-  DELETE_ACCOUNT: 'DELETE_ACCOUNT',
-  SET_USERS: 'SET_USERS',
-};
-
-function authReducer(state, action) {
-  switch (action.type) {
-    case AUTH_ACTIONS.LOGIN:
-      return { ...state, user: action.payload, isAuthenticated: true };
-    case AUTH_ACTIONS.LOGOUT:
-      return { ...state, user: null, isAuthenticated: false };
-    case AUTH_ACTIONS.UPDATE_USER:
-      return { ...state, user: { ...state.user, ...action.payload } };
-    case AUTH_ACTIONS.DELETE_ACCOUNT:
-      return { ...state, user: null, isAuthenticated: false };
-    case AUTH_ACTIONS.SET_USERS:
-      return { ...state, registeredUsers: action.payload };
-    default:
-      return state;
-  }
-}
-
-function getInitialState() {
-  try {
-    const stored = localStorage.getItem('currentUser');
-    const user = stored ? JSON.parse(stored) : null;
-    const storedUsers = localStorage.getItem('registeredUsers');
-    const registeredUsers = storedUsers ? JSON.parse(storedUsers) : [...DEFAULT_USERS];
-    return {
-      user,
-      isAuthenticated: !!user,
-      registeredUsers,
-    };
-  } catch {
-    return { user: null, isAuthenticated: false, registeredUsers: [...DEFAULT_USERS] };
-  }
-}
-
-// --- Toast State ---
-const ToastContext = createContext(null);
+// --- Contexts ---
 const AuthContext = createContext(null);
+const ToastContext = createContext(null);
 
 export function AppProvider({ children }) {
-  const [state, dispatch] = useReducer(authReducer, null, getInitialState);
+  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // loading awal saat cek session
   const [toasts, setToasts] = useReducer(toastReducer, []);
 
-  // Persist user to localStorage
+  // ─── Auth State Listener ────────────────────────────────────
+  // Supabase otomatis refresh session & token. Kita cukup dengarkan event-nya.
   useEffect(() => {
-    if (state.user) {
-      localStorage.setItem('currentUser', JSON.stringify(state.user));
-    } else {
-      localStorage.removeItem('currentUser');
-    }
-  }, [state.user]);
+    // Test koneksi ke Supabase
+    console.log('[Supabase] Mengetes koneksi...');
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).limit(1)
+      .then(({ error }) => {
+        if (error) console.error('[Supabase] Tes koneksi gagal:', error.message);
+        else console.log('[Supabase] Tes koneksi berhasil!');
+      })
+      .catch(err => console.error('[Supabase] Tes koneksi error:', err));
 
-  // Persist registered users
-  useEffect(() => {
-    localStorage.setItem('registeredUsers', JSON.stringify(state.registeredUsers));
-  }, [state.registeredUsers]);
+    // 1. Cek session yang sudah ada (misal user reload halaman)
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      if (currentSession?.user) {
+        fetchAndSetProfile(currentSession.user.id);
+      } else {
+        setLoading(false);
+      }
+    });
 
-  const login = useCallback((identifier, password) => {
-    const user = state.registeredUsers.find(
-      u => (u.email === identifier || u.username === identifier) && u.password === password
+    // 2. Dengarkan perubahan auth (login, logout, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, newSession) => {
+        setSession(newSession);
+
+        if (event === 'SIGNED_IN' && newSession?.user) {
+          await fetchAndSetProfile(newSession.user.id);
+        }
+
+        if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setIsAuthenticated(false);
+        }
+      }
     );
-    if (user) {
-      const userData = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        role: user.role,
-        initials: user.initials,
-        fullName: user.fullName,
-      };
-      dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData });
-      return { success: true, user: userData };
-    }
-    return { success: false, error: 'Username/Email atau Password salah.' };
-  }, [state.registeredUsers]);
 
-  const register = useCallback((fullName, username, email, password) => {
-    // Check duplicate
-    const exists = state.registeredUsers.find(u => u.email === email || u.username === username);
-    if (exists) {
-      return { success: false, error: 'Email atau username sudah terdaftar.' };
-    }
-    const initials = fullName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-    const newUser = {
-      id: Date.now(),
-      email,
-      username,
-      password,
-      role: USER_ROLES.USER,
-      initials,
-      fullName,
+    // Cleanup listener saat unmount
+    return () => {
+      subscription.unsubscribe();
     };
-    const updatedUsers = [...state.registeredUsers, newUser];
-    dispatch({ type: AUTH_ACTIONS.SET_USERS, payload: updatedUsers });
-    return { success: true };
-  }, [state.registeredUsers]);
-
-  const logout = useCallback(() => {
-    dispatch({ type: AUTH_ACTIONS.LOGOUT });
   }, []);
 
-  const updateUser = useCallback((updates) => {
-    dispatch({ type: AUTH_ACTIONS.UPDATE_USER, payload: updates });
-  }, []);
-
-  const updatePassword = useCallback((oldPassword, newPassword) => {
-    const user = state.registeredUsers.find(u => u.id === state.user?.id);
-    if (!user || user.password !== oldPassword) {
-      return { success: false, error: 'Kata sandi lama salah!' };
+  /**
+   * Fetch profile dari tabel profiles dan set ke state
+   */
+  async function fetchAndSetProfile(userId) {
+    try {
+      const { data: profile, error } = await getProfile(userId);
+      if (error) {
+        console.error('[Auth] Gagal fetch profile:', error.message);
+        setUser(null);
+        setIsAuthenticated(false);
+      } else if (profile) {
+        setUser({
+          id: profile.id,
+          email: profile.email,
+          username: profile.username,
+          fullName: profile.full_name,
+          initials: profile.initials,
+          role: profile.role,
+          avatarUrl: profile.avatar_url,
+        });
+        setIsAuthenticated(true);
+      }
+    } catch (err) {
+      console.error('[Auth] Error fetch profile:', err);
+    } finally {
+      setLoading(false);
     }
-    const updatedUsers = state.registeredUsers.map(u =>
-      u.id === state.user.id ? { ...u, password: newPassword } : u
-    );
-    dispatch({ type: AUTH_ACTIONS.SET_USERS, payload: updatedUsers });
-    return { success: true };
-  }, [state.registeredUsers, state.user]);
+  }
 
-  const deleteAccount = useCallback(() => {
-    const updatedUsers = state.registeredUsers.filter(u => u.id !== state.user?.id);
-    dispatch({ type: AUTH_ACTIONS.SET_USERS, payload: updatedUsers });
-    dispatch({ type: AUTH_ACTIONS.DELETE_ACCOUNT });
-    localStorage.removeItem('userProfile');
-  }, [state.registeredUsers, state.user]);
+  // ─── Login ──────────────────────────────────────────────────
+  const login = useCallback(async (identifier, password) => {
+    try {
+      // Supabase Auth menggunakan email untuk login.
+      // Jika user memasukkan username, kita perlu cari email-nya dulu.
+      let email = identifier;
 
-  const upgradeToMember = useCallback(() => {
-    const updatedUsers = state.registeredUsers.map(u =>
-      u.id === state.user?.id ? { ...u, role: USER_ROLES.MEMBER } : u
-    );
-    dispatch({ type: AUTH_ACTIONS.SET_USERS, payload: updatedUsers });
-    dispatch({ type: AUTH_ACTIONS.UPDATE_USER, payload: { role: USER_ROLES.MEMBER } });
-  }, [state.registeredUsers, state.user]);
+      // Cek apakah identifier adalah email (mengandung @)
+      if (!identifier.includes('@')) {
+        // Cari email berdasarkan username dari tabel profiles
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('username', identifier)
+          .maybeSingle();
 
+        if (profileError || !profile) {
+          return { success: false, error: 'Username tidak ditemukan.' };
+        }
+        email = profile.email;
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        return { success: false, error: 'Email/Username atau Password salah.' };
+      }
+
+      // Fetch profile untuk dapat role dan data lengkap
+      const { data: profile, error: profileError } = await getProfile(data.user.id);
+
+      if (profileError || !profile) {
+        console.warn('[Auth] Profile tidak ditemukan setelah login, menggunakan data fallback.');
+        const fallbackData = {
+          id: data.user.id,
+          email: data.user.email,
+          username: data.user.user_metadata?.username || data.user.email?.split('@')[0] || 'user',
+          fullName: data.user.user_metadata?.full_name || data.user.email?.split('@')[0] || 'User',
+          initials: 'U',
+          role: USER_ROLES.USER,
+          avatarUrl: null,
+        };
+        setUser(fallbackData);
+        setIsAuthenticated(true);
+        return { success: true, user: fallbackData };
+      }
+
+      const userData = {
+        id: profile.id,
+        email: profile.email,
+        username: profile.username,
+        fullName: profile.full_name,
+        initials: profile.initials || 'U',
+        role: profile.role || USER_ROLES.USER,
+        avatarUrl: profile.avatar_url,
+      };
+
+      setUser(userData);
+      setIsAuthenticated(true);
+
+      return { success: true, user: userData };
+    } catch (err) {
+      console.error('[Auth] Login error:', err);
+      return { success: false, error: 'Terjadi kesalahan saat login. Pastikan koneksi internet stabil.' };
+    }
+  }, []);
+
+  // ─── Register ───────────────────────────────────────────────
+  const register = useCallback(async (fullName, username, email, password) => {
+    try {
+      console.log('[Auth] Memulai registrasi untuk:', email);
+
+      // 1. Cek username
+      console.log('[Auth] Mengecek username:', username);
+      const { data: existing, error: checkError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', username)
+        .maybeSingle();
+
+      console.log('[Auth] Hasil cek username:', { existing, checkError });
+
+      if (checkError) {
+        console.error('[Auth] Error saat cek username:', checkError);
+      }
+
+      if (existing) {
+        console.log('[Auth] Username sudah terpakai');
+        return { success: false, error: 'Username sudah digunakan.' };
+      }
+
+      // 2. SignUp
+      console.log('[Auth] Melakukan signUp...');
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+            full_name: fullName,
+          },
+        },
+      });
+
+      if (signUpError) {
+        console.error('[Auth] SignUp error:', signUpError);
+        if (signUpError.message.includes('already registered')) {
+          return { success: false, error: 'Email sudah terdaftar.' };
+        }
+        return { success: false, error: signUpError.message };
+      }
+
+      console.log('[Auth] SignUp berhasil, membersihkan sesi...');
+
+      // 3. SignOut (untuk memastikan tidak langsung login)
+      // Gunakan catch agar jika signOut gagal tidak menghentikan flow sukses register
+      await supabase.auth.signOut().catch(err => console.warn('[Auth] SignOut setelah register gagal:', err));
+
+      return { success: true };
+    } catch (err) {
+      console.error('[Auth] Register unexpected error:', err);
+      return { success: false, error: 'Terjadi kesalahan sistem saat mendaftar.' };
+    }
+  }, []);
+
+  // ─── Logout ─────────────────────────────────────────────────
+  const logout = useCallback(async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('[Auth] Logout error:', err);
+    } finally {
+      // Pastikan state lokal tetap dibersihkan meskipun signOut error
+      setUser(null);
+      setIsAuthenticated(false);
+      setSession(null);
+    }
+  }, []);
+
+  // ─── Update User Profile ───────────────────────────────────
+  const updateUser = useCallback(async (updates) => {
+    if (!user?.id) return;
+
+    // Map dari format frontend ke format database
+    const dbUpdates = {};
+    if (updates.fullName !== undefined) dbUpdates.full_name = updates.fullName;
+    if (updates.username !== undefined) dbUpdates.username = updates.username;
+    if (updates.initials !== undefined) dbUpdates.initials = updates.initials;
+    if (updates.avatarUrl !== undefined) dbUpdates.avatar_url = updates.avatarUrl;
+
+    const { data: updated, error } = await updateProfile(user.id, dbUpdates);
+    if (!error && updated) {
+      setUser(prev => ({
+        ...prev,
+        ...updates,
+      }));
+    }
+  }, [user]);
+
+  // ─── Update Password ───────────────────────────────────────
+  const updatePassword = useCallback(async (oldPassword, newPassword) => {
+    try {
+      // Supabase tidak memerlukan old password untuk update,
+      // tapi kita verifikasi dulu dengan re-login untuk keamanan
+      const { error: verifyError } = await supabase.auth.signInWithPassword({
+        email: user?.email,
+        password: oldPassword,
+      });
+
+      if (verifyError) {
+        return { success: false, error: 'Kata sandi lama salah!' };
+      }
+
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true };
+    } catch (err) {
+      console.error('[Auth] Update password error:', err);
+      return { success: false, error: 'Gagal mengubah kata sandi.' };
+    }
+  }, [user]);
+
+  // ─── Delete Account ─────────────────────────────────────────
+  const deleteAccount = useCallback(async () => {
+    if (!user?.id) return;
+
+    try {
+      // Hapus profil dari tabel profiles (cascade akan membersihkan relasi)
+      await supabase.from('profiles').delete().eq('id', user.id);
+
+      // Logout setelah hapus
+      await supabase.auth.signOut();
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (err) {
+      console.error('[Auth] Delete account error:', err);
+    }
+  }, [user]);
+
+  // ─── Upgrade to Member ──────────────────────────────────────
+  const upgradeToMember = useCallback(async () => {
+    if (!user?.id) return;
+
+    const { error } = await upgradeProfileRole(user.id);
+    if (!error) {
+      setUser(prev => ({ ...prev, role: USER_ROLES.MEMBER }));
+    }
+  }, [user]);
+
+  // ─── Toast Functions ────────────────────────────────────────
   const addToast = useCallback((message, type = 'info') => {
     setToasts({ type: 'ADD', payload: { id: Date.now(), message, type } });
   }, []);
@@ -151,12 +320,17 @@ export function AppProvider({ children }) {
     setToasts({ type: 'REMOVE', payload: id });
   }, []);
 
+  // ─── Derived State ──────────────────────────────────────────
+  const isMember = user?.role === USER_ROLES.MEMBER || user?.role === USER_ROLES.ADMIN;
+  const isAdmin = user?.role === USER_ROLES.ADMIN;
+
   return (
     <AuthContext.Provider value={{
-      user: state.user,
-      isAuthenticated: state.isAuthenticated,
-      isMember: state.user?.role === USER_ROLES.MEMBER,
-      isAdmin: state.user?.role === USER_ROLES.ADMIN,
+      user,
+      isAuthenticated,
+      isMember,
+      isAdmin,
+      loading,
       login,
       register,
       logout,
@@ -172,6 +346,7 @@ export function AppProvider({ children }) {
   );
 }
 
+// ─── Toast Reducer ────────────────────────────────────────────
 function toastReducer(state, action) {
   switch (action.type) {
     case 'ADD':
@@ -183,6 +358,7 @@ function toastReducer(state, action) {
   }
 }
 
+// ─── Hooks (interface TETAP SAMA) ─────────────────────────────
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) throw new Error('useAuth must be used within AppProvider');

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useToast } from '@/context/AppContext';
 import Toast from '@/components/ui/Toast';
+import { supabase } from '@/services/supabaseClient';
 
 export default function Login() {
   const [identifier, setIdentifier] = useState('');
@@ -22,10 +23,12 @@ export default function Login() {
     return null;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const result = login(identifier, password);
+
+    const result = await login(identifier, password);
+
     if (result.success) {
       addToast('Login berhasil!', 'success');
       const target = result.user.role === 'admin' ? '/admin' : '/';
@@ -33,6 +36,18 @@ export default function Login() {
     } else {
       addToast(result.error, 'error');
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/',
+      },
+    });
+    if (error) {
+      addToast('Gagal login dengan Google: ' + error.message, 'error');
     }
   };
 
@@ -112,10 +127,10 @@ export default function Login() {
             <span className="h-px w-full bg-gray-200"></span>
           </div>
 
-          <a href="https://google.com" className="mt-6 flex justify-center items-center gap-3 w-full py-3 px-4 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-semibold transition-colors duration-200 hover:bg-gray-50">
+          <button onClick={handleGoogleLogin} className="mt-6 flex justify-center items-center gap-3 w-full py-3 px-4 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-semibold transition-colors duration-200 hover:bg-gray-50 bg-white cursor-pointer">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="Google Logo" className="w-5 h-5" />
             Google
-          </a>
+          </button>
 
           <p className="mt-10 text-center text-gray-600 text-[14px]">
             Belum berlangganan? <Link to="/register" className="text-brand font-semibold hover:underline">Daftar Sekarang</Link>

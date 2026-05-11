@@ -11,18 +11,18 @@ export default function AccountSettings() {
   const [showModal, setShowModal] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState('');
 
-  const handlePassword = (e) => {
+  const handlePassword = async (e) => {
     e.preventDefault();
     if (pwForm.new !== pwForm.confirm) { addToast('Konfirmasi tidak cocok!', 'error'); return; }
     if (pwForm.new.length < 6) { addToast('Minimal 6 karakter!', 'error'); return; }
-    const result = updatePassword(pwForm.old, pwForm.new);
+    const result = await updatePassword(pwForm.old, pwForm.new);
     if (result.success) { addToast('Kata sandi berhasil diubah!', 'success'); setPwForm({ old: '', new: '', confirm: '' }); }
     else addToast(result.error, 'error');
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (deleteConfirm.trim() === 'HAPUS') {
-      deleteAccount();
+      await deleteAccount();
       addToast('Akun telah dihapus.', 'info');
       navigate('/login');
     }

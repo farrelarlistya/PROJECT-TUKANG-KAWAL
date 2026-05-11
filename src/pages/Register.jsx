@@ -1,22 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useToast } from '@/context/AppContext';
+
+import Toast from '@/components/ui/Toast';
 
 export default function Register() {
   const [form, setForm] = useState({ nama: '', username: '', email: '', password: '', confirm: '', terms: false });
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (isAuthenticated) return null;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirm) { addToast('Konfirmasi password tidak cocok!', 'error'); return; }
     if (!form.terms) { addToast('Setujui syarat & ketentuan', 'error'); return; }
     
-    setLoading(true);
-    setTimeout(() => {
-      const result = register(form.nama, form.username, form.email, form.password);
+    try {
+      const result = await register(form.nama, form.username, form.email, form.password);
+
       if (result.success) { 
         addToast('Pendaftaran berhasil! Silakan masuk.', 'success'); 
         navigate('/login'); 
@@ -24,7 +34,11 @@ export default function Register() {
         addToast(result.error, 'error');
         setLoading(false);
       }
-    }, 500);
+    } catch (err) {
+      console.error('[Register] Submit error:', err);
+      addToast('Terjadi kesalahan koneksi.', 'error');
+      setLoading(false);
+    }
   };
 
   const update = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
@@ -39,6 +53,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex bg-white font-sans overflow-hidden">
+      <Toast />
       
       {/* CSS Animasi Khusus */}
       <style>{`

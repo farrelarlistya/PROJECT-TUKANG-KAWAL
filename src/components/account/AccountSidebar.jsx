@@ -1,9 +1,17 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AppContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth, useToast } from '@/context/AppContext';
 
 export default function AccountSidebar() {
   const { user, logout } = useAuth();
+  const { addToast } = useToast();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    addToast('Anda telah keluar dari akun.', 'info');
+    navigate('/login', { replace: true });
+  };
 
   const isActive = (path) => location.pathname === path;
   const activeClass = 'text-brand bg-brand/[.08] font-semibold';
@@ -38,7 +46,7 @@ export default function AccountSidebar() {
           Bantuan Pelanggan
         </a>
         <div className="h-px bg-[#e5e7eb] my-2" />
-        <button onClick={logout} className="flex items-center gap-3 py-3 px-3.5 rounded-lg no-underline text-[#dc2626] text-[14px] font-medium font-dm-sans transition-all duration-200 hover:bg-[rgba(220,38,38,0.06)] hover:text-[#b91c1c] border-none bg-transparent cursor-pointer text-left w-full">
+        <button onClick={handleLogout} className="flex items-center gap-3 py-3 px-3.5 rounded-lg no-underline text-[#dc2626] text-[14px] font-medium font-dm-sans transition-all duration-200 hover:bg-[rgba(220,38,38,0.06)] hover:text-[#b91c1c] border-none bg-transparent cursor-pointer text-left w-full">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Keluar
         </button>
