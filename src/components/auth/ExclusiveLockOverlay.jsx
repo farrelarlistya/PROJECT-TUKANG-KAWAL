@@ -11,7 +11,7 @@ export default function ExclusiveLockOverlay() {
   return (
     <div className="paywall-overlay">
       <div className="paywall-content">
-        <div className="paywall-icon">🔒</div>
+        <div className="paywall-icon"></div>
         <h3 className="text-[22px] font-bold text-[#111] mb-2">Konten Eksklusif</h3>
         <p className="text-[15px] text-[#555] mb-5 max-w-[400px] mx-auto leading-[1.6]">
           Artikel ini hanya tersedia untuk pelanggan Pengawal Eksklusif. Berlangganan untuk membaca selengkapnya.

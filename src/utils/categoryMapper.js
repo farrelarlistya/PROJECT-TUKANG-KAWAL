@@ -7,7 +7,7 @@ const CATEGORY_MAP = {};
 CATEGORIES.forEach(c => { CATEGORY_MAP[c.slug] = c; });
 
 // Hidden entry: 'general' digunakan untuk home page (fetch semua berita umum)
-CATEGORY_MAP['general'] = { slug: 'general', apiCategory: 'general', label: 'Umum', icon: '📰', badgeClass: 'bg-badge-general' };
+CATEGORY_MAP['general'] = { slug: 'general', apiCategory: 'general', label: 'Umum', icon: '', badgeClass: 'bg-badge-general' };
 
 /**
  * Mendapatkan konfigurasi kategori berdasarkan slug

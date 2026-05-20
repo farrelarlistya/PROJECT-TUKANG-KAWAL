@@ -34,13 +34,13 @@ export const ROUTES = {
 
 
 export const CATEGORIES = [
-  { slug: 'business', apiCategory: 'business', label: 'Business', icon: '💼', badgeClass: 'bg-badge-business' },
-  { slug: 'entertainment', apiCategory: 'entertainment', label: 'Entertainment', icon: '🎬', badgeClass: 'bg-badge-entertainment' },
-  { slug: 'health', apiCategory: 'health', label: 'Health', icon: '🏥', badgeClass: 'bg-badge-health' },
-  { slug: 'science', apiCategory: 'science', label: 'Science', icon: '🔬', badgeClass: 'bg-badge-science' },
-  { slug: 'sports', apiCategory: 'sports', label: 'Sports', icon: '⚽', badgeClass: 'bg-badge-sports' },
-  { slug: 'technology', apiCategory: 'technology', label: 'Technology', icon: '💻', badgeClass: 'bg-badge-technology' },
-  { slug: 'eksklusif', apiCategory: 'general', label: 'Eksklusif', icon: '🔒', badgeClass: 'bg-badge-eksklusif' },
+  { slug: 'business', apiCategory: 'business', label: 'Business', icon: '', badgeClass: 'bg-badge-business' },
+  { slug: 'entertainment', apiCategory: 'entertainment', label: 'Entertainment', icon: '', badgeClass: 'bg-badge-entertainment' },
+  { slug: 'health', apiCategory: 'health', label: 'Health', icon: '', badgeClass: 'bg-badge-health' },
+  { slug: 'science', apiCategory: 'science', label: 'Science', icon: '', badgeClass: 'bg-badge-science' },
+  { slug: 'sports', apiCategory: 'sports', label: 'Sports', icon: '', badgeClass: 'bg-badge-sports' },
+  { slug: 'technology', apiCategory: 'technology', label: 'Technology', icon: '', badgeClass: 'bg-badge-technology' },
+  { slug: 'eksklusif', apiCategory: 'general', label: 'Eksklusif', icon: '', badgeClass: 'bg-badge-eksklusif' },
 ];
 
 export const NEWS_CONFIG = {

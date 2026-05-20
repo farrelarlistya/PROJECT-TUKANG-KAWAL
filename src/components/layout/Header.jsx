@@ -1,11 +1,11 @@
 import { memo, useState, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth, useToast } from '@/context/AppContext';
+import { useAuth } from '@/context/AppContext';
 import { getNavbarCategories } from '@/utils/categoryMapper';
 import { USER_ROLES } from '@/utils/constants';
 
 const Header = memo(function Header({ showSearch = false, showCategories = true, activeCategory = '' }) {
-  const { user, isAuthenticated, isMember, isAdmin, logout } = useAuth();
+  const { user, isAuthenticated, isMember, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,7 +53,7 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
                       activeCategory === 'eksklusif' ? 'nav-category-active' : ''
                     }`}
                   >
-                    🔒 Eksklusif
+                     Eksklusif
                   </Link>
                 </li>
               )}
@@ -95,9 +95,6 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
               <Link to="/admin" className="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">
                 Dashboard
               </Link>
-              <button onClick={logout} className="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold">
-                Keluar
-              </button>
             </>
           ) : isMember ? (
             <>

@@ -224,14 +224,26 @@ export function AppProvider({ children }) {
   // ─── Logout ─────────────────────────────────────────────────
   const logout = useCallback(async () => {
     try {
-      await supabase.auth.signOut();
+      // SignOut dari Supabase
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      if (error) {
+        console.warn('[Auth] Server signout peringatan:', error.message);
+      }
     } catch (err) {
       console.error('[Auth] Logout error:', err);
     } finally {
-      // Pastikan state lokal tetap dibersihkan meskipun signOut error
+      // Pastikan state lokal tetap dibersihkan
       setUser(null);
       setIsAuthenticated(false);
       setSession(null);
+
+      // FIX: Bersihkan kunci sesi Supabase di localStorage secara paksa
+      // Ini mengatasi bug di mana user Google tidak bisa logout
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-')) {
+          localStorage.removeItem(key);
+        }
+      });
     }
   }, []);
 

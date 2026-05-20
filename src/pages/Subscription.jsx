@@ -55,7 +55,7 @@ export default function Subscription() {
           <h2 className="text-[20px] font-bold text-[#1a1a1a]">Pilih Metode Pembayaran</h2>
         </div>
         <div className="border border-[#e0e0e0] rounded-lg overflow-hidden bg-white">
-          {[{group:'Bank Transfer',opts:[['bca','🏦','BCA Virtual Account'],['mandiri','🏦','Mandiri Virtual Account']]},{group:'E-Wallet & QRIS',opts:[['gopay','📱','GoPay'],['ovo','📱','OVO'],['qris','📱','QRIS']]}].map(g=>(
+          {[{group:'Bank Transfer',opts:[['bca','','BCA Virtual Account'],['mandiri','','Mandiri Virtual Account']]},{group:'E-Wallet & QRIS',opts:[['gopay','','GoPay'],['ovo','','OVO'],['qris','','QRIS']]}].map(g=>(
             <details key={g.group} className="payment-group border-b border-[#e0e0e0] last:border-0" open={g.group==='Bank Transfer'}>
               <summary className="flex items-center justify-between py-4 px-6 text-[15px] font-semibold text-[#1a1a1a] cursor-pointer list-none hover:bg-[#fafafa]">{g.group}<span className="summary-arrow text-[12px] text-[#999]">▼</span></summary>
               <div className="py-2">

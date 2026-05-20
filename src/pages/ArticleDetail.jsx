@@ -74,7 +74,7 @@ export default function ArticleDetail() {
       <PageWrapper showCategories={true}>
         <main className="article-layout max-w-[800px] mx-auto my-10 px-6">
           <div className="error-state text-center py-20">
-            <div className="text-[48px] mb-4">📰</div>
+            <div className="text-[48px] mb-4"></div>
             <h3 className="text-[20px] text-[#333] mb-2">Artikel Tidak Ditemukan</h3>
             <p className="text-[14px] text-[#777] mb-5">Artikel yang Anda cari tidak tersedia atau sudah dihapus.</p>
             <Link to="/" className="bg-brand text-white py-2.5 px-6 rounded-lg no-underline text-[14px] font-semibold">
@@ -122,7 +122,7 @@ export default function ArticleDetail() {
           <div className="flex gap-2.5 items-center">
             {isExclusive && (
               <span className="inline-block py-[3px] px-2.5 rounded-[4px] text-[11px] font-bold text-white uppercase bg-linear-to-r from-[#1e3a8a] to-[#3b82f6]">
-                🔒 Eksklusif
+                Eksklusif
               </span>
             )}
             <Badge category={detected} />
