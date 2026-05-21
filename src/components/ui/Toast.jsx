@@ -29,8 +29,8 @@ function ToastItem({ toast, onClose }) {
   const icons = {
     success: '✓',
     error: '✕',
-    warning: '⚠',
-    info: 'ℹ',
+    warning: '',
+    info: '',
   };
 
   return (

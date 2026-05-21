@@ -224,8 +224,8 @@ export function AppProvider({ children }) {
   // ─── Logout ─────────────────────────────────────────────────
   const logout = useCallback(async () => {
     try {
-      // SignOut dari Supabase
-      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      // SignOut dari Supabase secara global
+      const { error } = await supabase.auth.signOut();
       if (error) {
         console.warn('[Auth] Server signout peringatan:', error.message);
       }
