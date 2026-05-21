@@ -7,15 +7,15 @@ import TrendingSection from '@/components/news/TrendingSection';
 import ExclusiveSection from '@/components/news/ExclusiveSection';
 import Ticker from '@/components/news/Ticker';
 import { SkeletonGrid, SkeletonHotNews, SkeletonTrending } from '@/components/ui/Skeleton';
-import { useNewsAPI, useLoadMoreArticles, useNewsSearch } from '@/hooks/useNewsAPI';
+import { useArticles, useLoadMoreArticles, useArticleSearch } from '@/hooks/useArticles';
 
 export default function Home() {
   const { slug } = useParams();
   const category = slug || 'general';
 
-  const { articles, totalResults, isLoading, error } = useNewsAPI(category, 1, 20);
+  const { articles, totalResults, isLoading, error } = useArticles(category, 1, 20);
   const { extraArticles, loadMore, isLoading: loadingMore, hasMore, reset } = useLoadMoreArticles(category, 10, 20);
-  const { articles: searchResults, isLoading: searching, search } = useNewsSearch();
+  const { articles: searchResults, isLoading: searching, search } = useArticleSearch();
 
   const [isSearching, setIsSearching] = useState(false);
 

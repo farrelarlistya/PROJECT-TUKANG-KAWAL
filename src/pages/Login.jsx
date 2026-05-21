@@ -69,11 +69,11 @@ export default function Login() {
 
       {/* Sisi Kiri: Visual Banner (Masuk dari Kiri) */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-navy items-center justify-center overflow-hidden animate-[slideFromLeft_0.6s_ease-out_forwards]">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop')" }}
         ></div>
-        
+
         <div className="relative z-10 p-12 max-w-lg text-white">
           <Link to="/" className="inline-flex items-center no-underline text-white text-[32px] font-bold font-playfair mb-8">
             <span className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-brand to-[#7e85a7] text-white font-playfair text-[22px] font-extrabold rounded-lg mr-3 shadow-lg">T</span>

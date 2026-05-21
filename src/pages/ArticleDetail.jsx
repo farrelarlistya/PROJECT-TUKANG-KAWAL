@@ -1,16 +1,16 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import PageWrapper from '@/components/layout/PageWrapper';
 import Badge from '@/components/ui/Badge';
 import ExclusiveLockOverlay from '@/components/auth/ExclusiveLockOverlay';
 import NewsCard from '@/components/news/NewsCard';
 import { useAuth } from '@/context/AppContext';
-import { fetchTopHeadlines } from '@/services/newsService';
-import { formatFullDate, getAuthorInitials, getSafeImageUrl, getArticlePreview } from '@/utils/formatters';
-import { detectCategoryFromArticle, getCategoryConfig, getCategoryLabel } from '@/utils/categoryMapper';
+import { getArticleBySlug, getPublishedArticles } from '@/services/articleService';
+import { formatFullDate, getSafeImageUrl } from '@/utils/formatters';
+import { getCategoryLabel } from '@/utils/categoryMapper';
 
 export default function ArticleDetail() {
-  const { id } = useParams();
+  const { id: slug } = useParams(); // URL param is actually the slug
   const [searchParams] = useSearchParams();
   const categorySlug = searchParams.get('category') || 'general';
   const { isMember } = useAuth();
@@ -20,15 +20,21 @@ export default function ArticleDetail() {
   const [relatedArticles, setRelatedArticles] = useState({});
 
   useEffect(() => {
-    // Load article from sessionStorage
-    const stored = sessionStorage.getItem(`article_${id}`);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setArticle(parsed);
-      document.title = `${parsed.title} | Tukang Kawal`;
+    async function loadArticle() {
+      setLoading(true);
+      try {
+        const data = await getArticleBySlug(slug);
+        setArticle(data);
+        if (data) document.title = `${data.title} | Tukang Kawal`;
+      } catch (err) {
+        console.error("Gagal memuat artikel:", err);
+        setArticle(null);
+      } finally {
+        setLoading(false);
+      }
     }
-    setLoading(false);
-  }, [id]);
+    loadArticle();
+  }, [slug]);
 
   // Load related articles
   useEffect(() => {
@@ -38,17 +44,12 @@ export default function ArticleDetail() {
         .slice(0, 4);
 
       const results = {};
-      await Promise.all(cats.map(async (slug) => {
-        const config = getCategoryConfig(slug);
+      await Promise.all(cats.map(async (catSlug) => {
         try {
-          let data = await fetchTopHeadlines(config.apiCategory, '', 1, 4);
-          // Fallback ke US jika Indonesia kosong
-          if (!data.articles || data.articles.length === 0) {
-            data = await fetchTopHeadlines(config.apiCategory, '', 1, 4, 'us');
-          }
-          results[slug] = data.articles || [];
+          const data = await getPublishedArticles({ category: catSlug, page: 1, limit: 4 });
+          results[catSlug] = data.articles || [];
         } catch {
-          results[slug] = [];
+          results[catSlug] = [];
         }
       }));
       setRelatedArticles(results);
@@ -86,21 +87,11 @@ export default function ArticleDetail() {
     );
   }
 
-  const detected = categorySlug || detectCategoryFromArticle(article);
-  const authorInitials = getAuthorInitials(article.author);
-  const authorName = article.author || 'Redaksi TukangKawal';
-  const isExclusive = article._isExclusive === true;
+  const detected = article.categories?.slug || categorySlug || 'general';
+  const authorInitials = article.profiles?.initials || 'TK';
+  const authorName = article.profiles?.full_name || 'Redaksi TukangKawal';
+  const isExclusive = article.is_exclusive === true;
   const showPaywall = isExclusive && !isMember;
-
-  // Build content
-  let contentParagraphs = [];
-  if (article.description) {
-    contentParagraphs.push(`**TukangKawal** — ${article.description}`);
-  }
-  if (article.content && article.content !== '[Removed]') {
-    const cleanContent = article.content.replace(/\[\+\d+ chars\]$/, '').trim();
-    contentParagraphs.push(cleanContent);
-  }
 
   return (
     <PageWrapper showCategories={true}>
@@ -111,12 +102,16 @@ export default function ArticleDetail() {
 
         <div className="article-detail-meta flex items-center justify-between border-t border-b border-[#eaeaea] py-4 mb-[30px]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-[14px]">
-              {authorInitials}
+            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-[14px] overflow-hidden">
+              {article.profiles?.avatar_url ? (
+                <img src={article.profiles.avatar_url} alt={authorName} className="w-full h-full object-cover" />
+              ) : (
+                authorInitials
+              )}
             </div>
             <div className="flex flex-col">
               <span className="text-[15px] font-semibold text-[#222]">{authorName}</span>
-              <span className="text-[13px] text-[#777]">{formatFullDate(article.publishedAt)}</span>
+              <span className="text-[13px] text-[#777]">{formatFullDate(article.published_at)}</span>
             </div>
           </div>
           <div className="flex gap-2.5 items-center">
@@ -137,19 +132,17 @@ export default function ArticleDetail() {
 
         <figure className="article-hero mb-[35px]">
           <img
-            src={getSafeImageUrl(article.urlToImage)}
+            src={getSafeImageUrl(article.cover_image_url)}
             alt={article.title}
             loading="lazy"
             onError={(e) => { e.target.src = 'https://placehold.co/800x400/1a3fc7/white?text=Tukang+Kawal'; }}
           />
-          <figcaption>Dokumentasi TukangKawal</figcaption>
+          {article.cover_image_url && <figcaption>Dokumentasi TukangKawal</figcaption>}
         </figure>
 
         <div className={showPaywall ? 'paywall-wrapper' : ''}>
-          <article className="article-content font-source-serif text-[18px] leading-[1.8] text-[#2c2c2c]">
-            {contentParagraphs.map((p, i) => (
-              <p key={i} dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-            ))}
+          <article className="article-content font-source-serif text-[18px] leading-[1.8] text-[#2c2c2c] whitespace-pre-wrap">
+            {article.content}
           </article>
           {showPaywall && <ExclusiveLockOverlay />}
         </div>
@@ -172,16 +165,16 @@ export default function ArticleDetail() {
             </div>
           ) : (
             <div className="space-y-8">
-              {Object.entries(relatedArticles).map(([slug, arts]) => {
+              {Object.entries(relatedArticles).map(([catSlug, arts]) => {
                 if (!arts || arts.length === 0) return null;
                 return (
-                  <div key={slug} className="article-fade-in">
+                  <div key={catSlug} className="article-fade-in">
                     <h4 className="font-dm-sans text-[15px] font-extrabold uppercase text-[#111] mb-4 pb-2 border-b border-[#eee]">
-                      {getCategoryLabel(slug)}
+                      {getCategoryLabel(catSlug)}
                     </h4>
                     <div className="grid grid-cols-2 gap-4">
                       {arts.slice(0, 2).map((a, i) => (
-                        <NewsCard key={a.url || i} article={a} categorySlug={slug} />
+                        <NewsCard key={a.id || i} article={a} categorySlug={catSlug} />
                       ))}
                     </div>
                   </div>

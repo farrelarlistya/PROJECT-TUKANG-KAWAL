@@ -1,18 +1,70 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PageWrapper from '@/components/layout/PageWrapper';
-import { useToast } from '@/context/AppContext';
+import { useAuth, useToast } from '@/context/AppContext';
+import { createArticle, uploadArticleCover } from '@/services/articleService';
+import { supabase } from '@/services/supabaseClient';
 
 export default function MulaiNgawal() {
+  const { user, isAuthenticated } = useAuth();
   const { addToast } = useToast();
-  const [form, setForm] = useState({ judul: '', tags: '', kategori: 'Politik', konten: '', gambar: null });
+  
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState({ judul: '', tags: '', kategori_id: '', konten: '', gambar: null });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    if (!form.judul || !form.konten) { addToast('Judul dan konten wajib diisi!', 'error'); return; }
-    const articles = JSON.parse(localStorage.getItem('userArticles') || '[]');
-    articles.push({ ...form, gambar: form.gambar?.name || null, createdAt: new Date().toISOString(), id: Date.now() });
-    localStorage.setItem('userArticles', JSON.stringify(articles));
-    addToast('Artikel berhasil dipublikasikan!', 'success');
-    setForm({ judul: '', tags: '', kategori: 'Politik', konten: '', gambar: null });
+  useEffect(() => {
+    async function loadCategories() {
+      const { data } = await supabase.from('categories').select('id, label');
+      if (data) {
+        setCategories(data);
+        if (data.length > 0) setForm(s => ({ ...s, kategori_id: data[0].id }));
+      }
+    }
+    loadCategories();
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!isAuthenticated) {
+      addToast('Anda harus login terlebih dahulu!', 'error');
+      return;
+    }
+    if (!form.judul || !form.konten) { 
+      addToast('Judul dan konten wajib diisi!', 'error'); 
+      return; 
+    }
+    
+    setIsSubmitting(true);
+    try {
+      let cover_image_url = null;
+      if (form.gambar && user) {
+        cover_image_url = await uploadArticleCover(form.gambar, user.id);
+      }
+
+      const slug = form.judul.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString().slice(-4);
+      const tagsArray = form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+      await createArticle({
+        title: form.judul,
+        slug: slug,
+        description: form.konten.substring(0, 150) + '...',
+        content: form.konten,
+        cover_image_url,
+        category_id: form.kategori_id,
+        author_id: user.id,
+        status: 'published', // Or 'draft' or 'review' depending on business logic
+        is_exclusive: false,
+        tags: tagsArray,
+        published_at: new Date().toISOString()
+      });
+
+      addToast('Artikel berhasil dipublikasikan!', 'success');
+      setForm({ judul: '', tags: '', kategori_id: categories[0]?.id || '', konten: '', gambar: null });
+    } catch (err) {
+      console.error(err);
+      addToast('Gagal mempublikasikan artikel: ' + err.message, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const update = (f) => (e) => setForm(s => ({ ...s, [f]: f === 'gambar' ? e.target.files[0] : e.target.value }));
@@ -32,27 +84,29 @@ export default function MulaiNgawal() {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-semibold text-[#374151]">Judul & Label</label>
-              <input className={inputClass} type="text" value={form.judul} onChange={update('judul')} placeholder="Masukkan judul artikel..." />
-              <input className={inputClass} type="text" value={form.tags} onChange={update('tags')} placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024" />
+              <input className={inputClass} type="text" value={form.judul} onChange={update('judul')} placeholder="Masukkan judul artikel..." disabled={isSubmitting} />
+              <input className={inputClass} type="text" value={form.tags} onChange={update('tags')} placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024" disabled={isSubmitting} />
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold text-[#374151]">Kategori</label>
-                <select className={inputClass} value={form.kategori} onChange={update('kategori')}>
-                  {['Politik','Ekonomi Bisnis','Hukum','Kriminal','Lingkungan'].map(c => <option key={c}>{c}</option>)}
+                <select className={inputClass} value={form.kategori_id} onChange={update('kategori_id')} disabled={isSubmitting}>
+                  {categories.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                 </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold text-[#374151]">Gambar Utama</label>
-                <input type="file" className={inputClass} accept="image/*" onChange={update('gambar')} />
+                <input type="file" className={inputClass} accept="image/*" onChange={update('gambar')} disabled={isSubmitting} />
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-semibold text-[#374151]">Konten Artikel</label>
-              <textarea className={`${inputClass} resize-y min-h-[250px] leading-[1.6]`} value={form.konten} onChange={update('konten')} placeholder="Tulis atau salin isi berita di sini..." />
+              <textarea className={`${inputClass} resize-y min-h-[250px] leading-[1.6]`} value={form.konten} onChange={update('konten')} placeholder="Tulis atau salin isi berita di sini..." disabled={isSubmitting} />
             </div>
             <div className="flex justify-end mt-2.5">
-              <button onClick={handleSubmit} className="bg-primary-blue text-white border-none py-3.5 px-8 rounded-lg text-base font-semibold cursor-pointer transition-colors duration-200 hover:bg-primary-hover">Publikasikan Artikel</button>
+              <button onClick={handleSubmit} disabled={isSubmitting || !isAuthenticated} className="bg-primary-blue text-white border-none py-3.5 px-8 rounded-lg text-base font-semibold cursor-pointer transition-colors duration-200 hover:bg-primary-hover disabled:opacity-50">
+                {isSubmitting ? 'Mengunggah...' : 'Publikasikan Artikel'}
+              </button>
             </div>
           </div>
         </div>

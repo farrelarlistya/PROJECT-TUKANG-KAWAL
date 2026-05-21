@@ -1,22 +1,15 @@
 import { Link } from 'react-router-dom';
 import Badge from '@/components/ui/Badge';
-import { getSafeImageUrl, createArticleId } from '@/utils/formatters';
-import { detectCategoryFromArticle } from '@/utils/categoryMapper';
+import { getSafeImageUrl } from '@/utils/formatters';
 
 export default function ExclusiveCard({ article }) {
-  const detected = detectCategoryFromArticle(article);
-  const markedArticle = { ...article, _isExclusive: true };
-  const articleId = createArticleId(article);
-
-  const handleClick = () => {
-    sessionStorage.setItem(`article_${articleId}`, JSON.stringify({ ...markedArticle, _category: detected }));
-  };
+  const detected = article.categories?.slug || 'general';
 
   return (
     <article className="exclusive-card flex-1 bg-white rounded-[10px] overflow-hidden transition-transform duration-300 hover:-translate-y-[3px] article-fade-in">
-      <Link to={`/article/${articleId}?category=${detected}`} onClick={handleClick} className="no-underline text-inherit">
+      <Link to={`/article/${article.slug}?category=${detected}`} className="no-underline text-inherit">
         <img
-          src={getSafeImageUrl(article.urlToImage)}
+          src={getSafeImageUrl(article.cover_image_url)}
           alt={article.title}
           loading="lazy"
           onError={(e) => { e.target.src = 'https://placehold.co/400x200/1a3fc7/white?text=Eksklusif'; }}

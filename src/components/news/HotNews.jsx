@@ -1,28 +1,20 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Badge from '@/components/ui/Badge';
-import { timeAgo, getSafeImageUrl, createArticleId } from '@/utils/formatters';
-import { detectCategoryFromArticle } from '@/utils/categoryMapper';
+import { timeAgo, getSafeImageUrl } from '@/utils/formatters';
 
 const HotNews = memo(function HotNews({ article, categorySlug }) {
   if (!article) return null;
 
-  const detected = categorySlug && categorySlug !== 'general' ? categorySlug : detectCategoryFromArticle(article);
-  const articleId = createArticleId(article);
-
-  // Store article for detail page
-  const handleClick = () => {
-    sessionStorage.setItem(`article_${articleId}`, JSON.stringify({ ...article, _category: detected }));
-  };
+  const detected = article.categories?.slug || categorySlug || 'general';
 
   return (
     <Link
-      to={`/article/${articleId}?category=${detected}`}
-      onClick={handleClick}
+      to={`/article/${article.slug}?category=${detected}`}
       className="hot-news flex gap-[50px] text-justify bg-white mx-[50px] my-5 no-underline text-black article-fade-in"
     >
       <img
-        src={getSafeImageUrl(article.urlToImage)}
+        src={getSafeImageUrl(article.cover_image_url)}
         alt={article.title}
         className="w-[40vw] object-cover"
         loading="lazy"
@@ -33,7 +25,7 @@ const HotNews = memo(function HotNews({ article, categorySlug }) {
         <p className="pt-0 pr-[100px]">{article.description || ''}</p>
         <div className="flex gap-2.5 text-[13px] text-[#777]">
           <Badge category={detected} />
-          <span>{timeAgo(article.publishedAt)}</span>
+          <span>{timeAgo(article.published_at)}</span>
         </div>
       </div>
     </Link>

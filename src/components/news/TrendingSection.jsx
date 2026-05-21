@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import Badge from '@/components/ui/Badge';
-import { getSafeImageUrl, createArticleId } from '@/utils/formatters';
-import { detectCategoryFromArticle } from '@/utils/categoryMapper';
+import { getSafeImageUrl } from '@/utils/formatters';
 
 export default function TrendingSection({ articles }) {
   if (!articles || articles.length === 0) {
@@ -11,17 +10,12 @@ export default function TrendingSection({ articles }) {
   return (
     <ul className="list-none">
       {articles.slice(0, 5).map((article, index) => {
-        const detected = detectCategoryFromArticle(article);
-        const articleId = createArticleId(article);
-
-        const handleClick = () => {
-          sessionStorage.setItem(`article_${articleId}`, JSON.stringify({ ...article, _category: detected }));
-        };
+        const detected = article.categories?.slug || 'general';
 
         return (
-          <li key={article.url || index} className="flex items-center gap-5 py-[15px] border-b border-[#eee] transition-colors duration-200 hover:bg-[#f5f5f5] article-fade-in">
+          <li key={article.id || index} className="flex items-center gap-5 py-[15px] border-b border-[#eee] transition-colors duration-200 hover:bg-[#f5f5f5] article-fade-in">
             <img
-              src={getSafeImageUrl(article.urlToImage)}
+              src={getSafeImageUrl(article.cover_image_url)}
               alt=""
               className="w-20 h-20 rounded-lg object-cover shrink-0"
               loading="lazy"
@@ -32,8 +26,7 @@ export default function TrendingSection({ articles }) {
               <Badge category={detected} className="mb-2" />
               <h3>
                 <Link
-                  to={`/article/${articleId}?category=${detected}`}
-                  onClick={handleClick}
+                  to={`/article/${article.slug}?category=${detected}`}
                   className="no-underline text-[#222] hover:text-brand"
                 >
                   {article.title}

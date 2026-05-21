@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AppContext';
 import ExclusiveCard from './ExclusiveCard';
-import { fetchTopHeadlines } from '@/services/newsService';
+import { getPublishedArticles } from '@/services/articleService';
 
 export default function ExclusiveSection() {
   const { isMember, isAuthenticated } = useAuth();
@@ -11,11 +11,7 @@ export default function ExclusiveSection() {
   useEffect(() => {
     async function load() {
       try {
-        let data = await fetchTopHeadlines('general', '', 1, 6);
-        // Fallback ke US jika Indonesia kosong
-        if (data.articles.length === 0) {
-          data = await fetchTopHeadlines('general', '', 1, 6, 'us');
-        }
+        const data = await getPublishedArticles({ page: 1, limit: 6, isExclusive: true });
         setArticles(data.articles);
       } catch {
         setArticles([]);
@@ -30,7 +26,7 @@ export default function ExclusiveSection() {
         <h2 className="text-white text-[26px] mb-5">Pengawal Eksklusif</h2>
         <div className="flex gap-5">
           {articles.slice(0, 2).map((article, i) => (
-            <ExclusiveCard key={article.url || i} article={article} />
+            <ExclusiveCard key={article.id || i} article={article} />
           ))}
         </div>
       </div>
@@ -38,7 +34,7 @@ export default function ExclusiveSection() {
       {isMember ? (
         <div id="exclusive-extra-container" className="flex-1 flex gap-5">
           {articles.slice(2, 4).map((article, i) => (
-            <ExclusiveCard key={article.url || i} article={article} />
+            <ExclusiveCard key={article.id || i} article={article} />
           ))}
         </div>
       ) : (
