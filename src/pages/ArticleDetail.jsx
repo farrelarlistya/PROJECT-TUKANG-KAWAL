@@ -4,6 +4,7 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Badge from '@/components/ui/Badge';
 import ExclusiveLockOverlay from '@/components/auth/ExclusiveLockOverlay';
 import NewsCard from '@/components/news/NewsCard';
+import CommentSection from '@/components/news/CommentSection';
 import { useAuth } from '@/context/AppContext';
 import { getArticleBySlug, getPublishedArticles } from '@/services/articleService';
 import { formatFullDate, getSafeImageUrl } from '@/utils/formatters';
@@ -153,6 +154,9 @@ export default function ArticleDetail() {
             {getCategoryLabel(detected)}
           </Link>
         </div>
+
+        {/* Komentar */}
+        <CommentSection articleId={article.id} />
 
         {/* Related Articles */}
         <div className="mt-10 pt-[30px] border-t border-[#eaeaea]">

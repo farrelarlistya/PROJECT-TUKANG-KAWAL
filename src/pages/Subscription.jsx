@@ -17,7 +17,8 @@ export default function Subscription() {
   const handleSubmit = async () => {
     if (!agreed) { addToast('Setujui syarat & ketentuan', 'error'); return; }
     if (!isAuthenticated) { navigate('/login'); return; }
-    await upgradeToMember();
+    const amount = paket === '1bulan' ? 49000 : 411600;
+    await upgradeToMember(paket, payment, amount);
     addToast('Selamat! Anda sekarang Pengawal Eksklusif!', 'success');
     navigate('/account/subscription');
   };

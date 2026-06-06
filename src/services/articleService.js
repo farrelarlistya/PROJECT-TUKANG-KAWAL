@@ -146,14 +146,12 @@ export async function uploadArticleCover(file, userId) {
  */
 export async function createArticle(articleData) {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('articles')
-      .insert([articleData])
-      .select()
-      .single();
+      .insert([articleData]);
 
     if (error) throw error;
-    return data;
+    return { ...articleData, success: true };
   } catch (error) {
     console.error('Error creating article:', error);
     throw error;
@@ -176,6 +174,98 @@ export async function updateArticle(articleId, updates) {
     return data;
   } catch (error) {
     console.error('Error updating article:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch all pending articles (for admin review)
+ */
+export async function getPendingArticles() {
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .select(`
+        *,
+        profiles!author_id ( full_name, initials, avatar_url ),
+        categories!category_id ( slug, label, icon, badge_class )
+      `)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error in getPendingArticles:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch all articles for admin (all statuses)
+ */
+export async function getAllArticlesForAdmin() {
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .select(`
+        *,
+        profiles!author_id ( full_name, initials, avatar_url ),
+        categories!category_id ( slug, label, icon, badge_class )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error in getAllArticlesForAdmin:', error);
+    throw error;
+  }
+}
+
+/**
+ * Approve an article (set status to published)
+ */
+export async function approveArticle(articleId) {
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .update({
+        status: 'published',
+        published_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', articleId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error in approveArticle:', error);
+    throw error;
+  }
+}
+
+/**
+ * Reject an article
+ */
+export async function rejectArticle(articleId) {
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .update({
+        status: 'rejected',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', articleId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error in rejectArticle:', error);
     throw error;
   }
 }

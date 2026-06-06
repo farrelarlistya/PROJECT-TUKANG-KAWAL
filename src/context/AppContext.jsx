@@ -314,12 +314,33 @@ export function AppProvider({ children }) {
   }, [user]);
 
   // ─── Upgrade to Member ──────────────────────────────────────
-  const upgradeToMember = useCallback(async () => {
+  const upgradeToMember = useCallback(async (plan = '1tahun', paymentMethod = 'bca', amount = 411600) => {
     if (!user?.id) return;
 
     const { error } = await upgradeProfileRole(user.id);
     if (!error) {
       setUser(prev => ({ ...prev, role: USER_ROLES.MEMBER }));
+
+      // Insert subscription record into the database
+      const startsAt = new Date();
+      const expiresAt = new Date();
+      if (plan === '1bulan') {
+        expiresAt.setDate(expiresAt.getDate() + 30);
+      } else {
+        expiresAt.setDate(expiresAt.getDate() + 365);
+      }
+
+      await supabase
+        .from('subscriptions')
+        .insert({
+          user_id: user.id,
+          plan: plan,
+          payment_method: paymentMethod,
+          amount: amount,
+          status: 'active',
+          starts_at: startsAt.toISOString(),
+          expires_at: expiresAt.toISOString()
+        });
     }
   }, [user]);
 

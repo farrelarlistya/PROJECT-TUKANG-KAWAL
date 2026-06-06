@@ -51,17 +51,16 @@ export default function MulaiNgawal() {
         cover_image_url,
         category_id: form.kategori_id,
         author_id: user.id,
-        status: 'published', // Or 'draft' or 'review' depending on business logic
+        status: 'pending',
         is_exclusive: false,
-        tags: tagsArray,
-        published_at: new Date().toISOString()
+        tags: tagsArray
       });
 
-      addToast('Artikel berhasil dipublikasikan!', 'success');
+      addToast('Artikel berhasil dikirim! Menunggu persetujuan admin.', 'success');
       setForm({ judul: '', tags: '', kategori_id: categories[0]?.id || '', konten: '', gambar: null });
     } catch (err) {
       console.error(err);
-      addToast('Gagal mempublikasikan artikel: ' + err.message, 'error');
+      addToast('Gagal mengirim artikel: ' + err.message, 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -105,7 +104,7 @@ export default function MulaiNgawal() {
             </div>
             <div className="flex justify-end mt-2.5">
               <button onClick={handleSubmit} disabled={isSubmitting || !isAuthenticated} className="bg-primary-blue text-white border-none py-3.5 px-8 rounded-lg text-base font-semibold cursor-pointer transition-colors duration-200 hover:bg-primary-hover disabled:opacity-50">
-                {isSubmitting ? 'Mengunggah...' : 'Publikasikan Artikel'}
+                {isSubmitting ? 'Mengirim...' : 'Kirim untuk Review'}
               </button>
             </div>
           </div>

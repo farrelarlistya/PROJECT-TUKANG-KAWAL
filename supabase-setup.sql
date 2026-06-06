@@ -35,6 +35,17 @@ CREATE POLICY "User bisa update profil sendiri"
   USING (auth.uid() = id)
   WITH CHECK (auth.uid() = id);
 
+-- Admin bisa update semua profil (untuk ubah role, dll)
+CREATE POLICY "Admin bisa update semua profil"
+  ON public.profiles FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'admin'
+    )
+  );
+
 -- User bisa insert profil sendiri (saat register via trigger)
 CREATE POLICY "User bisa insert profil sendiri"
   ON public.profiles FOR INSERT
@@ -44,6 +55,17 @@ CREATE POLICY "User bisa insert profil sendiri"
 CREATE POLICY "User bisa delete profil sendiri"
   ON public.profiles FOR DELETE
   USING (auth.uid() = id);
+
+-- Admin bisa delete semua profil
+CREATE POLICY "Admin bisa delete semua profil"
+  ON public.profiles FOR DELETE
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'admin'
+    )
+  );
 
 
 -- ════════════════════════════════════════════════════════════════════
@@ -78,13 +100,13 @@ CREATE POLICY "Admin bisa kelola kategori"
 
 -- Seed data kategori
 INSERT INTO public.categories (slug, label, icon, badge_class) VALUES
-  ('business', 'Business', '💼', 'bg-badge-business'),
-  ('entertainment', 'Entertainment', '🎬', 'bg-badge-entertainment'),
-  ('health', 'Health', '🏥', 'bg-badge-health'),
-  ('science', 'Science', '🔬', 'bg-badge-science'),
-  ('sports', 'Sports', '⚽', 'bg-badge-sports'),
-  ('technology', 'Technology', '💻', 'bg-badge-technology'),
-  ('eksklusif', 'Eksklusif', '🔒', 'bg-badge-eksklusif')
+  ('business', 'Business', '', 'bg-badge-business'),
+  ('entertainment', 'Entertainment', '', 'bg-badge-entertainment'),
+  ('health', 'Health', '', 'bg-badge-health'),
+  ('science', 'Science', '', 'bg-badge-science'),
+  ('sports', 'Sports', '', 'bg-badge-sports'),
+  ('technology', 'Technology', '', 'bg-badge-technology'),
+  ('eksklusif', 'Eksklusif', '', 'bg-badge-eksklusif')
 ON CONFLICT (slug) DO NOTHING;
 
 
@@ -101,7 +123,7 @@ CREATE TABLE IF NOT EXISTS public.articles (
   category_id INTEGER REFERENCES public.categories(id),
   author_id UUID REFERENCES public.profiles(id),
   status TEXT NOT NULL DEFAULT 'draft'
-    CHECK (status IN ('draft', 'review', 'published')),
+    CHECK (status IN ('draft', 'review', 'published', 'pending', 'rejected')),
   is_exclusive BOOLEAN DEFAULT false,
   tags TEXT[],
   published_at TIMESTAMPTZ,
@@ -131,12 +153,11 @@ CREATE POLICY "Member baca artikel exclusive"
     )
   );
 
--- Author bisa baca draft/review sendiri
-CREATE POLICY "Author baca draft sendiri"
+-- Author bisa baca artikel sendiri (semua status)
+CREATE POLICY "Author baca artikel sendiri"
   ON public.articles FOR SELECT
   USING (
     auth.uid() = author_id
-    AND status IN ('draft', 'review')
   );
 
 -- Admin bisa baca semua artikel
@@ -243,7 +264,60 @@ CREATE POLICY "Admin bisa update langganan"
 
 
 -- ════════════════════════════════════════════════════════════════════
--- 5. TRIGGER: Auto-create profile saat user register
+-- 5. TABEL COMMENTS
+-- ════════════════════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS public.comments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  article_id UUID NOT NULL REFERENCES public.articles(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  parent_id UUID REFERENCES public.comments(id) ON DELETE CASCADE,
+  content TEXT NOT NULL CHECK (char_length(content) >= 1 AND char_length(content) <= 2000),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Index untuk query cepat berdasarkan artikel
+CREATE INDEX IF NOT EXISTS idx_comments_article_id ON public.comments(article_id);
+CREATE INDEX IF NOT EXISTS idx_comments_parent_id ON public.comments(parent_id);
+
+-- RLS untuk comments
+ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
+
+-- Semua orang bisa baca komentar
+CREATE POLICY "Komentar bisa dilihat semua orang"
+  ON public.comments FOR SELECT
+  USING (true);
+
+-- User yang login bisa tambah komentar
+CREATE POLICY "User login bisa tambah komentar"
+  ON public.comments FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- User bisa edit komentar sendiri
+CREATE POLICY "User bisa edit komentar sendiri"
+  ON public.comments FOR UPDATE
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
+
+-- User bisa hapus komentar sendiri
+CREATE POLICY "User bisa hapus komentar sendiri"
+  ON public.comments FOR DELETE
+  USING (auth.uid() = user_id);
+
+-- Admin bisa hapus semua komentar
+CREATE POLICY "Admin bisa hapus semua komentar"
+  ON public.comments FOR DELETE
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'admin'
+    )
+  );
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 6. TRIGGER: Auto-create profile saat user register
 -- ════════════════════════════════════════════════════════════════════
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
@@ -270,7 +344,7 @@ CREATE TRIGGER on_auth_user_created
 
 
 -- ════════════════════════════════════════════════════════════════════
--- 6. STORAGE BUCKETS (jalankan terpisah jika error)
+-- 7. STORAGE BUCKETS (jalankan terpisah jika error)
 -- ════════════════════════════════════════════════════════════════════
 -- Buat bucket untuk cover artikel
 INSERT INTO storage.buckets (id, name, public)
@@ -329,10 +403,20 @@ CREATE POLICY "User bisa hapus avatar sendiri"
 
 
 -- ════════════════════════════════════════════════════════════════════
--- SELESAI! ✅
+-- SELESAI!
 -- ════════════════════════════════════════════════════════════════════
 -- Langkah selanjutnya:
 -- 1. Buat akun admin: Register via app, lalu update role di SQL Editor:
 --    UPDATE public.profiles SET role = 'admin' WHERE email = 'admin@gmail.com';
 -- 2. Isi VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY di file .env
 -- 3. Jalankan npm run dev dan test register/login
+
+-- ════════════════════════════════════════════════════════════════════
+-- MIGRATION: Tambah status 'pending' dan 'rejected' untuk fitur approval
+-- ════════════════════════════════════════════════════════════════════
+-- Jalankan query ini jika database sudah ada sebelumnya:
+--
+-- ALTER TABLE public.articles DROP CONSTRAINT IF EXISTS articles_status_check;
+-- ALTER TABLE public.articles ADD CONSTRAINT articles_status_check
+--   CHECK (status IN ('draft', 'review', 'published', 'pending', 'rejected'));
+
