@@ -83,6 +83,9 @@ export function AppProvider({ children }) {
           initials: profile.initials,
           role: profile.role,
           avatarUrl: profile.avatar_url,
+          phoneWa: profile.phone_wa || '',
+          birthDate: profile.birth_date || '',
+          city: profile.city || '',
         });
         setIsAuthenticated(true);
       }
@@ -151,6 +154,9 @@ export function AppProvider({ children }) {
         initials: profile.initials || 'U',
         role: profile.role || USER_ROLES.USER,
         avatarUrl: profile.avatar_url,
+        phoneWa: profile.phone_wa || '',
+        birthDate: profile.birth_date || '',
+        city: profile.city || '',
       };
 
       setUser(userData);
@@ -257,6 +263,9 @@ export function AppProvider({ children }) {
     if (updates.username !== undefined) dbUpdates.username = updates.username;
     if (updates.initials !== undefined) dbUpdates.initials = updates.initials;
     if (updates.avatarUrl !== undefined) dbUpdates.avatar_url = updates.avatarUrl;
+    if (updates.phoneWa !== undefined) dbUpdates.phone_wa = updates.phoneWa;
+    if (updates.birthDate !== undefined) dbUpdates.birth_date = updates.birthDate;
+    if (updates.city !== undefined) dbUpdates.city = updates.city;
 
     const { data: updated, error } = await updateProfile(user.id, dbUpdates);
     if (!error && updated) {
@@ -314,7 +323,7 @@ export function AppProvider({ children }) {
   }, [user]);
 
   // ─── Upgrade to Member ──────────────────────────────────────
-  const upgradeToMember = useCallback(async (plan = '1tahun', paymentMethod = 'bca', amount = 411600) => {
+  const upgradeToMember = useCallback(async (plan = '1tahun', paymentMethod = 'bca', amount = 411600, virtualAccount = '') => {
     if (!user?.id) return;
 
     const { error } = await upgradeProfileRole(user.id);
@@ -339,7 +348,9 @@ export function AppProvider({ children }) {
           amount: amount,
           status: 'active',
           starts_at: startsAt.toISOString(),
-          expires_at: expiresAt.toISOString()
+          expires_at: expiresAt.toISOString(),
+          virtual_account: virtualAccount || null,
+          confirmed_at: new Date().toISOString()
         });
     }
   }, [user]);

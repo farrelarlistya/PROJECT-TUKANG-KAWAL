@@ -119,16 +119,35 @@ export async function getArticleBySlug(slug) {
  * Upload cover image to Supabase Storage
  */
 export async function uploadArticleCover(file, userId) {
+  // Validasi ukuran file (max 5MB)
+  const MAX_SIZE = 5 * 1024 * 1024;
+  if (file.size > MAX_SIZE) {
+    throw new Error('Ukuran file terlalu besar. Maksimal 5MB.');
+  }
+
+  // Validasi tipe file
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error('Format file tidak didukung. Gunakan JPEG, PNG, WebP, atau GIF.');
+  }
+
   try {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
     const filePath = `${userId}/${fileName}`;
 
-    const { error: uploadError } = await supabase.storage
+    // Upload dengan timeout 30 detik
+    const uploadPromise = supabase.storage
       .from('article-covers')
       .upload(filePath, file, { contentType: file.type, upsert: false });
 
-    if (uploadError) throw uploadError;
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Upload timeout. Periksa koneksi internet Anda.')), 30000)
+    );
+
+    const { error: uploadError } = await Promise.race([uploadPromise, timeoutPromise]);
+
+    if (uploadError) throw new Error('Gagal upload gambar: ' + uploadError.message);
 
     const { data } = supabase.storage
       .from('article-covers')
@@ -146,14 +165,80 @@ export async function uploadArticleCover(file, userId) {
  */
 export async function createArticle(articleData) {
   try {
-    const { error } = await supabase
-      .from('articles')
-      .insert([articleData]);
+    // Sanitasi data sebelum insert
+    const sanitizedData = { ...articleData };
 
-    if (error) throw error;
-    return { ...articleData, success: true };
+    // Pastikan tags dalam format yang benar untuk PostgreSQL array
+    // Jika tags undefined/null, kirim array kosong
+    if (sanitizedData.tags === undefined || sanitizedData.tags === null) {
+      sanitizedData.tags = [];
+    }
+    // Jika tags bukan array, konversi
+    if (!Array.isArray(sanitizedData.tags)) {
+      sanitizedData.tags = String(sanitizedData.tags).split(',').map(t => t.trim()).filter(Boolean);
+    }
+    // Filter tag kosong
+    sanitizedData.tags = sanitizedData.tags.filter(t => t && t.trim() !== '');
+
+    // Pastikan field wajib ada
+    if (!sanitizedData.title || !sanitizedData.content) {
+      throw new Error('Judul dan konten artikel wajib diisi.');
+    }
+    if (!sanitizedData.slug) {
+      throw new Error('Slug artikel tidak boleh kosong.');
+    }
+    if (!sanitizedData.author_id) {
+      throw new Error('Author ID tidak ditemukan. Pastikan Anda sudah login.');
+    }
+
+    console.log('[ArticleService] Mengirim artikel:', {
+      title: sanitizedData.title,
+      slug: sanitizedData.slug,
+      status: sanitizedData.status,
+      category_id: sanitizedData.category_id,
+      tags: sanitizedData.tags,
+      has_cover: !!sanitizedData.cover_image_url
+    });
+
+    // Insert dengan timeout 15 detik untuk mencegah hang
+    const insertPromise = supabase
+      .from('articles')
+      .insert([sanitizedData])
+      .select();
+
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Timeout: Server tidak merespons dalam 15 detik. Coba lagi.')), 15000)
+    );
+
+    const { data, error } = await Promise.race([insertPromise, timeoutPromise]);
+
+    if (error) {
+      console.error('[ArticleService] Supabase insert error:', error);
+      // Berikan pesan error yang lebih jelas
+      if (error.code === '23505') {
+        throw new Error('Artikel dengan slug yang sama sudah ada. Coba ubah judul.');
+      }
+      if (error.code === '23503') {
+        throw new Error('Kategori atau author tidak valid. Pastikan data benar.');
+      }
+      if (error.code === '42501') {
+        throw new Error('Anda tidak memiliki izin untuk membuat artikel. Periksa RLS policy di Supabase.');
+      }
+      throw new Error(error.message || 'Gagal menyimpan artikel ke database.');
+    }
+
+    console.log('[ArticleService] Artikel berhasil disimpan:', data);
+
+    // Deteksi RLS silent failure: data null/kosong tanpa error
+    // berarti RLS memblokir insert tanpa memberikan error eksplisit
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      console.error('[ArticleService] RLS silent failure: insert berhasil tanpa error tapi data kosong');
+      throw new Error('Gagal menyimpan artikel. Kemungkinan Anda tidak memiliki izin (RLS policy). Hubungi admin.');
+    }
+
+    return { ...sanitizedData, success: true };
   } catch (error) {
-    console.error('Error creating article:', error);
+    console.error('[ArticleService] Error creating article:', error);
     throw error;
   }
 }

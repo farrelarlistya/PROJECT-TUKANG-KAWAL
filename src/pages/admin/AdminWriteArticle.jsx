@@ -8,7 +8,7 @@ export default function AdminWriteArticle() {
   const { addToast } = useToast();
   
   const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState({ judul: '', kategori_id: '', konten: '', eksklusif: false, gambar: null });
+  const [form, setForm] = useState({ judul: '', tags: '', kategori_id: '', konten: '', eksklusif: false, gambar: null });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -34,15 +34,27 @@ export default function AdminWriteArticle() {
       addToast('Judul dan konten wajib diisi!', 'error'); 
       return; 
     }
+
+    // Validasi ukuran file sebelum submit
+    if (form.gambar && form.gambar.size > 5 * 1024 * 1024) {
+      addToast('Ukuran gambar terlalu besar. Maksimal 5MB.', 'error');
+      return;
+    }
     
     setIsSubmitting(true);
     try {
       let cover_image_url = null;
       if (form.gambar && user) {
-        cover_image_url = await uploadArticleCover(form.gambar, user.id);
+        try {
+          cover_image_url = await uploadArticleCover(form.gambar, user.id);
+        } catch (uploadErr) {
+          console.warn('Upload gambar gagal, lanjut tanpa gambar:', uploadErr);
+          addToast('Upload gambar gagal: ' + uploadErr.message + '. Artikel tetap dipublikasikan tanpa gambar.', 'warning');
+        }
       }
 
       const slug = form.judul.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString().slice(-4);
+      const tagsArray = form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
 
       await createArticle({
         title: form.judul,
@@ -54,11 +66,15 @@ export default function AdminWriteArticle() {
         author_id: user.id,
         status: 'published',
         is_exclusive: form.eksklusif,
+        tags: tagsArray,
         published_at: new Date().toISOString()
       });
 
       addToast('Artikel berhasil dipublikasikan!', 'success');
-      setForm({ judul: '', kategori_id: categories[0]?.id || '', konten: '', eksklusif: false, gambar: null });
+      setForm({ judul: '', tags: '', kategori_id: categories[0]?.id || '', konten: '', eksklusif: false, gambar: null });
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
     } catch (err) {
       console.error(err);
       addToast('Gagal mempublikasikan artikel: ' + err.message, 'error');
@@ -77,6 +93,10 @@ export default function AdminWriteArticle() {
         <div>
           <label className="text-[13px] font-semibold text-[#333] mb-1.5 block">Judul Artikel</label>
           <input className={inputClass} value={form.judul} onChange={update('judul')} placeholder="Masukkan judul artikel..." disabled={isSubmitting} />
+        </div>
+        <div>
+          <label className="text-[13px] font-semibold text-[#333] mb-1.5 block">Tags</label>
+          <input className={inputClass} value={form.tags} onChange={update('tags')} placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024" disabled={isSubmitting} />
         </div>
         <div className="grid grid-cols-2 gap-5">
           <div>

@@ -30,7 +30,7 @@ export default function AdminUsers() {
 
   useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
-  const handleChangeRole = async (userId, newRole) => {
+  const handleChangeRole = async (userId, newRole, oldRole) => {
     setActionLoading(userId);
     try {
       const { error } = await supabase
@@ -39,6 +39,32 @@ export default function AdminUsers() {
         .eq('id', userId);
 
       if (error) throw error;
+
+      // Jika diubah ke member, buat record subscription otomatis
+      if (newRole === 'member' && oldRole !== 'member') {
+        const startsAt = new Date();
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 365); // default 1 tahun
+
+        const { error: subError } = await supabase
+          .from('subscriptions')
+          .insert({
+            user_id: userId,
+            plan: '1tahun',
+            payment_method: 'admin',
+            amount: 0,
+            status: 'active',
+            starts_at: startsAt.toISOString(),
+            expires_at: expiresAt.toISOString(),
+            virtual_account: 'ADMIN-GRANT',
+            confirmed_at: new Date().toISOString()
+          });
+
+        if (subError) {
+          console.warn('Gagal membuat record subscription:', subError);
+        }
+      }
+
       addToast(`Role pengguna berhasil diubah ke ${newRole}`, 'success');
       await fetchUsers();
     } catch (err) {
@@ -197,7 +223,7 @@ export default function AdminUsers() {
                     <td>
                       <select
                         value={u.role}
-                        onChange={(e) => handleChangeRole(u.id, e.target.value)}
+                        onChange={(e) => handleChangeRole(u.id, e.target.value, u.role)}
                         disabled={isProcessing}
                         className="py-1.5 px-2 border border-[#dcdcdc] rounded text-[12px] bg-white cursor-pointer outline-none focus:border-brand"
                       >

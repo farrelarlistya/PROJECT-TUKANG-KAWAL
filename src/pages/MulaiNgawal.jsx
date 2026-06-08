@@ -32,12 +32,23 @@ export default function MulaiNgawal() {
       addToast('Judul dan konten wajib diisi!', 'error'); 
       return; 
     }
+
+    // Validasi ukuran file sebelum submit
+    if (form.gambar && form.gambar.size > 5 * 1024 * 1024) {
+      addToast('Ukuran gambar terlalu besar. Maksimal 5MB.', 'error');
+      return;
+    }
     
     setIsSubmitting(true);
     try {
       let cover_image_url = null;
       if (form.gambar && user) {
-        cover_image_url = await uploadArticleCover(form.gambar, user.id);
+        try {
+          cover_image_url = await uploadArticleCover(form.gambar, user.id);
+        } catch (uploadErr) {
+          console.warn('Upload gambar gagal, lanjut tanpa gambar:', uploadErr);
+          addToast('Upload gambar gagal: ' + uploadErr.message + '. Artikel tetap dikirim tanpa gambar.', 'warning');
+        }
       }
 
       const slug = form.judul.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString().slice(-4);
@@ -58,6 +69,9 @@ export default function MulaiNgawal() {
 
       addToast('Artikel berhasil dikirim! Menunggu persetujuan admin.', 'success');
       setForm({ judul: '', tags: '', kategori_id: categories[0]?.id || '', konten: '', gambar: null });
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
     } catch (err) {
       console.error(err);
       addToast('Gagal mengirim artikel: ' + err.message, 'error');

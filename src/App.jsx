@@ -24,6 +24,7 @@ const AdminWriteArticle = lazy(() => import('@/pages/admin/AdminWriteArticle'));
 const AdminManageArticles = lazy(() => import('@/pages/admin/AdminManageArticles'));
 const AdminUsers = lazy(() => import('@/pages/admin/AdminUsers'));
 const AdminMembership = lazy(() => import('@/pages/admin/AdminMembership'));
+const AdminTransaksi = lazy(() => import('@/pages/admin/AdminTransaksi'));
 
 function LoadingFallback() {
   return (
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="articles" element={<AdminManageArticles />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="membership" element={<AdminMembership />} />
+          <Route path="transaksi" element={<AdminTransaksi />} />
         </Route>
 
         {/* 404 */}

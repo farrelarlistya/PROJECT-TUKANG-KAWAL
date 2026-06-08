@@ -18,18 +18,24 @@ export default function AdminMembership() {
   const fetchSubscriptions = useCallback(async () => {
     setLoading(true);
     try {
+      // Query subscriptions - gunakan inner join yang lebih sederhana
       const { data, error } = await supabase
         .from('subscriptions')
         .select(`
           *,
-          profiles!user_id ( full_name, email, username )
+          profiles ( full_name, email, username )
         `)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('[AdminMembership] Query error:', error);
+        throw error;
+      }
+      
+      console.log('[AdminMembership] Data loaded:', data?.length, 'subscriptions');
       setSubscriptions(data || []);
     } catch (err) {
-      console.error(err);
+      console.error('[AdminMembership] Error:', err);
       addToast('Gagal memuat data langganan: ' + err.message, 'error');
     } finally {
       setLoading(false);
@@ -61,6 +67,16 @@ export default function AdminMembership() {
 
   const statusBadge = (status) => {
     const map = {
+      pending: {
+        bg: '#fef3c7',
+        color: '#92400e',
+        icon: (
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
+        label: 'Menunggu'
+      },
       active: {
         bg: '#dcfce7',
         color: '#166534',
@@ -92,7 +108,7 @@ export default function AdminMembership() {
         label: 'Dibatalkan'
       },
     };
-    const s = map[status] || map.expired;
+    const s = map[status] || map.pending;
     return (
       <span style={{ background: s.bg, color: s.color }} className="py-1 px-2.5 rounded text-[11px] font-semibold inline-flex items-center gap-1">
         <span className="flex items-center justify-center shrink-0">{s.icon}</span> {s.label}
@@ -114,6 +130,7 @@ export default function AdminMembership() {
 
   const statusCounts = {
     all: subscriptions.length,
+    pending: subscriptions.filter(s => s.status === 'pending').length,
     active: totalActive,
     expired: totalExpired,
     cancelled: subscriptions.filter(s => s.status === 'cancelled').length,
@@ -225,6 +242,7 @@ export default function AdminMembership() {
       <div className="flex items-center gap-2">
         {[
           { key: 'all', label: 'Semua' },
+          { key: 'pending', label: 'Menunggu' },
           { key: 'active', label: 'Aktif' },
           { key: 'expired', label: 'Expired' },
           { key: 'cancelled', label: 'Dibatalkan' },
@@ -308,6 +326,7 @@ export default function AdminMembership() {
                         disabled={isProcessing}
                         className="py-1.5 px-2 border border-[#dcdcdc] rounded text-[12px] bg-white cursor-pointer outline-none focus:border-brand"
                       >
+                        <option value="pending">Menunggu</option>
                         <option value="active">Aktif</option>
                         <option value="expired">Expired</option>
                         <option value="cancelled">Dibatalkan</option>
