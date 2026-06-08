@@ -13,8 +13,7 @@ export default function AdminLayout() {
     { to: '/admin/write', label: 'Tulis Artikel Baru' },
     { to: '/admin/articles', label: 'Kelola Artikel' },
     { to: '/admin/users', label: 'Kelola Pengguna' },
-    { to: '/admin/membership', label: 'Paket Membership' },
-    { to: '/admin/transaksi', label: 'Riwayat Transaksi' },
+    { to: '/admin/membership', label: 'Membership & Transaksi' },
   ];
 
   return (

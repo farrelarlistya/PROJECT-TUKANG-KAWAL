@@ -35,25 +35,21 @@ export function AppProvider({ children }) {
     // 1. Cek session yang sudah ada (misal user reload halaman)
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
-      if (currentSession?.user) {
-        fetchAndSetProfile(currentSession.user.id);
-      } else {
+      if (!currentSession) {
         setLoading(false);
       }
     });
 
     // 2. Dengarkan perubahan auth (login, logout, token refresh)
+    // Supabase Auth listener harus tetap sinkron untuk mencegah deadlock/loop saat tab fokus kembali (Alt-Tab)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, newSession) => {
+      (event, newSession) => {
         setSession(newSession);
-
-        if (event === 'SIGNED_IN' && newSession?.user) {
-          await fetchAndSetProfile(newSession.user.id);
-        }
 
         if (event === 'SIGNED_OUT') {
           setUser(null);
           setIsAuthenticated(false);
+          setLoading(false);
         }
       }
     );
@@ -63,6 +59,16 @@ export function AppProvider({ children }) {
       subscription.unsubscribe();
     };
   }, []);
+
+  // 3. Efek terpisah untuk memuat profil asinkron saat ID user sesi berubah
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchAndSetProfile(session.user.id);
+    } else {
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  }, [session?.user?.id]);
 
   /**
    * Fetch profile dari tabel profiles dan set ke state
@@ -323,36 +329,41 @@ export function AppProvider({ children }) {
   }, [user]);
 
   // ─── Upgrade to Member ──────────────────────────────────────
+  // Alur baru: checkout hanya membuat data langganan berstatus 'pending'.
+  // Role user baru akan diaktifkan oleh admin melalui persetujuan di dashboard.
   const upgradeToMember = useCallback(async (plan = '1tahun', paymentMethod = 'bca', amount = 411600, virtualAccount = '') => {
     if (!user?.id) return;
 
-    const { error } = await upgradeProfileRole(user.id);
-    if (!error) {
-      setUser(prev => ({ ...prev, role: USER_ROLES.MEMBER }));
-
-      // Insert subscription record into the database
-      const startsAt = new Date();
-      const expiresAt = new Date();
-      if (plan === '1bulan') {
-        expiresAt.setDate(expiresAt.getDate() + 30);
-      } else {
-        expiresAt.setDate(expiresAt.getDate() + 365);
-      }
-
-      await supabase
-        .from('subscriptions')
-        .insert({
-          user_id: user.id,
-          plan: plan,
-          payment_method: paymentMethod,
-          amount: amount,
-          status: 'active',
-          starts_at: startsAt.toISOString(),
-          expires_at: expiresAt.toISOString(),
-          virtual_account: virtualAccount || null,
-          confirmed_at: new Date().toISOString()
-        });
+    const startsAt = new Date();
+    const expiresAt = new Date();
+    if (plan === '1bulan') {
+      expiresAt.setDate(expiresAt.getDate() + 30);
+    } else {
+      expiresAt.setDate(expiresAt.getDate() + 365);
     }
+
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .insert({
+        user_id: user.id,
+        plan: plan,
+        payment_method: paymentMethod,
+        amount: amount,
+        status: 'pending', // Awalnya berstatus pending menunggu konfirmasi admin
+        starts_at: startsAt.toISOString(),
+        expires_at: expiresAt.toISOString(),
+        virtual_account: virtualAccount || null,
+        confirmed_at: null // Belum dikonfirmasi oleh admin
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('[upgradeToMember] Gagal membuat langganan pending:', error);
+      throw error;
+    }
+
+    return data;
   }, [user]);
 
   // ─── Toast Functions ────────────────────────────────────────

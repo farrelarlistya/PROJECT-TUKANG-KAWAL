@@ -56,7 +56,7 @@ export default function Subscription() {
     try {
       const va = payment !== 'qris' ? getVANumber().replace(/\s/g, '') : 'QRIS';
       await upgradeToMember(paket, payment, selected.amount, va);
-      addToast('Selamat! Anda sekarang Pengawal Eksklusif!', 'success');
+      addToast('Permintaan langganan berhasil dikirim. Menunggu konfirmasi admin.', 'success');
       setShowPayment(false);
       navigate('/account/subscription');
     } catch (err) {
