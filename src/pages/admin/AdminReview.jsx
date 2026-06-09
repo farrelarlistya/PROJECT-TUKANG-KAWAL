@@ -8,6 +8,7 @@ export default function AdminReview() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
   const [previewArticle, setPreviewArticle] = useState(null);
+  const [isExclusive, setIsExclusive] = useState(false);
 
   const fetchPending = useCallback(async () => {
     try {
@@ -27,7 +28,7 @@ export default function AdminReview() {
   const handleApprove = async (id) => {
     setActionLoading(id);
     try {
-      await approveArticle(id);
+      await approveArticle(id, isExclusive);
       addToast('Artikel berhasil disetujui dan dipublikasikan!', 'success');
       setPreviewArticle(null);
       await fetchPending();
@@ -123,7 +124,7 @@ export default function AdminReview() {
                     <td>
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setPreviewArticle(a)}
+                          onClick={() => { setPreviewArticle(a); setIsExclusive(a.is_exclusive || false); }}
                           className="bg-[#2563eb] text-white py-1.5 px-3 rounded text-[12px] font-semibold border-none cursor-pointer hover:bg-[#1d4ed8] transition-colors flex items-center gap-1"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -280,12 +281,24 @@ export default function AdminReview() {
 
             {/* Footer — Action Buttons */}
             <div className="flex items-center justify-between px-6 py-4 border-t border-[#e5e7eb] bg-[#f9fafb]">
-              <button
-                onClick={() => setPreviewArticle(null)}
-                className="bg-[#f3f4f6] text-[#374151] py-2.5 px-5 rounded-lg text-[13px] font-semibold border border-[#d1d5db] cursor-pointer hover:bg-[#e5e7eb] transition-colors"
-              >
-                Tutup
-              </button>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setPreviewArticle(null)}
+                  className="bg-[#f3f4f6] text-[#374151] py-2.5 px-5 rounded-lg text-[13px] font-semibold border border-[#d1d5db] cursor-pointer hover:bg-[#e5e7eb] transition-colors"
+                >
+                  Tutup
+                </button>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 accent-[#1e3a8a] cursor-pointer"
+                    checked={isExclusive}
+                    onChange={(e) => setIsExclusive(e.target.checked)}
+                    disabled={actionLoading === previewArticle.id}
+                  />
+                  <span className="text-[13px] font-semibold text-[#111827]">Jadikan Eksklusif</span>
+                </label>
+              </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => handleReject(previewArticle.id)}

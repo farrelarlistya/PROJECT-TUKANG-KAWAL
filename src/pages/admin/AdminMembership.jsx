@@ -235,12 +235,12 @@ export default function AdminMembership() {
       <div className="mb-6">
         <h1 className="text-[22px] font-bold text-navy">Kelola Membership & Transaksi</h1>
         <p className="text-[13.5px] text-[#888] mt-1">
-          Pantau status berlangganan, konfirmasi pembayaran, serta kelola paket keanggotaan pengguna.
+          Pantau status berlangganan serta kelola paket keanggotaan pengguna.
         </p>
       </div>
 
       {/* Combined Stats Cards */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-4 mb-6">
         {[
           {
             label: 'Total Langganan',
@@ -263,17 +263,6 @@ export default function AdminMembership() {
             ),
             color: '#059669',
             bg: '#ecfdf5'
-          },
-          {
-            label: 'Menunggu Konfirmasi',
-            val: totalPending,
-            icon: (
-              <svg className="w-5 h-5 text-[#f59e0b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            ),
-            color: '#f59e0b',
-            bg: '#fffbeb'
           },
           {
             label: 'Total Pendapatan',
@@ -315,11 +304,6 @@ export default function AdminMembership() {
             }`}
           >
             {tab.label}
-            {tab.key === 'membership' && totalPending > 0 && (
-              <span className="ml-2 bg-[#fee2e2] text-[#ef4444] text-[10px] font-extrabold px-2 py-0.5 rounded-full animate-pulse">
-                {totalPending} Baru
-              </span>
-            )}
           </button>
         ))}
       </div>
@@ -371,7 +355,6 @@ export default function AdminMembership() {
           <div className="flex items-center gap-2">
             {[
               { key: 'all', label: 'Semua' },
-              { key: 'pending', label: 'Menunggu' },
               { key: 'active', label: 'Aktif' },
               { key: 'expired', label: 'Expired' },
               { key: 'cancelled', label: 'Dibatalkan' },
@@ -456,7 +439,6 @@ export default function AdminMembership() {
                             disabled={isProcessing}
                             className="py-1.5 px-2 border border-[#dcdcdc] rounded text-[12px] bg-white cursor-pointer outline-none focus:border-brand"
                           >
-                            <option value="pending">Menunggu</option>
                             <option value="active">Aktif</option>
                             <option value="expired">Expired</option>
                             <option value="cancelled">Dibatalkan</option>
@@ -477,7 +459,6 @@ export default function AdminMembership() {
             <div className="flex items-center gap-2">
               {[
                 { key: 'all', label: 'Semua' },
-                { key: 'pending', label: 'Menunggu' },
                 { key: 'active', label: 'Aktif' },
                 { key: 'expired', label: 'Expired' },
                 { key: 'cancelled', label: 'Dibatalkan' },

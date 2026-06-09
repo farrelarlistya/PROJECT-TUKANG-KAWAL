@@ -329,8 +329,7 @@ export function AppProvider({ children }) {
   }, [user]);
 
   // ─── Upgrade to Member ──────────────────────────────────────
-  // Alur baru: checkout hanya membuat data langganan berstatus 'pending'.
-  // Role user baru akan diaktifkan oleh admin melalui persetujuan di dashboard.
+  // Pembayaran langsung aktif, role user langsung diupgrade menjadi member
   const upgradeToMember = useCallback(async (plan = '1tahun', paymentMethod = 'bca', amount = 411600, virtualAccount = '') => {
     if (!user?.id) return;
 
@@ -349,19 +348,28 @@ export function AppProvider({ children }) {
         plan: plan,
         payment_method: paymentMethod,
         amount: amount,
-        status: 'pending', // Awalnya berstatus pending menunggu konfirmasi admin
+        status: 'active', // Langsung berstatus active tanpa perlu konfirmasi admin
         starts_at: startsAt.toISOString(),
         expires_at: expiresAt.toISOString(),
         virtual_account: virtualAccount || null,
-        confirmed_at: null // Belum dikonfirmasi oleh admin
+        confirmed_at: startsAt.toISOString() // Langsung dikonfirmasi
       })
       .select()
       .single();
 
     if (error) {
-      console.error('[upgradeToMember] Gagal membuat langganan pending:', error);
+      console.error('[upgradeToMember] Gagal membuat langganan:', error);
       throw error;
     }
+
+    // Langsung update role user menjadi member di Supabase
+    await upgradeProfileRole(user.id);
+
+    // Update state lokal
+    setUser(prev => ({
+      ...prev,
+      role: USER_ROLES.MEMBER
+    }));
 
     return data;
   }, [user]);

@@ -15,19 +15,24 @@ export async function getPublishedArticles({ category = 'general', page = 1, lim
       .eq('status', 'published')
       .order('published_at', { ascending: false });
 
-    // Filter by exclusive
-    query = query.eq('is_exclusive', isExclusive);
+    if (category === 'eksklusif') {
+      // Jika kategori eksklusif, ambil semua artikel eksklusif
+      query = query.eq('is_exclusive', true);
+    } else {
+      // Filter by exclusive
+      query = query.eq('is_exclusive', isExclusive);
 
-    // Filter by category if not 'general'
-    if (category && category !== 'general') {
-      const { data: categoryData } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('slug', category)
-        .single();
-      
-      if (categoryData) {
-        query = query.eq('category_id', categoryData.id);
+      // Filter by category if not 'general'
+      if (category && category !== 'general') {
+        const { data: categoryData } = await supabase
+          .from('categories')
+          .select('id')
+          .eq('slug', category)
+          .single();
+        
+        if (categoryData) {
+          query = query.eq('category_id', categoryData.id);
+        }
       }
     }
 
@@ -311,12 +316,13 @@ export async function getAllArticlesForAdmin() {
 /**
  * Approve an article (set status to published)
  */
-export async function approveArticle(articleId) {
+export async function approveArticle(articleId, isExclusive = false) {
   try {
     const { data, error } = await supabase
       .from('articles')
       .update({
         status: 'published',
+        is_exclusive: isExclusive,
         published_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       })

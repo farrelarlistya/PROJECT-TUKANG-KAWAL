@@ -56,7 +56,7 @@ export default function Subscription() {
     try {
       const va = payment !== 'qris' ? getVANumber().replace(/\s/g, '') : 'QRIS';
       await upgradeToMember(paket, payment, selected.amount, va);
-      addToast('Permintaan langganan berhasil dikirim. Menunggu konfirmasi admin.', 'success');
+      addToast('Pembayaran berhasil dikonfirmasi. Anda sekarang adalah member eksklusif!', 'success');
       setShowPayment(false);
       navigate('/account/subscription');
     } catch (err) {

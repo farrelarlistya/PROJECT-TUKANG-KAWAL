@@ -97,7 +97,7 @@ export default function ArticleDetail() {
   return (
     <PageWrapper showCategories={true}>
       <main className="article-layout max-w-[800px] mx-auto my-10 px-6 !bg-[#fcfcfc] font-dm-sans">
-        <h1 className="article-detail-title font-playfair text-[42px] leading-[1.25] text-[#111] mb-4 tracking-[-0.5px]">
+        <h1 className="article-detail-title font-playfair font-bold text-[42px] leading-[1.25] text-[#111] mb-4 tracking-[-0.5px]">
           {article.title}
         </h1>
 

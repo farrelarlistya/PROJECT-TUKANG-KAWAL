@@ -44,19 +44,17 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
                   </Link>
                 </li>
               ))}
-              {/* Member gets Eksklusif category */}
-              {isMember && (
-                <li>
-                  <Link
-                    to="/category/eksklusif"
-                    className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
-                      activeCategory === 'eksklusif' ? 'nav-category-active' : ''
-                    }`}
-                  >
-                     Eksklusif
-                  </Link>
-                </li>
-              )}
+              {/* Semua user bisa melihat tab Eksklusif */}
+              <li>
+                <Link
+                  to="/category/eksklusif"
+                  className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
+                    activeCategory === 'eksklusif' ? 'nav-category-active' : ''
+                  }`}
+                >
+                   Eksklusif
+                </Link>
+              </li>
             </ul>
           </nav>
         )}
@@ -77,11 +75,6 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
             <>
               <Link
                 to="/login"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert('Silakan login atau daftar terlebih dahulu untuk mengakses Pengawal Eksklusif.');
-                  navigate('/login');
-                }}
                 className="no-underline bg-brand text-white py-2.5 px-[15px] rounded-lg border-none cursor-pointer text-[15px] font-semibold"
               >
                 Pengawal Eksklusif

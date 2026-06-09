@@ -20,7 +20,7 @@ export default function AdminLayout() {
     <div className="flex min-h-screen text-[14px]">
       <aside className="w-[240px] min-h-screen bg-navy flex flex-col fixed top-0 left-0 bottom-0 z-[100] shadow-[2px_0_12px_rgba(0,0,0,0.15)]">
         <div className="py-5 px-6 border-b border-white/10 flex items-center">
-          <Link to="/admin" className="font-playfair no-underline text-white text-[25px] font-bold">
+          <Link to="/" className="font-playfair no-underline text-white text-[25px] font-bold">
             <span className="inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">T</span> TukangKawal
           </Link>
         </div>
