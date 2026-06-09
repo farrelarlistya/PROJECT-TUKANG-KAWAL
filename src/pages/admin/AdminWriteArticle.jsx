@@ -15,8 +15,10 @@ export default function AdminWriteArticle() {
     async function loadCategories() {
       const { data } = await supabase.from('categories').select('id, label');
       if (data) {
-        setCategories(data);
-        if (data.length > 0) setForm(s => ({ ...s, kategori_id: data[0].id }));
+        // Filter out 'Eksklusif' category
+        const filteredData = data.filter(c => c.label.toLowerCase() !== 'eksklusif');
+        setCategories(filteredData);
+        if (filteredData.length > 0) setForm(s => ({ ...s, kategori_id: filteredData[0].id }));
       }
     }
     loadCategories();

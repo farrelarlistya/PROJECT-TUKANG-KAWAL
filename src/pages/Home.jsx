@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import PageWrapper from '@/components/layout/PageWrapper';
 import HotNews from '@/components/news/HotNews';
@@ -46,35 +46,45 @@ export default function Home() {
 
   // Derived data
   const hotArticle = useMemo(() => {
+    if (slug) return null;
     if (isSearching && searchResults.length > 0) return searchResults[0];
     return articles.length > 0 ? articles[0] : null;
-  }, [articles, searchResults, isSearching]);
+  }, [articles, searchResults, isSearching, slug]);
 
   const cardArticles = useMemo(() => {
-    if (isSearching) return searchResults.slice(1);
-    return articles.slice(1, 7);
-  }, [articles, searchResults, isSearching]);
+    if (isSearching) {
+      return slug ? searchResults : searchResults.slice(1);
+    }
+    return slug ? articles.slice(0, 6) : articles.slice(1, 7);
+  }, [articles, searchResults, isSearching, slug]);
 
   const trendingArticles = useMemo(() => {
     if (isSearching) return [];
+    if (slug) {
+      // Pada halaman kategori, karena grid menampilkan artikel dari indeks 0 s/d 5,
+      // trending section mengambil dari indeks 6 s/d 11.
+      return articles.length > 6 ? articles.slice(6, 11) : [];
+    }
     return articles.length > 7 ? articles.slice(7, 12) : articles.slice(0, 5);
-  }, [articles, isSearching]);
+  }, [articles, isSearching, slug]);
 
   const allCardArticles = useMemo(() => {
     return [...cardArticles, ...extraArticles];
   }, [cardArticles, extraArticles]);
 
-  const showLoadMore = !isSearching && hasMore && articles.length > 0;
+  const showLoadMore = !isSearching && hasMore && (articles.length + extraArticles.length < totalResults);
 
   return (
     <PageWrapper showSearch={true} showCategories={true} activeCategory={category}>
       <Ticker articles={articles} />
 
       <main>
-        {/* Hot News */}
-        <div id="hot-news-container">
-          {isLoading ? <SkeletonHotNews /> : <HotNews article={hotArticle} categorySlug={category} />}
-        </div>
+        {/* Hot News - Hanya ditampilkan di halaman home (slug tidak didefinisikan) */}
+        {!slug && (
+          <div id="hot-news-container">
+            {isLoading ? <SkeletonHotNews /> : <HotNews article={hotArticle} categorySlug={category} />}
+          </div>
+        )}
 
         {/* News Cards Grid */}
         <section className="px-[50px] mb-[30px]">
@@ -120,11 +130,11 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Exclusive Section */}
-      {!isSearching && <ExclusiveSection />}
+      {/* Exclusive Section - Hanya ditampilkan di halaman home (slug tidak didefinisikan) */}
+      {!slug && !isSearching && <ExclusiveSection />}
 
       {/* Trending Section */}
-      {!isSearching && (
+      {!isSearching && (!slug || trendingArticles.length > 0) && (
         <section className="py-10 px-[50px]">
           <h2 className="text-[26px] text-[#222] mb-5 pb-[15px] border-b-2 border-[#ddd]">Sedang Trending</h2>
           {isLoading ? (
