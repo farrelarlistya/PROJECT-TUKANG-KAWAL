@@ -274,7 +274,11 @@ export function AppProvider({ children }) {
     if (updates.city !== undefined) dbUpdates.city = updates.city;
 
     const { data: updated, error } = await updateProfile(user.id, dbUpdates);
-    if (!error && updated) {
+    if (error) {
+      console.error('[Auth] Failed to update user:', error);
+      throw error;
+    }
+    if (updated) {
       setUser(prev => ({
         ...prev,
         ...updates,
