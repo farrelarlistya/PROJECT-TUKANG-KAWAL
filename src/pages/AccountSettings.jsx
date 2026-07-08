@@ -29,8 +29,8 @@ export default function AccountSettings() {
   };
 
   return (
-    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] p-10 h-fit">
-      <h1 className="akun-page-title font-playfair text-[28px] text-[#111827] mb-8 pb-4 border-b border-[#e5e7eb]">Pengaturan Akun</h1>
+    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] p-5 sm:p-8 lg:p-10 h-fit">
+      <h1 className="akun-page-title font-playfair text-[24px] sm:text-[28px] text-[#111827] mb-6 sm:mb-8 pb-4 border-b border-[#e5e7eb]">Pengaturan Akun</h1>
       <div className="mb-10">
         <h2 className="text-[18px] font-semibold text-[#111827] mb-5 flex items-center gap-2">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>

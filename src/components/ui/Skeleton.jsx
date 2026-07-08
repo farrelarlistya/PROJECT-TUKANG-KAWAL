@@ -20,10 +20,10 @@ export function SkeletonGrid({ count = 6 }) {
 
 export function SkeletonHotNews() {
   return (
-    <div className="hot-news flex gap-[50px] bg-white mx-[50px] my-5">
-      <div className="skeleton skeleton-image" style={{ width: '40vw', minHeight: '300px' }} />
-      <div className="pr-[30px] flex flex-col justify-center gap-5 flex-1">
-        <div className="skeleton skeleton-text" style={{ width: '90%', height: '35px' }} />
+    <div className="hot-news flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-[50px] bg-white mx-4 sm:mx-6 lg:mx-[50px] my-5">
+      <div className="skeleton skeleton-image w-full md:w-[45%]" style={{ minHeight: '220px' }} />
+      <div className="px-4 md:px-0 md:pr-[30px] flex flex-col justify-center gap-5 flex-1">
+        <div className="skeleton skeleton-text" style={{ width: '90%', height: '28px' }} />
         <div className="skeleton skeleton-text" style={{ width: '100%', height: '16px' }} />
         <div className="skeleton skeleton-text" style={{ width: '70%', height: '16px' }} />
         <div className="skeleton skeleton-text" style={{ width: '30%', height: '14px' }} />
@@ -35,9 +35,9 @@ export function SkeletonHotNews() {
 export function SkeletonTrending({ count = 5 }) {
   return Array.from({ length: count }, (_, i) => (
     <li key={i} className="flex items-center gap-5 py-[15px] border-b border-[#eee]">
-      <div className="skeleton" style={{ width: '80px', height: '80px', borderRadius: '8px' }} />
-      <div className="skeleton" style={{ width: '40px', height: '32px', borderRadius: '4px' }} />
-      <div className="flex-1">
+      <div className="skeleton" style={{ width: '80px', height: '80px', borderRadius: '8px', flexShrink: 0 }} />
+      <div className="skeleton" style={{ width: '40px', height: '32px', borderRadius: '4px', flexShrink: 0 }} />
+      <div className="flex-1 min-w-0">
         <div className="skeleton skeleton-text" style={{ width: '60px', height: '18px', marginBottom: '8px' }} />
         <div className="skeleton skeleton-text" style={{ width: '80%', height: '16px' }} />
       </div>

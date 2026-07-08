@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1e1e2e] text-[#ccc] pt-[50px] px-[50px] pb-0">
-      <div className="footer-content grid grid-cols-[2fr_1fr_1fr_1fr] gap-10 pb-10 border-b border-[#333]">
+    <footer className="bg-[#1e1e2e] text-[#ccc] pt-[40px] px-5 sm:px-8 lg:px-[50px] pb-0">
+      <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-8 lg:gap-10 pb-10 border-b border-[#333]">
         <div className="footer-brand">
           <h2>
             <span className="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">

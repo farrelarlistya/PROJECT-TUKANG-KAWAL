@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import PageWrapper from '@/components/layout/PageWrapper';
 import HotNews from '@/components/news/HotNews';
@@ -46,59 +46,49 @@ export default function Home() {
 
   // Derived data
   const hotArticle = useMemo(() => {
-    if (slug) return null;
     if (isSearching && searchResults.length > 0) return searchResults[0];
     return articles.length > 0 ? articles[0] : null;
-  }, [articles, searchResults, isSearching, slug]);
+  }, [articles, searchResults, isSearching]);
 
   const cardArticles = useMemo(() => {
-    if (isSearching) {
-      return slug ? searchResults : searchResults.slice(1);
-    }
-    return slug ? articles.slice(0, 6) : articles.slice(1, 7);
-  }, [articles, searchResults, isSearching, slug]);
+    if (isSearching) return searchResults.slice(1);
+    return articles.slice(1, 7);
+  }, [articles, searchResults, isSearching]);
 
   const trendingArticles = useMemo(() => {
     if (isSearching) return [];
-    if (slug) {
-      // Pada halaman kategori, karena grid menampilkan artikel dari indeks 0 s/d 5,
-      // trending section mengambil dari indeks 6 s/d 11.
-      return articles.length > 6 ? articles.slice(6, 11) : [];
-    }
     return articles.length > 7 ? articles.slice(7, 12) : articles.slice(0, 5);
-  }, [articles, isSearching, slug]);
+  }, [articles, isSearching]);
 
   const allCardArticles = useMemo(() => {
     return [...cardArticles, ...extraArticles];
   }, [cardArticles, extraArticles]);
 
-  const showLoadMore = !isSearching && hasMore && (articles.length + extraArticles.length < totalResults);
+  const showLoadMore = !isSearching && hasMore && articles.length > 0;
 
   return (
     <PageWrapper showSearch={true} showCategories={true} activeCategory={category}>
       <Ticker articles={articles} />
 
       <main>
-        {/* Hot News - Hanya ditampilkan di halaman home (slug tidak didefinisikan) */}
-        {!slug && (
-          <div id="hot-news-container">
-            {isLoading ? <SkeletonHotNews /> : <HotNews article={hotArticle} categorySlug={category} />}
-          </div>
-        )}
+        {/* Hot News */}
+        <div id="hot-news-container">
+          {isLoading ? <SkeletonHotNews /> : <HotNews article={hotArticle} categorySlug={category} />}
+        </div>
 
         {/* News Cards Grid */}
-        <section className="px-[50px] mb-[30px]">
+        <section className="px-4 sm:px-6 lg:px-[50px] mb-[30px]">
           <div className="flex items-center justify-between mb-[25px]">
-            <h1 className="text-[28px] text-[#222]">
+            <h1 className="text-[22px] sm:text-[28px] text-[#222]">
               {isSearching ? 'Hasil Pencarian' : 'Berita Terkini'}
             </h1>
           </div>
 
-          <div id="news-cards-container" className="grid grid-cols-3 gap-[25px]">
+          <div id="news-cards-container" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-[25px]">
             {isLoading || searching ? (
               <SkeletonGrid count={6} />
             ) : error ? (
-              <div className="error-state text-center py-12 px-6 col-span-3">
+              <div className="error-state text-center py-12 px-6 col-span-full">
                 <div className="flex justify-center mb-4 text-red-500">
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -121,7 +111,7 @@ export default function Home() {
               <button
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="bg-white text-brand border-2 border-brand py-3 px-[35px] rounded-lg text-[15px] font-semibold cursor-pointer transition-all duration-300 hover:bg-brand hover:text-white disabled:opacity-50"
+                className="bg-white text-brand border-2 border-brand py-3 px-6 sm:px-[35px] rounded-lg text-[14px] sm:text-[15px] font-semibold cursor-pointer transition-all duration-300 hover:bg-brand hover:text-white disabled:opacity-50"
               >
                 {loadingMore ? 'Memuat...' : 'Muat Lebih Banyak Berita'}
               </button>
@@ -130,13 +120,13 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Exclusive Section - Hanya ditampilkan di halaman home (slug tidak didefinisikan) */}
-      {!slug && !isSearching && <ExclusiveSection />}
+      {/* Exclusive Section */}
+      {!isSearching && <ExclusiveSection />}
 
       {/* Trending Section */}
-      {!isSearching && (!slug || trendingArticles.length > 0) && (
-        <section className="py-10 px-[50px]">
-          <h2 className="text-[26px] text-[#222] mb-5 pb-[15px] border-b-2 border-[#ddd]">Sedang Trending</h2>
+      {!isSearching && (
+        <section className="py-8 sm:py-10 px-4 sm:px-6 lg:px-[50px]">
+          <h2 className="text-[22px] sm:text-[26px] text-[#222] mb-5 pb-[15px] border-b-2 border-[#ddd]">Sedang Trending</h2>
           {isLoading ? (
             <ul className="list-none"><SkeletonTrending count={5} /></ul>
           ) : (

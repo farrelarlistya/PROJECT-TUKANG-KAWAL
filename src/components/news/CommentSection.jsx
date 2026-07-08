@@ -396,7 +396,7 @@ function CommentItem({
 
         {/* Action Buttons */}
         {!isEditing && (
-          <div className="flex items-center gap-3 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="comment-actions flex items-center gap-3 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             {isAuthenticated && (
               <button
                 onClick={() => onStartReply(comment)}

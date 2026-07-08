@@ -76,39 +76,39 @@ export default function Subscription() {
 
   return (
     <PageWrapper showCategories={true}>
-      <main className="langganan-container max-w-[760px] mx-auto py-8 px-6 pb-[60px]">
+      <main className="langganan-container max-w-[760px] mx-auto py-8 px-4 sm:px-6 pb-[60px]">
         <div className="text-center mb-10 pb-8 border-b border-[#e0e0e0]">
-          <h1 className="font-playfair font-bold text-navy text-[28px] mb-3">Pengawal Eksklusif</h1>
-          <p className="text-[15px] text-[#666] leading-[1.7] max-w-[560px] mx-auto">Satu akses penuh untuk membuka seluruh laporan investigasi mendalam, dokumen internal, dan analisis dari redaksi kami.</p>
+          <h1 className="font-playfair font-bold text-navy text-[24px] sm:text-[28px] mb-3">Pengawal Eksklusif</h1>
+          <p className="text-[14px] sm:text-[15px] text-[#666] leading-[1.7] max-w-[560px] mx-auto">Satu akses penuh untuk membuka seluruh laporan investigasi mendalam, dokumen internal, dan analisis dari redaksi kami.</p>
         </div>
 
         <div className="flex items-center gap-3 mb-5 mt-10">
           <span className="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">1</span>
-          <h2 className="text-[20px] font-bold text-[#1a1a1a]">Pilih Durasi Berlangganan</h2>
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-[#1a1a1a]">Pilih Durasi Berlangganan</h2>
         </div>
         <div className="flex flex-col gap-0">
           {/* Card 1 Bulan */}
-          <label className={`paket-card flex items-center justify-between py-5 px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative rounded-t-lg hover:bg-[#fafafa] ${paket==='1bulan'?'!border-brand !bg-brand-light z-[1]':''}`}>
+          <label className={`paket-card flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 sm:py-5 px-4 sm:px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative rounded-t-lg hover:bg-[#fafafa] gap-3 sm:gap-0 ${paket==='1bulan'?'!border-brand !bg-brand-light z-[1]':''}`}>
             <div className="flex-1">
               <div className="text-base font-bold text-[#1a1a1a]">Langganan 1 Bulan</div>
               <div className="text-[13px] text-[#666] mt-1.5">Akses penuh selama 30 hari.</div>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-[26px] font-extrabold text-[#1a1a1a]">Rp 49.000<span className="text-[14px] font-normal text-[#888]">/bln</span></span>
+              <span className="text-[20px] sm:text-[26px] font-extrabold text-[#1a1a1a]">Rp 49.000<span className="text-[13px] sm:text-[14px] font-normal text-[#888]">/bln</span></span>
               <input type="radio" name="paket" checked={paket==='1bulan'} onChange={()=>setPaket('1bulan')} className="w-5 h-5 accent-brand" />
             </div>
           </label>
           {/* Card 1 Tahun — badge di dalam konten, bukan absolute */}
-          <label className={`paket-card flex items-center justify-between py-5 px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative rounded-b-lg hover:bg-[#fafafa] ${paket==='1tahun'?'!border-brand !bg-brand-light z-[1]':''}`}>
+          <label className={`paket-card flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 sm:py-5 px-4 sm:px-6 border border-[#e0e0e0] bg-white cursor-pointer transition-all duration-200 relative rounded-b-lg hover:bg-[#fafafa] gap-3 sm:gap-0 ${paket==='1tahun'?'!border-brand !bg-brand-light z-[1]':''}`}>
             <div className="flex-1">
-              <div className="flex items-center gap-2.5 mb-1">
+              <div className="flex items-center gap-2.5 mb-1 flex-wrap">
                 <div className="text-base font-bold text-[#1a1a1a]">Langganan 1 Tahun</div>
                 <span className="bg-brand text-white text-[11px] font-bold py-0.5 px-2.5 rounded-[4px]">Lebih Hemat 30%</span>
               </div>
               <div className="text-[13px] text-[#666] mt-1">Akses penuh selama 12 bulan. Ditagih Rp 411.600 per tahun.</div>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-[26px] font-extrabold text-[#1a1a1a]">Rp 34.300<span className="text-[14px] font-normal text-[#888]">/bln</span></span>
+              <span className="text-[20px] sm:text-[26px] font-extrabold text-[#1a1a1a]">Rp 34.300<span className="text-[13px] sm:text-[14px] font-normal text-[#888]">/bln</span></span>
               <input type="radio" name="paket" checked={paket==='1tahun'} onChange={()=>setPaket('1tahun')} className="w-5 h-5 accent-brand" />
             </div>
           </label>
@@ -116,15 +116,15 @@ export default function Subscription() {
 
         <div className="flex items-center gap-3 mb-5 mt-10">
           <span className="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">2</span>
-          <h2 className="text-[20px] font-bold text-[#1a1a1a]">Pilih Metode Pembayaran</h2>
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-[#1a1a1a]">Pilih Metode Pembayaran</h2>
         </div>
         <div className="border border-[#e0e0e0] rounded-lg overflow-hidden bg-white">
           {[{group:'Bank Transfer',opts:[['bca','','BCA Virtual Account'],['mandiri','','Mandiri Virtual Account']]},{group:'E-Wallet & QRIS',opts:[['gopay','','GoPay'],['ovo','','OVO'],['qris','','QRIS']]}].map(g=>(
             <details key={g.group} className="payment-group border-b border-[#e0e0e0] last:border-0" open={g.group==='Bank Transfer'}>
-              <summary className="flex items-center justify-between py-4 px-6 text-[15px] font-semibold text-[#1a1a1a] cursor-pointer list-none hover:bg-[#fafafa]">{g.group}<span className="summary-arrow text-[12px] text-[#999]">▼</span></summary>
+              <summary className="flex items-center justify-between py-4 px-4 sm:px-6 text-[14px] sm:text-[15px] font-semibold text-[#1a1a1a] cursor-pointer list-none hover:bg-[#fafafa]">{g.group}<span className="summary-arrow text-[12px] text-[#999]">▼</span></summary>
               <div className="py-2">
                 {g.opts.map(([val,icon,label])=>(
-                  <label key={val} className={`payment-option flex items-center gap-3.5 py-3 px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5] ${payment===val?'bg-brand-light':''}`}>
+                  <label key={val} className={`payment-option flex items-center gap-3.5 py-3 px-4 sm:px-6 cursor-pointer transition-colors duration-150 hover:bg-[#f5f5f5] ${payment===val?'bg-brand-light':''}`}>
                     <input type="radio" name="payment" checked={payment===val} onChange={()=>setPayment(val)} className="w-4 h-4 accent-brand" />
                     <span className="text-[20px] w-10 text-center shrink-0">{icon}</span>
                     <span className="text-[14px] font-medium text-[#333]">{label}</span>
@@ -137,12 +137,12 @@ export default function Subscription() {
 
         <div className="flex items-center gap-3 mb-5 mt-10">
           <span className="step-number inline-flex items-center justify-center text-white w-7 h-7 bg-navy text-[14px] font-bold rounded-[4px] shrink-0">3</span>
-          <h2 className="text-[20px] font-bold text-[#1a1a1a]">Detail Tagihan</h2>
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-[#1a1a1a]">Detail Tagihan</h2>
         </div>
         <div>
           <div className="flex justify-between items-center py-2.5 text-[14px] text-[#555]"><span>Langganan {selected.label}</span><span className="font-semibold text-[#1a1a1a]">{selected.total}</span></div>
           <div className="h-px bg-[#e0e0e0] my-1" />
-          <div className="flex justify-between items-center pt-3 pb-1 text-[15px]"><span className="font-bold text-[#1a1a1a]">Total Pembayaran</span><span className="font-extrabold text-[18px] text-navy">{selected.total}</span></div>
+          <div className="flex justify-between items-center pt-3 pb-1 text-[15px]"><span className="font-bold text-[#1a1a1a]">Total Pembayaran</span><span className="font-extrabold text-[16px] sm:text-[18px] text-navy">{selected.total}</span></div>
         </div>
         <div className="mt-9 pt-6 border-t border-[#e0e0e0]">
           <label className="flex items-start gap-2.5 text-[14px] text-[#555] cursor-pointer leading-[1.5]">
@@ -243,9 +243,9 @@ export default function Subscription() {
           /* Non-QRIS - Tampilkan Virtual Account */
           <div className="text-center mb-5">
             <p className="text-[13px] text-[#6b7280] mb-3">Transfer ke nomor Virtual Account berikut:</p>
-            <div className="bg-[#eff6ff] border border-[#bfdbfe] rounded-xl p-5 mx-auto">
+            <div className="bg-[#eff6ff] border border-[#bfdbfe] rounded-xl p-4 sm:p-5 mx-auto">
               <p className="text-[12px] text-[#6b7280] mb-2 uppercase tracking-wide">Nomor Virtual Account</p>
-              <p className="text-[28px] font-mono font-extrabold text-navy tracking-[3px]">{getVANumber()}</p>
+              <p className="text-[20px] sm:text-[28px] font-mono font-extrabold text-navy tracking-[2px] sm:tracking-[3px] break-all">{getVANumber()}</p>
               <button 
                 onClick={() => { navigator.clipboard.writeText(getVANumber().replace(/\s/g, '')); addToast('Nomor VA berhasil disalin!', 'success'); }}
                 className="mt-3 text-[12px] text-brand font-semibold bg-white border border-[#bfdbfe] rounded-lg py-1.5 px-4 cursor-pointer hover:bg-[#dbeafe] transition-colors"

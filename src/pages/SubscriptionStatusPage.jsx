@@ -50,7 +50,7 @@ export default function SubscriptionStatusPage() {
 
   if (loading) {
     return (
-      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-10 h-fit flex items-center justify-center min-h-[300px]">
+      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-5 sm:p-10 h-fit flex items-center justify-center min-h-[300px]">
         <div className="text-center">
           <div className="inline-block w-8 h-8 border-4 border-brand/30 border-t-brand rounded-full animate-spin" />
           <p className="mt-4 text-[#777] text-[14px]">Memuat status langganan...</p>
@@ -62,10 +62,10 @@ export default function SubscriptionStatusPage() {
   // State 1: Subscription is active
   if (sub && sub.status === 'active') {
     return (
-      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-10 h-fit">
-        <h1 className="akun-page-title font-playfair text-[28px] text-[#111827] mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
+      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-5 sm:p-10 h-fit">
+        <h1 className="akun-page-title font-playfair text-[24px] sm:text-[28px] text-[#111827] mb-6 sm:mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
         
-        <div className="bg-[#ecfdf5] border border-[#a7f3d0] rounded-xl p-6 mb-8 flex items-center gap-4 animate-[fadeIn_0.5s_ease_out]">
+        <div className="bg-[#ecfdf5] border border-[#a7f3d0] rounded-xl p-4 sm:p-6 mb-8 flex items-center gap-4 animate-[fadeIn_0.5s_ease_out]">
           <div className="w-12 h-12 rounded-full bg-[#10b981]/20 flex items-center justify-center shrink-0">
             <svg className="w-6 h-6 text-[#059669]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -77,8 +77,8 @@ export default function SubscriptionStatusPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-5 mb-8">
-          <div className="bg-[#f9fafb] rounded-lg p-5 border border-[#e5e7eb]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-8">
+          <div className="bg-[#f9fafb] rounded-lg p-4 sm:p-5 border border-[#e5e7eb]">
             <span className="text-[12px] text-[#6b7280] uppercase">Status</span>
             <p className="text-[17px] font-bold text-[#059669] mt-1">● Aktif</p>
           </div>
@@ -102,10 +102,10 @@ export default function SubscriptionStatusPage() {
   // State 2: Subscription is pending approval
   if (sub && sub.status === 'pending') {
     return (
-      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-10 h-fit">
-        <h1 className="akun-page-title font-playfair text-[28px] text-[#111827] mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
+      <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-5 sm:p-10 h-fit">
+        <h1 className="akun-page-title font-playfair text-[24px] sm:text-[28px] text-[#111827] mb-6 sm:mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
         
-        <div className="bg-[#fffbeb] border border-[#fef3c7] rounded-xl p-6 mb-8 flex items-center gap-4 animate-[fadeIn_0.5s_ease_out]">
+        <div className="bg-[#fffbeb] border border-[#fef3c7] rounded-xl p-4 sm:p-6 mb-8 flex items-center gap-4 animate-[fadeIn_0.5s_ease_out]">
           <div className="w-12 h-12 rounded-full bg-[#f59e0b]/20 flex items-center justify-center shrink-0">
             <svg className="w-6 h-6 text-[#d97706]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -117,8 +117,8 @@ export default function SubscriptionStatusPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-5 mb-8">
-          <div className="bg-[#f9fafb] rounded-lg p-5 border border-[#e5e7eb]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-8">
+          <div className="bg-[#f9fafb] rounded-lg p-4 sm:p-5 border border-[#e5e7eb]">
             <span className="text-[12px] text-[#6b7280] uppercase">Status</span>
             <p className="text-[17px] font-bold text-[#d97706] mt-1">● Menunggu Konfirmasi</p>
           </div>
@@ -141,8 +141,8 @@ export default function SubscriptionStatusPage() {
 
   // State 3: No subscription (or expired/cancelled)
   return (
-    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-10 h-fit">
-      <h1 className="akun-page-title font-playfair text-[28px] text-[#111827] mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
+    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-5 sm:p-10 h-fit">
+      <h1 className="akun-page-title font-playfair text-[24px] sm:text-[28px] text-[#111827] mb-6 sm:mb-8 pb-4 border-b border-[#e5e7eb]">Status Langganan</h1>
       <div className="bg-[#f9fafb] border border-[#e5e7eb] rounded-xl p-8 text-center">
         <h3 className="text-[18px] font-bold text-[#374151] mb-2">Belum Berlangganan</h3>
         <p className="text-[14px] text-[#6b7280] mb-6">Berlangganan untuk akses penuh ke konten Pengawal Eksklusif.</p>

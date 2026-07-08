@@ -61,7 +61,7 @@ export default function ArticleDetail() {
   if (loading) {
     return (
       <PageWrapper showCategories={true}>
-        <main className="article-layout max-w-[800px] mx-auto my-10 px-6">
+        <main className="article-layout max-w-[800px] mx-auto my-10 px-4 sm:px-6">
           <div className="text-center py-20">
             <div className="inline-block w-10 h-10 border-4 border-brand/30 border-t-brand rounded-full animate-spin" />
             <p className="mt-4 text-[#777]">Memuat artikel...</p>
@@ -74,7 +74,7 @@ export default function ArticleDetail() {
   if (!article) {
     return (
       <PageWrapper showCategories={true}>
-        <main className="article-layout max-w-[800px] mx-auto my-10 px-6">
+        <main className="article-layout max-w-[800px] mx-auto my-10 px-4 sm:px-6">
           <div className="error-state text-center py-20">
             <div className="text-[48px] mb-4"></div>
             <h3 className="text-[20px] text-[#333] mb-2">Artikel Tidak Ditemukan</h3>
@@ -96,14 +96,14 @@ export default function ArticleDetail() {
 
   return (
     <PageWrapper showCategories={true}>
-      <main className="article-layout max-w-[800px] mx-auto my-10 px-6 !bg-[#fcfcfc] font-dm-sans">
-        <h1 className="article-detail-title font-playfair font-bold text-[42px] leading-[1.25] text-[#111] mb-4 tracking-[-0.5px]">
+      <main className="article-layout max-w-[800px] mx-auto my-6 sm:my-10 px-4 sm:px-6 !bg-[#fcfcfc] font-dm-sans">
+        <h1 className="article-detail-title font-playfair font-bold text-[26px] sm:text-[34px] lg:text-[42px] leading-[1.2] sm:leading-[1.25] text-[#111] mb-4 tracking-[-0.5px]">
           {article.title}
         </h1>
 
-        <div className="article-detail-meta flex items-center justify-between border-t border-b border-[#eaeaea] py-4 mb-[30px]">
+        <div className="article-detail-meta flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 border-t border-b border-[#eaeaea] py-4 mb-[30px]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-[14px] overflow-hidden">
+            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-[14px] overflow-hidden shrink-0">
               {article.profiles?.avatar_url ? (
                 <img src={article.profiles.avatar_url} alt={authorName} className="w-full h-full object-cover" />
               ) : (
@@ -115,7 +115,7 @@ export default function ArticleDetail() {
               <span className="text-[13px] text-[#777]">{formatFullDate(article.published_at)}</span>
             </div>
           </div>
-          <div className="flex gap-2.5 items-center">
+          <div className="flex gap-2.5 items-center flex-wrap">
             {isExclusive && (
               <span className="inline-block py-[3px] px-2.5 rounded-[4px] text-[11px] font-bold text-white uppercase bg-linear-to-r from-[#1e3a8a] to-[#3b82f6]">
                 Eksklusif
@@ -142,7 +142,7 @@ export default function ArticleDetail() {
         </figure>
 
         <div className={showPaywall ? 'paywall-wrapper' : ''}>
-          <article className="article-content font-source-serif text-[18px] leading-[1.8] text-[#2c2c2c] whitespace-pre-wrap">
+          <article className="article-content font-source-serif text-[16px] sm:text-[18px] leading-[1.8] text-[#2c2c2c] whitespace-pre-wrap">
             {article.content}
           </article>
           {showPaywall && <ExclusiveLockOverlay />}
@@ -176,7 +176,7 @@ export default function ArticleDetail() {
                     <h4 className="font-dm-sans text-[15px] font-extrabold uppercase text-[#111] mb-4 pb-2 border-b border-[#eee]">
                       {getCategoryLabel(catSlug)}
                     </h4>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {arts.slice(0, 2).map((a, i) => (
                         <NewsCard key={a.id || i} article={a} categorySlug={catSlug} />
                       ))}

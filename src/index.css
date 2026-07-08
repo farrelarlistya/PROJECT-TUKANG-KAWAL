@@ -32,6 +32,7 @@
         background-color: whitesmoke;
         color: #333;
         margin: 0;
+        overflow-x: hidden;
     }
 
     .news-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
@@ -128,14 +129,39 @@
     .payment-group[open] .summary-arrow { transform: rotate(180deg); }
 }
 
-/* Responsive */
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — Mobile & Tablet
+   ═══════════════════════════════════════════════ */
+
+/* Comment actions: always visible on touch devices (no hover) */
+@media (hover: none) {
+    .comment-item .comment-actions { opacity: 1 !important; }
+}
+
+/* Small screens */
 @media (max-width: 768px) {
     .article-detail-grid { grid-template-columns: 1fr; gap: 30px; }
-    .article-detail-title { font-size: 32px; }
-    .article-detail-meta { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .akun-layout { grid-template-columns: 1fr; gap: 24px; padding: 20px 16px 60px; }
+    .article-detail-title { font-size: 26px; }
+    .article-detail-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+    .akun-layout { grid-template-columns: 1fr; gap: 16px; padding: 16px 12px 60px; }
     .akun-sidebar { position: static; }
-    .akun-content { padding: 28px 20px; }
-    .akun-page-title { font-size: 24px; }
+    .akun-content { padding: 20px 16px; }
+    .akun-page-title { font-size: 22px; }
     .akun-btn-simpan { width: 100%; text-align: center; }
+
+    /* Article content blockquote */
+    .article-content blockquote { font-size: 16px; padding: 15px; margin: 20px 0; }
+
+    /* Data table scroll on mobile */
+    .data-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Trending section items */
+    .trending-content h3 { font-size: 13px; }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .footer-brand h2 { font-size: 20px; }
+    .footer-col h4 { font-size: 14px; }
 }

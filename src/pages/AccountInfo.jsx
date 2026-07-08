@@ -43,8 +43,8 @@ export default function AccountInfo() {
   const update = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
   return (
-    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] p-10 h-fit">
-      <h1 className="akun-page-title font-playfair text-[28px] text-[#111827] mb-8 pb-4 border-b border-[#e5e7eb]">Informasi Akun</h1>
+    <section className="akun-content bg-white rounded-xl border border-[#e5e7eb] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] p-5 sm:p-8 lg:p-10 h-fit">
+      <h1 className="akun-page-title font-playfair text-[24px] sm:text-[28px] text-[#111827] mb-6 sm:mb-8 pb-4 border-b border-[#e5e7eb]">Informasi Akun</h1>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         {[['Nama Lengkap','namaLengkap','text','Masukkan nama lengkap'],['Tanggal Lahir','tanggalLahir','date',''],['Nomor WhatsApp','nomorWa','tel','Contoh: 08123456789']].map(([label,field,type,ph])=>(
           <div key={field} className="flex flex-col gap-2">

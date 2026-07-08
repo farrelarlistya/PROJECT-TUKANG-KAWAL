@@ -87,14 +87,14 @@ export default function MulaiNgawal() {
 
   return (
     <PageWrapper showCategories={true}>
-      <main className="max-w-[900px] mx-auto pt-[50px] px-5 pb-20 !bg-[#f9fafb]">
-        <div className="text-center mb-10">
-          <h1 className="font-playfair text-[42px] text-[#111827] mb-2.5">Mulai Ngawal</h1>
-          <p className="text-[#6b7280] text-base font-dm-sans">Sampaikan berita, fakta, atau laporan investigasi Anda kepada publik.</p>
+      <main className="max-w-[900px] mx-auto pt-8 sm:pt-[50px] px-4 sm:px-5 pb-20 !bg-[#f9fafb]">
+        <div className="text-center mb-8 sm:mb-10">
+          <h1 className="font-playfair text-[28px] sm:text-[42px] text-[#111827] mb-2.5">Mulai Ngawal</h1>
+          <p className="text-[#6b7280] text-[14px] sm:text-base font-dm-sans">Sampaikan berita, fakta, atau laporan investigasi Anda kepada publik.</p>
         </div>
-        <div className="bg-white rounded-xl border border-[#e5e7eb] p-10 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <div className="bg-white rounded-xl border border-[#e5e7eb] p-5 sm:p-8 lg:p-10 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)]">
           <div className="mb-[30px] border-b border-[#e5e7eb] pb-[15px]">
-            <span className="text-[22px] font-semibold text-[#111827]">Tulis Artikel Baru</span>
+            <span className="text-[20px] sm:text-[22px] font-semibold text-[#111827]">Tulis Artikel Baru</span>
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
@@ -102,7 +102,7 @@ export default function MulaiNgawal() {
               <input className={inputClass} type="text" value={form.judul} onChange={update('judul')} placeholder="Masukkan judul artikel..." disabled={isSubmitting} />
               <input className={inputClass} type="text" value={form.tags} onChange={update('tags')} placeholder="Tag (pisahkan dengan koma) cth: pemilu, 2024" disabled={isSubmitting} />
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold text-[#374151]">Kategori</label>
                 <select className={inputClass} value={form.kategori_id} onChange={update('kategori_id')} disabled={isSubmitting}>
@@ -116,10 +116,10 @@ export default function MulaiNgawal() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-semibold text-[#374151]">Konten Artikel</label>
-              <textarea className={`${inputClass} resize-y min-h-[250px] leading-[1.6]`} value={form.konten} onChange={update('konten')} placeholder="Tulis atau salin isi berita di sini..." disabled={isSubmitting} />
+              <textarea className={`${inputClass} resize-y min-h-[200px] sm:min-h-[250px] leading-[1.6]`} value={form.konten} onChange={update('konten')} placeholder="Tulis atau salin isi berita di sini..." disabled={isSubmitting} />
             </div>
             <div className="flex justify-end mt-2.5">
-              <button onClick={handleSubmit} disabled={isSubmitting || !isAuthenticated} className="bg-primary-blue text-white border-none py-3.5 px-8 rounded-lg text-base font-semibold cursor-pointer transition-colors duration-200 hover:bg-primary-hover disabled:opacity-50">
+              <button onClick={handleSubmit} disabled={isSubmitting || !isAuthenticated} className="w-full sm:w-auto bg-primary-blue text-white border-none py-3.5 px-8 rounded-lg text-base font-semibold cursor-pointer transition-colors duration-200 hover:bg-primary-hover disabled:opacity-50">
                 {isSubmitting ? 'Mengirim...' : 'Kirim untuk Review'}
               </button>
             </div>

@@ -21,10 +21,10 @@ export default function ExclusiveSection() {
   }, []);
 
   return (
-    <section className="bg-brand p-[50px] flex gap-[30px] items-stretch">
+    <section className="bg-brand p-5 sm:p-8 lg:p-[50px] flex flex-col lg:flex-row gap-6 lg:gap-[30px] items-stretch">
       <div className="flex-[2]">
-        <h2 className="text-white text-[26px] mb-5">Pengawal Eksklusif</h2>
-        <div className="flex gap-5">
+        <h2 className="text-white text-[22px] sm:text-[26px] mb-5">Pengawal Eksklusif</h2>
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
           {articles.slice(0, 2).map((article, i) => (
             <ExclusiveCard key={article.id || i} article={article} />
           ))}
@@ -32,20 +32,20 @@ export default function ExclusiveSection() {
       </div>
 
       {isMember ? (
-        <div id="exclusive-extra-container" className="flex-1 flex gap-5">
+        <div id="exclusive-extra-container" className="flex-1 flex flex-col sm:flex-row gap-4 sm:gap-5">
           {articles.slice(2, 4).map((article, i) => (
             <ExclusiveCard key={article.id || i} article={article} />
           ))}
         </div>
       ) : (
-        <div className="flex-1 bg-brand-dark rounded-[10px] flex flex-col items-center justify-center text-center py-10 px-[30px]">
-          <h3 className="text-white text-[22px] mb-3">Gabung Pengawal Eksklusif</h3>
+        <div className="flex-1 bg-brand-dark rounded-[10px] flex flex-col items-center justify-center text-center py-8 sm:py-10 px-5 sm:px-[30px]">
+          <h3 className="text-white text-[20px] sm:text-[22px] mb-3">Gabung Pengawal Eksklusif</h3>
           <p className="text-white/75 text-[14px] mb-5 leading-[1.5]">
             Dapatkan akses ke berita eksklusif, investigasi mendalam, dan analisis tajam langsung dari tim redaksi.
           </p>
           <Link
             to={isAuthenticated ? "/subscription" : "/login"}
-            className="no-underline bg-white text-brand py-3 px-[30px] rounded-lg text-[15px] font-bold border-none cursor-pointer transition-all duration-300 hover:bg-brand-subtle"
+            className="no-underline bg-white text-brand py-3 px-6 sm:px-[30px] rounded-lg text-[15px] font-bold border-none cursor-pointer transition-all duration-300 hover:bg-brand-subtle"
           >
             {isAuthenticated ? "Langganan Sekarang" : "Masuk untuk Berlangganan"}
           </Link>
