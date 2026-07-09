@@ -25,48 +25,48 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
 
   return (
     <header className="sticky top-0 shadow-[0_2px_12px_rgba(0,0,0,.25)] bg-navy z-[2]">
-      {/* Top bar — always visible */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-2 max-w-[1160px] mx-auto">
-        <Link to="/" className="font-playfair no-underline text-white text-[22px] sm:text-[25px] font-bold shrink-0">
-          <span className="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">
-            T
-          </span>
-          TukangKawal
-        </Link>
-
-        {/* Desktop nav — hidden on mobile */}
-        {showCategories && (
-          <nav className="hidden lg:block">
-            <ul id="header-category-nav" className="header-nav flex items-center gap-5 list-none transition-all duration-500 py-5 px-[30px]">
-              {categories.map(cat => (
-                <li key={cat.slug}>
+      {/* ═══════════════════════════════════════════
+          DESKTOP LAYOUT — Original structure (lg+)
+          ═══════════════════════════════════════════ */}
+      <div className="hidden lg:flex justify-around items-center">
+        <div className="header-brand-nav max-w-[1160px] px-6 flex items-center">
+          <Link to="/" className="font-playfair no-underline text-white text-[25px] font-bold">
+            <span className="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">
+              T
+            </span>
+            TukangKawal
+          </Link>
+          {showCategories && (
+            <nav>
+              <ul id="header-category-nav" className="header-nav flex items-center gap-5 list-none transition-all duration-500 py-5 px-[30px]">
+                {categories.map(cat => (
+                  <li key={cat.slug}>
+                    <Link
+                      to={`/category/${cat.slug}`}
+                      className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
+                        activeCategory === cat.slug ? 'nav-category-active' : ''
+                      }`}
+                    >
+                      {cat.label}
+                    </Link>
+                  </li>
+                ))}
+                {/* Semua user bisa melihat tab Eksklusif */}
+                <li>
                   <Link
-                    to={`/category/${cat.slug}`}
+                    to="/category/eksklusif"
                     className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
-                      activeCategory === cat.slug ? 'nav-category-active' : ''
+                      activeCategory === 'eksklusif' ? 'nav-category-active' : ''
                     }`}
                   >
-                    {cat.label}
+                     Eksklusif
                   </Link>
                 </li>
-              ))}
-              {/* Semua user bisa melihat tab Eksklusif */}
-              <li>
-                <Link
-                  to="/category/eksklusif"
-                  className={`nav-category-link no-underline rounded-[5px] border-[rgb(220,220,220)] text-white p-[5px] transition-all duration-200 ${
-                    activeCategory === 'eksklusif' ? 'nav-category-active' : ''
-                  }`}
-                >
-                   Eksklusif
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        )}
-
-        {/* Desktop actions — hidden on mobile */}
-        <div className="hidden lg:flex items-center gap-3">
+              </ul>
+            </nav>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
           {showSearch && (
             <input
               type="search"
@@ -122,11 +122,23 @@ const Header = memo(function Header({ showSearch = false, showCategories = true,
             )}
           </div>
         </div>
+      </div>
 
-        {/* Hamburger button — mobile only */}
+      {/* ═══════════════════════════════════════════
+          MOBILE LAYOUT — Hamburger menu (<lg)
+          ═══════════════════════════════════════════ */}
+      <div className="lg:hidden flex items-center justify-between px-4 py-2">
+        <Link to="/" className="font-playfair no-underline text-white text-[22px] font-bold shrink-0">
+          <span className="header-logo inline-flex items-center justify-center w-9 h-9 bg-linear-to-br from-brand to-[#7e85a7] text-white font-playfair text-[20px] mb-[5px] font-extrabold rounded-lg mr-2.5 shrink-0 align-middle leading-none">
+            T
+          </span>
+          TukangKawal
+        </Link>
+
+        {/* Hamburger button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden flex flex-col justify-center items-center w-10 h-10 bg-transparent border-none cursor-pointer gap-[5px] p-1"
+          className="flex flex-col justify-center items-center w-10 h-10 bg-transparent border-none cursor-pointer gap-[5px] p-1"
           aria-label="Toggle menu"
         >
           <span className={`block w-6 h-[2.5px] bg-white rounded transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-[7.5px]' : ''}`} />
